@@ -1,0 +1,12 @@
+[Unit]
+Description=Nimbix Desktop
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/nimbix_desktop
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+

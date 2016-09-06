@@ -1,0 +1,77 @@
+#!/bin/bash
+
+app_mode=
+[ -n "$1" ] && app_mode=y
+
+nimbix_desktop="/etc/JARVICE/nimbix_desktop"
+sudo sh -c "echo app_mode=$app_mode >>$nimbix_desktop"
+
+xinitrc=/tmp/xinitrc
+cat >$xinitrc <<EOF
+#!/bin/bash
+if [ -x /usr/bin/xscreensaver-command ]; then
+  (sleep 5; /usr/bin/xscreensaver-command -exit) &
+fi
+echo "">>/tmp/xfce4.log
+echo "=============================================" >>/tmp/xfce4.log
+date >>/tmp/xfce4.log
+echo "=============================================" >>/tmp/xfce4.log
+EOF
+chmod 755 $xinitrc
+if [ -z "$app_mode" ]; then
+    cat >>$xinitrc <<EOF
+startxfce4 >>/tmp/xfce4.log 2>&1
+EOF
+else
+    cat >>$xinitrc <<EOF
+startxfce4 >>/tmp/xfce4.log 2>&1 &
+exec $@
+EOF
+
+    xfrun_desktop="xfrun4.desktop"
+    [ ! -e /etc/redhat-release ] && xfrun_desktop="xfce4-run.desktop"
+    app_menu_dir=$HOME/.config/menus
+    app_menu=$app_menu_dir/xfce-applications.menu
+    mkdir -p $app_menu_dir
+    cat >$app_menu <<EOF
+<!DOCTYPE Menu PUBLIC "-//freedesktop//DTD Menu 1.0//EN"
+  "http://www.freedesktop.org/standards/menu-spec/1.0/menu.dtd">
+
+<Menu>
+    <Name>Xfce</Name>
+
+    <DefaultAppDirs/>
+    <DefaultDirectoryDirs/>
+    <DefaultMergeDirs/>
+
+    <Include>
+        <Category>X-Xfce-Toplevel</Category>
+    </Include>
+
+    <Layout>
+        <Filename>$xfrun_desktop</Filename>
+        <Separator/>
+        <Filename>exo-terminal-emulator.desktop</Filename>
+    </Layout>
+
+</Menu>
+EOF
+fi
+
+tools=/usr/lib/JARVICE/tools
+[ -f /etc/init.d/messagebus ] && SVC=messagebus || SVC=dbus
+sudo service $SVC start
+while [ 1 ]; do
+    $tools/sbin/init $tools/bin/vncstart.sh $xinitrc
+    ret=$?
+    if [ -n "$app_mode" ]; then
+        rm -f $app_menu
+        exit $ret
+    else
+        [ $ret -ne 0 ] && exit 0
+    fi
+    sleep 1
+    $tools/sbin/init vncserver -kill :1
+    sleep 1
+done
+

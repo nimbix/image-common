@@ -1,0 +1,44 @@
+#!/bin/bash -e
+
+[ $$ -ne 1 ] && exec sudo -H -u nimbix "$@"
+
+if [ "$1" = "/sbin/init" ]; then
+	echo ""
+	echo "/sbin/init specified, saving command line ..."
+	shift
+	echo "$@" >/etc/JARVICE/cmdline
+	echo "Executing /sbin/init ..."
+	exec /sbin/init		# XXX: doesn't seem to work in Docker
+fi
+
+NVINST=/usr/lib/JARVICE/NVIDIA/nvidia-installer
+if [ -x "$NVINST" ]; then
+	echo ""
+	echo "Executing $NVINST ..."
+	"$NVINST" -a -s --no-kernel-module -b --no-rpms --no-recursion \
+		--no-nvidia-modprobe --no-install-vdpau-wrapper \
+		--no-check-for-alternate-installs --no-nouveau-check \
+		--no-unified-memory
+fi
+
+if [ ! -d /home/nimbix/.ssh ]; then
+	echo ""
+	echo "Establishing SSH trust for user nimbix (to itself)..."
+	sudo -H -u nimbix ssh-keygen -q -N "" </dev/zero >/dev/null 2>&1
+	sudo -H -u nimbix cp /home/nimbix/.ssh/id_rsa.pub \
+		/home/nimbix/.ssh/authorized_keys
+	chmod 600 /home/nimbix/.ssh/authorized_keys
+	cat <<EOF >/home/nimbix/.ssh/config
+Host *
+StrictHostKeyChecking no
+EOF
+	chown nimbix:nimbix /home/nimbix/.ssh/config
+	chmod 600 /home/nimbix/.ssh/config
+fi
+
+echo ""
+echo "Executing $* as nimbix ..."
+sudo -H -u nimbix "$@" &
+wait $!
+exit $?
+
