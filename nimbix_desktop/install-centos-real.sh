@@ -8,7 +8,7 @@ wget --content-disposition -O - "$REALVNC"|tar -C /tmp -xzf -
 rm -f /usr/bin/Xvnc
 yum -y install /tmp/VNC-Server-*-Linux-x64.rpm
 rm -f /tmp/VNC-*.rpm
-ln -s /usr/bin/Xvnc-realvnc /usr/bin/Xvnc
+[ -e /usr/bin/Xvnc ] || ln -s /usr/bin/Xvnc-realvnc /usr/bin/Xvnc
 
 dirname=$(dirname $0)
 [ "$dirname" = "." ] && dirname=`pwd`
