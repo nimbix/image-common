@@ -10,4 +10,4 @@ cp -a "$(dirname $0)/etc" /etc/JARVICE && chmod 0755 /etc/JARVICE
 mkdir -m 0755 /data && chown nimbix:nimbix /data
 [ -f /etc/init/ssh.conf ] && sed -ie 's/start on.*/start on filesystem/' /etc/init/ssh.conf
 
-echo "set -a" >/etc/profile.d/00-container-environment.sh && env |grep -v ^HOSTNAME=|grep -v ^PWD=|grep -v ^DEBIAN_FRONTEND=|grep -v ^HOME=|grep -v ^SHLVL= >>/etc/profile.d/00-container-environment.sh && echo "set +a" >>/etc/profile.d/00-container-environment.sh
+echo "set -a" > /etc/profile.d/00-container-environment.sh && export -p | grep -v "^export HOSTNAME" | grep -v "^export PWD" | grep -v "^export DEBIAN_FRONTEND" | grep -v "^export HOME" | grep -v "^export SHLVL" >> /etc/profile.d/00-container-environment.sh && echo "set +a" >> /etc/profile.d/00-container-environment.sh
