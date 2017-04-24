@@ -105,7 +105,7 @@ function setup_jarvice_emulation {
     cd /tmp
     cp -a /tmp/image-common-master/etc /etc/JARVICE
     chmod 755 /etc/JARVICE
-    mkdir -m 0755 /data
+    mkdir -m 0755 -p /data
     chown nimbix:nimbix /data
 }
 
