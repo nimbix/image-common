@@ -1,18 +1,63 @@
 # image-common
-Common packages and configuration files for Nimbix base images. This will retrofit existing Docker images for better execution on JARVICE.
+Common packages and configuration files for Nimbix base images. This will
+retrofit existing Docker images for better execution on JARVICE.
 
-If you have an image derived from a non-Nimbix base, and you want to improve its execution on JARVICE, there is now a simple way to do this in your Dockerfile without having to change your FROM line.  Currently we only support Ubuntu "trusty" with this trick, but we'll soon add xenial.  Just add this to the end of your Dockerfile:
+If you have an image derived from a non-Nimbix base, and you want to improve
+its execution on JARVICE, there is now a simple way to do this in your
+Dockerfile without having to change your FROM line.  Currently, we only
+support CentOS and Ubuntu "trusty" with this trick (we will soon add xenial).
+Just add this to the end of your Dockerfile:
 
+# Ubuntu
 ```bash
-# Prerequisites
-WORKDIR /tmp
-RUN apt-get update && apt-get install -y git
-
-# Install JARVICE image-common
-RUN git clone https://github.com/nimbix/image-common.git && cd image-common && ./install-nimbix-ubuntu-trusty.sh && cd /tmp && rm -rf image-common
+RUN apt-get -y update && \
+    apt-get -y install curl && \
+    curl -H 'Cache-Control: no-cache' \
+        https://raw.githubusercontent.com/nimbix/image-common/master/install-nimbix.sh \
+        | bash
 
 # Expose port 22 for local JARVICE emulation in docker
 EXPOSE 22
+```
+
+# Ubuntu (with Nimbix desktop)
+```bash
+RUN apt-get -y update && \
+    apt-get -y install curl && \
+    curl -H 'Cache-Control: no-cache' \
+        https://raw.githubusercontent.com/nimbix/image-common/master/install-nimbix.sh \
+        | bash -s -- --setup-nimbix-desktop
+
+# Expose port 22 for local JARVICE emulation in docker
+EXPOSE 22
+
+# for standalone use
+EXPOSE 5901
+EXPOSE 443
+```
+
+# CentOS
+```bash
+RUN curl -H 'Cache-Control: no-cache' \
+        https://raw.githubusercontent.com/nimbix/image-common/master/install-nimbix.sh \
+        | bash
+
+# Expose port 22 for local JARVICE emulation in docker
+EXPOSE 22
+```
+
+# CentOS (with Nimbix desktop)
+```bash
+RUN curl -H 'Cache-Control: no-cache' \
+        https://raw.githubusercontent.com/nimbix/image-common/master/install-nimbix.sh \
+        | bash -s -- --setup-nimbix-desktop
+
+# Expose port 22 for local JARVICE emulation in docker
+EXPOSE 22
+
+# for standalone use
+EXPOSE 5901
+EXPOSE 443
 ```
 
 This does several things:
