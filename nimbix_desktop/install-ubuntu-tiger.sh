@@ -7,7 +7,8 @@ dirname=$(dirname $0)
 
 export DEBIAN_FRONTEND=noninteractive
 apt-get update
-apt-get -y install wget python python-gtk2 gnome-icon-theme-full humanity-icon-theme tango-icon-theme xfce4 xfce4-terminal fonts-freefont-ttf xfonts-base xfonts-100dpi xfonts-75dpi xfonts-scalable xauth firefox librtmp0 mesa-utils
+apt-get -y install librtmp0 || apt-get -y install librtmp
+apt-get -y install wget python python-gtk2 gnome-icon-theme-full humanity-icon-theme tango-icon-theme xfce4 xfce4-terminal fonts-freefont-ttf xfonts-base xfonts-100dpi xfonts-75dpi xfonts-scalable xauth firefox mesa-utils
 wget --content-disposition -O - "$TIGERVNC" |tar -C / -xzf -
 cd /tmp
 wget --content-disposition "$VGL64"
