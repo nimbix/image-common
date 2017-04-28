@@ -142,16 +142,8 @@ function cleanup() {
     rm -rf /tmp/image-common-master
 }
 
-echo ""
-echo "Setting up base OS..."
 setup_base_os
-
-echo ""
-echo "Setting up JARVICE emulation..."
 setup_jarvice_emulation
-
-echo ""
-echo "Setting up Nimbix Desktop (if selected)..."
 [ -n "$SETUP_NIMBIX_DESKTOP" ] && setup_nimbix_desktop
 cleanup
 
