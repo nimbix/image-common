@@ -30,9 +30,9 @@ EOF
 
 # Base OS
 function setup_base_os() {
-    PKGS="curl zip unzip"
+    PKGS="curl zip unzip sudo"
     if [ -f /etc/redhat-release ]; then
-        PKGS+=" xz tar file sudo openssh-server infiniband-diags"
+        PKGS+=" xz tar file openssh-server infiniband-diags"
         PKGS+=" openmpi perftest libibverbs-utils libmthca libcxgb4 libmlx4"
         PKGS+=" libmlx5 dapl compat-dapl dap.i686 compat-dapl.i686 which"
         yum -y update
@@ -66,7 +66,7 @@ function setup_base_os() {
         PKGS+=" libmlx4-1 libmlx5-1 iptables infiniband-diags build-essential"
         PKGS+=" libibverbs-dev libibverbs1 librdmacm1 librdmacm-dev"
         PKGS+=" rdmacm-utils libibmad-dev libibmad5 byacc flex git cmake"
-        PKGS+=" screen grep"
+        PKGS+=" screen grep locales"
         apt-get -y update
         apt-get -y install $PKGS
         apt-get clean
