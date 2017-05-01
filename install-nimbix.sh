@@ -32,7 +32,7 @@ EOF
 function setup_base_os() {
     PKGS="curl zip unzip sudo"
     if [ -f /etc/redhat-release ]; then
-        PKGS+=" xz tar file openssh-server infiniband-diags"
+        PKGS+=" passwd xz tar file openssh-server infiniband-diags"
         PKGS+=" openmpi perftest libibverbs-utils libmthca libcxgb4 libmlx4"
         PKGS+=" libmlx5 dapl compat-dapl dap.i686 compat-dapl.i686 which"
         yum -y update
