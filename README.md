@@ -5,7 +5,7 @@ retrofit existing Docker images for better execution on JARVICE.
 If you have an image derived from a non-Nimbix base, and you want to improve
 its execution on JARVICE, there is now a simple way to do this in your
 Dockerfile without having to change your FROM line.  Currently, we only
-support CentOS and Ubuntu "trusty" with this trick (we will soon add xenial).
+support CentOS and Ubuntu with this trick.
 Just add this to the end of your Dockerfile:
 
 # Ubuntu

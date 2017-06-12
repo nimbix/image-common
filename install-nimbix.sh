@@ -3,7 +3,21 @@
 set -e
 set -x
 
-[ "$1" = "--setup-nimbix-desktop" ] && SETUP_NIMBIX_DESKTOP=1
+while [ $# -gt 0 ]; do
+    case $1 in
+        --setup-nimbix-desktop)
+            SETUP_NIMBIX_DESKTOP=1
+            shift
+            ;;
+        --disable-desktop-autostart)
+            export DISABLE_DESKTOP_AUTOSTART=1
+            shift
+            ;;
+        *)
+            break
+            ;;
+    esac
+done
 
 ETC_HOSTS="$(cat <<EOF
 127.0.0.1   localhost
@@ -32,7 +46,7 @@ EOF
 function setup_base_os() {
     PKGS="curl zip unzip sudo"
     if [ -f /etc/redhat-release ]; then
-        PKGS+=" xz tar file openssh-server infiniband-diags"
+        PKGS+=" passwd xz tar file openssh-server infiniband-diags"
         PKGS+=" openmpi perftest libibverbs-utils libmthca libcxgb4 libmlx4"
         PKGS+=" libmlx5 dapl compat-dapl dap.i686 compat-dapl.i686 which"
         yum -y update
@@ -126,7 +140,7 @@ function setup_nimbix_desktop() {
     if [ -f /etc/redhat-release ]; then
         /usr/local/lib/nimbix_desktop/install-centos-tiger.sh
         yum clean all
-        echo "/usr/local/bin/nimbix_desktop" >>/etc/rc.local
+        #echo "/usr/local/bin/nimbix_desktop" >>/etc/rc.local
     else
         /usr/local/lib/nimbix_desktop/install-ubuntu-tiger.sh
     fi

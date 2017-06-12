@@ -21,5 +21,7 @@ yum -y install VirtualGL*.rpm
 rm -f VirtualGL*.rpm
 yum clean all
 [ -f /etc/init.d/NetworkManager ] && /sbin/chkconfig NetworkManager off
+[ -f /etc/xdg/autostart/xfce-polkit.desktop ] && \
+    rm -f /etc/xdg/autostart/xfce-polkit.desktop
 
 . $dirname/postinstall-tiger.sh
