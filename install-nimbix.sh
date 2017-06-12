@@ -13,6 +13,10 @@ while [ $# -gt 0 ]; do
             export DISABLE_DESKTOP_AUTOSTART=1
             shift
             ;;
+        --image-common-branch)
+            BRANCH=$2
+            shift; shift
+            ;;
         *)
             break
             ;;
@@ -101,14 +105,14 @@ function setup_base_os() {
 # Nimbix JARVICE emulation
 function setup_jarvice_emulation {
     cd /tmp
-    curl https://codeload.github.com/nimbix/image-common/zip/master \
+    curl https://codeload.github.com/nimbix/image-common/zip/$BRANCH \
         >/tmp/nimbix.zip
     unzip nimbix.zip
     rm -f nimbix.zip
-    /tmp/image-common-master/setup-nimbix.sh
+    /tmp/image-common-$BRANCH/setup-nimbix.sh
 
     mkdir -p /usr/lib/JARVICE
-    cp -a /tmp/image-common-master/tools /usr/lib/JARVICE
+    cp -a /tmp/image-common-$BRANCH/tools /usr/lib/JARVICE
     ln -s /usr/lib/JARVICE/tools/noVNC/images/favicon.png \
         /usr/lib/JARVICE/tools/noVNC/favicon.png
     ln -s /usr/lib/JARVICE/tools/noVNC/images/favicon.png \
@@ -117,7 +121,7 @@ function setup_jarvice_emulation {
     ln -s websockify /usr/lib/JARVICE/tools/noVNC/utils/websockify.py
     ln -s websockify /usr/lib/JARVICE/tools/noVNC/utils/wsproxy.py
     cd /tmp
-    cp -a /tmp/image-common-master/etc /etc/JARVICE
+    cp -a /tmp/image-common-$BRANCH/etc /etc/JARVICE
     chmod 755 /etc/JARVICE
     mkdir -m 0755 -p /data
     chown nimbix:nimbix /data
@@ -134,7 +138,7 @@ function setup_nimbix_desktop() {
     files+=" help-tiger.html postinstall-tiger.sh"
     files+=" nimbix_desktop url.txt xfce4-session-logout share skel.config"
     for i in $files; do
-        cp -a /tmp/image-common-master/nimbix_desktop/$i \
+        cp -a /tmp/image-common-$BRANCH/nimbix_desktop/$i \
             /usr/local/lib/nimbix_desktop
     done
     if [ -f /etc/redhat-release ]; then
@@ -153,7 +157,7 @@ function setup_nimbix_desktop() {
 }
 
 function cleanup() {
-    rm -rf /tmp/image-common-master
+    rm -rf /tmp/image-common-$BRANCH
 }
 
 setup_base_os
