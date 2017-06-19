@@ -3,6 +3,8 @@
 set -e
 set -x
 
+BRANCH=master
+
 while [ $# -gt 0 ]; do
     case $1 in
         --setup-nimbix-desktop)
