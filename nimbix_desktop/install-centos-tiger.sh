@@ -80,7 +80,7 @@ if [ "$ARCH" != "x86_64" ]; then
     yum -y install tigervnc-server VirtualGL
 else
     # Grab newer binary packages on x86_64
-    wget --content-disposition -O - "$TIGERVNC" |tar -C / -xzf -
+    wget --content-disposition -O - "$TIGERVNC" |tar -C / -xzf - --strip-components=1
     cd /tmp
     wget --content-disposition "$VGL64"
     wget --content-disposition "$VGL32"
