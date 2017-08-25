@@ -15,6 +15,10 @@ while [ $# -gt 0 ]; do
             export DISABLE_DESKTOP_AUTOSTART=1
             shift
             ;;
+        --skip-os-pkg-update)
+            export SKIP_OS_PKG_UPDATE=1
+            shift
+            ;;
         --image-common-branch)
             BRANCH=$2
             shift; shift
@@ -55,7 +59,7 @@ function setup_base_os() {
         PKGS+=" passwd xz tar file openssh-server infiniband-diags"
         PKGS+=" openmpi perftest libibverbs-utils libmthca libcxgb4 libmlx4"
         PKGS+=" libmlx5 dapl compat-dapl dap.i686 compat-dapl.i686 which"
-        yum -y update
+        [ -z "$SKIP_OS_PKG_UPDATE" ] && yum -y update
         yum -y install $PKGS
         yum clean all
 
@@ -87,7 +91,7 @@ function setup_base_os() {
         PKGS+=" libibverbs-dev libibverbs1 librdmacm1 librdmacm-dev"
         PKGS+=" rdmacm-utils libibmad-dev libibmad5 byacc flex git cmake"
         PKGS+=" screen grep locales net-tools"
-        apt-get -y update
+        [ -z "$SKIP_OS_PKG_UPDATE" ] && apt-get -y update
         apt-get -y install $PKGS
         apt-get clean
         locale-gen en_US.UTF-8
