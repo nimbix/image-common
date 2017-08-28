@@ -1,0 +1,51 @@
+#!/usr/bin/python
+#
+# NIMBIX CONFIDENTIAL
+# -------------------
+#
+# Copyright (c) 2016 Nimbix, Inc.  All Rights Reserved.
+#
+# NOTICE:  All information contained herein is, and remains the property of
+# Nimbix, Inc. and its suppliers, if any.  The intellectual and technical
+# concepts contained herein are proprietary to Nimbix, Inc.  and its suppliers
+# and may be covered by U.S. and Foreign Patents, patents in process, and are
+# protected by trade secret or copyright law.  Dissemination of this
+# information or reproduction of this material is strictly forbidden unless
+# prior written permission is obtained from Nimbix, Inc.
+#
+# Author: Leo
+
+# Waits for ssh on all slaves in /etc/JARVICE/nodes
+#
+# Usage:
+#    python_ssh_test <max-timeout>
+
+import sys
+import signal
+import time
+from multiprocessing import Pool
+from subprocess import Popen, PIPE
+
+
+def sshtest(host):
+        if host:
+                timeout = int(sys.argv[1])
+                signal.alarm(timeout)
+                output = ''
+                while output != 'OK\n':
+                        p = Popen(['/usr/bin/ssh', host, 'echo OK'],
+                                  stdout=PIPE, stderr=open('/dev/null', 'w'))
+                        output = p.communicate()[0]
+        return 'OK'
+
+if __name__ == '__main__':
+        with open('/etc/JARVICE/nodes', 'r') as f:
+                nodes = f.read().splitlines()
+        slaves = len(nodes) - 1
+        start = time.time()
+        if slaves:
+                signal.alarm(int(sys.argv[1]))
+                p = Pool(slaves)
+                p.map(sshtest, nodes[1:])
+        print 'Parallel slaves ready in %d second(s)' % (
+                int(time.time() - start))
