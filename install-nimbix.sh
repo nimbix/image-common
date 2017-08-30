@@ -3,6 +3,8 @@
 set -e
 set -x
 
+BRANCH=master
+
 while [ $# -gt 0 ]; do
     case $1 in
         --setup-nimbix-desktop)
@@ -12,6 +14,14 @@ while [ $# -gt 0 ]; do
         --disable-desktop-autostart)
             export DISABLE_DESKTOP_AUTOSTART=1
             shift
+            ;;
+        --skip-os-pkg-update)
+            export SKIP_OS_PKG_UPDATE=1
+            shift
+            ;;
+        --image-common-branch)
+            BRANCH=$2
+            shift; shift
             ;;
         *)
             break
@@ -49,7 +59,7 @@ function setup_base_os() {
         PKGS+=" passwd xz tar file openssh-server infiniband-diags"
         PKGS+=" openmpi perftest libibverbs-utils libmthca libcxgb4 libmlx4"
         PKGS+=" libmlx5 dapl compat-dapl dap.i686 compat-dapl.i686 which"
-        yum -y update
+        [ -z "$SKIP_OS_PKG_UPDATE" ] && yum -y update
         yum -y install $PKGS
         yum clean all
 
@@ -81,7 +91,7 @@ function setup_base_os() {
         PKGS+=" libibverbs-dev libibverbs1 librdmacm1 librdmacm-dev"
         PKGS+=" rdmacm-utils libibmad-dev libibmad5 byacc flex git cmake"
         PKGS+=" screen grep locales net-tools"
-        apt-get -y update
+        [ -z "$SKIP_OS_PKG_UPDATE" ] && apt-get -y update
         apt-get -y install $PKGS
         apt-get clean
         locale-gen en_US.UTF-8
@@ -101,14 +111,14 @@ function setup_base_os() {
 # Nimbix JARVICE emulation
 function setup_jarvice_emulation {
     cd /tmp
-    curl https://codeload.github.com/nimbix/image-common/zip/master \
+    curl https://codeload.github.com/nimbix/image-common/zip/$BRANCH \
         >/tmp/nimbix.zip
     unzip nimbix.zip
     rm -f nimbix.zip
-    /tmp/image-common-master/setup-nimbix.sh
+    /tmp/image-common-$BRANCH/setup-nimbix.sh
 
     mkdir -p /usr/lib/JARVICE
-    cp -a /tmp/image-common-master/tools /usr/lib/JARVICE
+    cp -av /tmp/image-common-$BRANCH/tools /usr/lib/JARVICE
     ln -s /usr/lib/JARVICE/tools/noVNC/images/favicon.png \
         /usr/lib/JARVICE/tools/noVNC/favicon.png
     ln -s /usr/lib/JARVICE/tools/noVNC/images/favicon.png \
@@ -117,7 +127,7 @@ function setup_jarvice_emulation {
     ln -s websockify /usr/lib/JARVICE/tools/noVNC/utils/websockify.py
     ln -s websockify /usr/lib/JARVICE/tools/noVNC/utils/wsproxy.py
     cd /tmp
-    cp -a /tmp/image-common-master/etc /etc/JARVICE
+    cp -a /tmp/image-common-$BRANCH/etc /etc/JARVICE
     chmod 755 /etc/JARVICE
     mkdir -m 0755 -p /data
     chown nimbix:nimbix /data
@@ -134,7 +144,7 @@ function setup_nimbix_desktop() {
     files+=" help-tiger.html postinstall-tiger.sh"
     files+=" nimbix_desktop url.txt xfce4-session-logout share skel.config"
     for i in $files; do
-        cp -a /tmp/image-common-master/nimbix_desktop/$i \
+        cp -a /tmp/image-common-$BRANCH/nimbix_desktop/$i \
             /usr/local/lib/nimbix_desktop
     done
     if [ -f /etc/redhat-release ]; then
@@ -153,7 +163,7 @@ function setup_nimbix_desktop() {
 }
 
 function cleanup() {
-    rm -rf /tmp/image-common-master
+    rm -rf /tmp/image-common-$BRANCH
 }
 
 setup_base_os

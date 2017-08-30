@@ -6,6 +6,10 @@ If you have an image derived from a non-Nimbix base, and you want to improve
 its execution on JARVICE, there is now a simple way to do this in your
 Dockerfile without having to change your FROM line.  Currently, we only
 support CentOS and Ubuntu with this trick.
+Verified distributions:
+CentOS 6 (x86_64), CentOS 7 (x86_64, ppc64le),
+Ubuntu 14.04 Trusty (amd64), Ubuntu 16.04 Xenial (amd64, ppc64le)
+
 Just add this to the end of your Dockerfile:
 
 # Ubuntu

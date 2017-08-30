@@ -85,7 +85,7 @@ else
     wget --content-disposition "$VGL64"
     dpkg --install virtualgl*.deb || apt-get -f install
     rm -f virtualgl*.deb
-    apt-get clean
 fi
+apt-get clean
 
 . $dirname/postinstall-tiger.sh

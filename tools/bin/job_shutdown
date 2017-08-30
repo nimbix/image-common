@@ -1,0 +1,15 @@
+#!/bin/sh
+
+. /etc/JARVICE/jobinfo.sh
+
+cmd=$(type -P curl)
+
+if [ -n "$cmd" ]; then
+    $cmd "https://api.jarvice.com:443/jarvice/shutdown" \
+        --data-urlencode "name=$JOB_NAME" \
+        --data-urlencode "username=$apiuser" \
+        --data-urlencode "apikey=$apikey"
+else
+    echo "Could not find 'curl' binary!"
+fi
+
