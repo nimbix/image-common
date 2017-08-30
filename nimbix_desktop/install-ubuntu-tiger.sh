@@ -23,8 +23,8 @@ function build_and_install_tiger() {
         libssl-dev libmd-dev fontconfig libpng-dev libfreetype6-dev \
         xutils-dev xfonts-utils xserver-xorg-dev libpixman-1-dev \
         x11proto-record-dev x11proto-xcmisc-dev x11proto-bigreqs-dev \
-        x11proto-composite-dev
-
+        x11proto-composite-dev libjpeg-turbo8 libjpeg-turbo8-dev \
+        libxfont1-dev
     wget --content-disposition -O - "$TIGERSRC" |tar -C /tmp -xzf -
     TIGERVNC_SOURCE=/tmp/tigervnc-$VERSION
     BUILD_DIR=/tmp/tigervnc_build
