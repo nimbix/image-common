@@ -118,7 +118,8 @@ function setup_jarvice_emulation {
     /tmp/image-common-$BRANCH/setup-nimbix.sh
 
     mkdir -p /usr/lib/JARVICE
-    cp -av /tmp/image-common-$BRANCH/tools /usr/lib/JARVICE
+    cp -a /tmp/image-common-$BRANCH/tools /usr/lib/JARVICE
+    cp -a /tmp/image-common-$BRANCH/tools /usr/local/JARVICE
     ln -s /usr/lib/JARVICE/tools/noVNC/images/favicon.png \
         /usr/lib/JARVICE/tools/noVNC/favicon.png
     ln -s /usr/lib/JARVICE/tools/noVNC/images/favicon.png \
