@@ -119,6 +119,7 @@ function setup_jarvice_emulation {
 
     mkdir -p /usr/lib/JARVICE
     cp -a /tmp/image-common-$BRANCH/tools /usr/lib/JARVICE
+    mkdir -p /usr/local/JARVICE
     cp -a /tmp/image-common-$BRANCH/tools /usr/local/JARVICE
     ln -s /usr/lib/JARVICE/tools/noVNC/images/favicon.png \
         /usr/lib/JARVICE/tools/noVNC/favicon.png
