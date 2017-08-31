@@ -19,7 +19,7 @@ if [ -d /etc/init.d ]; then
     [ -f /etc/redhat-release ] && required_start='$network'
     cat >/etc/init.d/nimbix_desktop <<EOF
 #!/bin/sh -e
-# chkconfig: 345 00 99
+# chkconfig: 345 99 00
 
 ### BEGIN INIT INFO
 # Provides:          nimbix_desktop
