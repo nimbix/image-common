@@ -1,8 +1,14 @@
 :
-rm -rf /etc/skel/{.config,.local}
-mkdir -p /etc/skel/.config
-cp -r $dirname/skel.config/xfce4 /etc/skel/.config
-chmod -R u+w /etc/skel/.config/xfce4
+#rm -rf /etc/skel/{.config,.local}
+#mkdir -p /etc/skel/.config
+#cp -r $dirname/skel.config/xfce4 /etc/skel/.config
+#chmod -R u+w /etc/skel/.config/xfce4
+SKEL_CONFIGS=$(cd $dirname/skel.config && find -type f)
+for i in $SKEL_CONFIGS; do
+    mkdir -p $(dirname /etc/skel/.config/$i)
+    cp -f $dirname/skel.config/$i /etc/skel/.config/$i
+    chmod u+w /etc/skel/.config/$i
+done
 rm -f /usr/local/bin/nimbix_desktop
 ln -s $dirname/nimbix_desktop /usr/local/bin/nimbix_desktop
 rm -f /usr/local/bin/xfce4-session-logout

@@ -71,3 +71,30 @@ This does several things:
  4. configures JARVICE "emulation" for local testing (see our PushToCompute tutorial for more on that)
  5. preserves the Docker environment variables and makes sure they are set when you run in JARVICE as well
 
+# Docker build caching of **install-nimbix.sh** layer
+
+While developing an app and subsequently running multiple docker builds, it
+can be easy to be thrown off by the caching of successfully built layers.
+Docker will not be able to pick up changes to **install-nimbix.sh** in the
+**image-common** git repository.  Thus, if the layer's **RUN** instruction has
+not changed, it may not be rebuilt if it has previously executed successfully.
+
+Using an easily updatable **ENV** instruction is a simple way to invalidate
+a layer and force it to be rebuilt.  Simply add an instruction like this
+before your **RUN** of **install-nimbix.sh** or any other layers
+you wish to easily invalidate by changing the **SERIAL_NUMBER**:
+```bash
+# Update SERIAL_NUMBER to force rebuild of subsequent layers
+#   (i.e. don't use cached layers)
+ENV SERIAL_NUMBER 20171009.1713
+```
+
+Allow more control by using **--build-arg** with a local **docker build**
+command line:
+```bash
+# Update SERIAL_NUMBER to force rebuild of subsequent layers
+#   (i.e. don't use cached layers)
+ARG SERIAL_NUMBER
+ENV SERIAL_NUMBER ${SERIAL_NUMBER:-20171009.1713}
+```
+
