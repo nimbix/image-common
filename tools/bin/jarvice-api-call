@@ -1,0 +1,115 @@
+#!/bin/bash
+
+#set -x  # Trace script execution
+
+[ -f /etc/JARVICE/jobinfo.sh ] && . /etc/JARVICE/jobinfo.sh
+APIURL="https://api.jarvice.com/jarvice"
+jarvice_api_url=$APIURL
+jarvice_job_name=$JOB_NAME
+jarvice_user_username=$JOB_USERNAME
+jarvice_user_apikey=
+
+# Parse JSON text to get values based upon given key
+function get_json_value {
+    json=$1
+    key=$2
+    echo "$json" | \
+        python -c "import json,sys;obj=json.load(sys.stdin);print obj$key;" \
+        2>/dev/null
+}
+
+function jarvice_api_endpoint {
+    endpoint=$1
+    jarvice_endpoint_url="$jarvice_api_url/$endpoint"
+
+    # If $2 starts with '{', it must be JSON for POSTing
+    if echo "$2" | grep -q '^ *{'; then
+        curl -s --show-error --fail -d "$2" "$jarvice_endpoint_url"
+    else
+        shift
+        while [ $# -gt 0 ]; do
+            [ -n "$1" ] && extra_args+=" --data-urlencode $1"
+            shift
+        done
+
+        # The job's number could be used instead of the job's name
+        # Example: --data-urlencode "number=$jarvice_job_number"
+        curl -s --show-error --fail --get "$jarvice_endpoint_url" \
+            --data-urlencode "username=$jarvice_user_username" \
+            --data-urlencode "apikey=$jarvice_user_apikey" \
+            --data-urlencode "name=$jarvice_job_name" \
+            $extra_args
+    fi
+}
+
+function jarvice_api_call_usage {
+    echo "Usage: $0 [options]"
+    echo "Available [options]:"
+    echo -e " --apiurl\tJARVICE API URL (default: $APIURL)"
+    echo -e " --jobname\tJARVICE job name (default: $JOB_NAME)"
+    echo -e " --username\tJARVICE user name (default: $JOB_USERNAME)"
+    echo -e " --apikey\tJARVICE user apikey (required)"
+    echo -e " --endpoint\tJARVICE API endpoint (required)"
+    echo -e " --parameters\tJARVICE API endpoint parameters"
+    echo -e " --jsonvalue\tGet value of key in JSON response of API call"
+}
+
+while [ $# -gt 0 ]; do
+    case $1 in
+        --help)
+            jarvice_api_call_usage
+            exit 0
+            ;;
+        --apiurl)
+            jarvice_api_url=$2
+            shift; shift
+            ;;
+        --jobname)
+            jarvice_job_name=$2
+            shift; shift
+            ;;
+        --username)
+            jarvice_user_username=$2
+            shift; shift
+            ;;
+        --apikey)
+            jarvice_user_apikey=$2
+            shift; shift
+            ;;
+        --endpoint)
+            jarvice_api_endpoint=$2
+            shift; shift
+            ;;
+        --parameters)
+            jarvice_api_parameters=$2
+            shift; shift
+            ;;
+        --jsonvalue)
+            jarvice_json_value="$2"
+            shift; shift
+            ;;
+        *)
+            jarvice_api_call_usage
+            exit 1
+            ;;
+    esac
+done
+
+if [ -z "$jarvice_user_apikey" ] || [ -z "$jarvice_api_endpoint" ]; then
+    jarvice_api_call_usage
+    exit 1
+fi
+
+json_result=$(jarvice_api_endpoint "$jarvice_api_endpoint" "$jarvice_api_parameters")
+ret=$?
+[ "$ret" != "0" ] && echo "$json_result" && exit $ret
+error=$(get_json_value "$json_result" "['error']")
+[ -n "$error" ] && echo "ERROR: $error" && exit 1
+
+if [ -n "$jarvice_json_value" ]; then
+    json_value=$(get_json_value "$json_result" "$jarvice_json_value")
+    echo "$json_value"
+else
+    echo "$json_result"
+fi
+
