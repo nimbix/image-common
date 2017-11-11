@@ -50,6 +50,7 @@ function jarvice_api_call_usage {
     echo -e " --username\tJARVICE user name (default: $JOB_USERNAME)"
     echo -e " --apikey\tJARVICE user apikey (required)"
     echo -e " --endpoint\tJARVICE API endpoint (required)"
+    echo -e " --parameters\tJARVICE API endpoint parameters"
     echo -e " --jsonvalue\tGet value of key in JSON response of API call"
 }
 
