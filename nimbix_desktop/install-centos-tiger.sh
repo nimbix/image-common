@@ -67,9 +67,6 @@ function build_and_install_tiger() {
     #make install
 }
 
-VERSION_ID=$(cat /etc/system-release-cpe | awk -F: '{print $5}')
-EPEL="https://dl.fedoraproject.org/pub/epel/epel-release-latest-${VERSION_ID}.noarch.rpm"
-rpm -i $EPEL
 yum -y groupinstall Xfce
 yum -y groupinstall Fonts
 yum -y install perl wget xauth pygtk2 gnome-icon-theme xorg-x11-fonts-Type1 xorg-x11-fonts-misc xorg-x11-fonts-75dpi xorg-x11-fonts-100dpi xkeyboard-config firefox net-tools glx-utils xorg-x11-utils
