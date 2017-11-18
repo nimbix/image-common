@@ -69,6 +69,9 @@ function setup_base_os() {
         yum -y install $PKGS
         yum clean all
 
+        # Set locale
+        localedef -i en_US -f UTF-8 en_US.UTF-8
+
         rm -f /etc/sysconfig/network-scripts/ifcfg-eth0
         if [ $VERSION_ID -gt 6 ]; then
             echo '# leave empty' >/etc/fstab
@@ -82,7 +85,8 @@ function setup_base_os() {
     else # Ubuntu
         # upstart fixes
         # init-fake.conf from https://raw.githubusercontent.com/tianon/dockerfiles/master/sbin-init/ubuntu/upstart/14.04/init-fake.conf
-        echo "$INIT_FAKE_CONF" >/etc/init/fake-container-events.conf
+        [ -d /etc/init ] && \
+            echo "$INIT_FAKE_CONF" >/etc/init/fake-container-events.conf
         rm -f /usr/sbin/policy-rc.d /sbin/initctl
         dpkg-divert --rename --remove /sbin/initctl
         echo '# /lib/init/fstab: cleared out for bare-bones Docker' \
@@ -194,6 +198,11 @@ EOF
 }
 
 function cleanup() {
+    if [ -f /etc/redhat-release ]; then
+        yum clean all
+    else # Ubuntu
+        apt-get clean
+    fi
     rm -rf /tmp/image-common-$BRANCH
 }
 
