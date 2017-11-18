@@ -64,6 +64,7 @@ function setup_base_os() {
         PKGS+=" passwd xz tar file openssh-server infiniband-diags"
         PKGS+=" openmpi perftest libibverbs-utils libmthca libcxgb4 libmlx4"
         PKGS+=" libmlx5 dapl compat-dapl dap.i686 compat-dapl.i686 which"
+        PKGS+=" shellinabox openssh-clients sshpass"
         [ -z "$SKIP_OS_PKG_UPDATE" ] && yum -y update
         yum -y install $PKGS
         yum clean all
@@ -78,7 +79,6 @@ function setup_base_os() {
             chkconfig udev-post off
             echo "$ETC_HOSTS" >/etc/hosts
         fi
-
     else # Ubuntu
         # upstart fixes
         # init-fake.conf from https://raw.githubusercontent.com/tianon/dockerfiles/master/sbin-init/ubuntu/upstart/14.04/init-fake.conf
@@ -96,6 +96,7 @@ function setup_base_os() {
         PKGS+=" libibverbs-dev libibverbs1 librdmacm1 librdmacm-dev"
         PKGS+=" rdmacm-utils libibmad-dev libibmad5 byacc flex git cmake"
         PKGS+=" screen grep locales net-tools"
+        PKGS+=" shellinabox openssh-client sshpass"
         [ -z "$SKIP_OS_PKG_UPDATE" ] && apt-get -y update
         apt-get -y install $PKGS
         apt-get clean
@@ -169,6 +170,29 @@ function setup_nimbix_desktop() {
     /sbin/mkhomedir_helper nimbix
 }
 
+function setup_post() {
+    toolsdir=/usr/lib/JARVICE/tools
+    [ -d /usr/local/JARVICE/tools ] && toolsdir=/usr/local/JARVICE/tools
+
+    # Copy cert for shellinabox
+    cp /etc/JARVICE/cert.pem /var/lib/shellinabox/certificate.pem
+
+    if [ -f /etc/redhat-release ]; then
+        # Config shellinabox
+        cat <<EOF | tee -a /etc/sysconfig/shellinaboxd >/dev/null
+OPTS="--disable-ssl-menu -s '/:root:root:HOME:$toolsdir/shellinabox/cmd.sh \"\\\${url}\"'"
+EOF
+        (type -p systemctl && systemctl enable shellinaboxd) || \
+        (type -p chkconfig && chkconfig --add shellinaboxd) || \
+        /bin/true
+    else # Ubuntu
+        # Config shellinabox
+        cat <<EOF | tee -a /etc/default/shellinabox >/dev/null
+SHELLINABOX_ARGS="--disable-ssl-menu -s '/:root:root:HOME:$toolsdir/shellinabox/cmd.sh \"\\\${url}\"'"
+EOF
+    fi
+}
+
 function cleanup() {
     rm -rf /tmp/image-common-$BRANCH
 }
@@ -176,6 +200,7 @@ function cleanup() {
 setup_base_os
 setup_jarvice_emulation
 [ -n "$SETUP_NIMBIX_DESKTOP" ] && setup_nimbix_desktop
+setup_post
 cleanup
 
 exit 0
