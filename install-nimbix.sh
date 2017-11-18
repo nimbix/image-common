@@ -95,7 +95,7 @@ function setup_base_os() {
         PKGS+=" libmlx4-1 libmlx5-1 iptables infiniband-diags build-essential"
         PKGS+=" libibverbs-dev libibverbs1 librdmacm1 librdmacm-dev"
         PKGS+=" rdmacm-utils libibmad-dev libibmad5 byacc flex git cmake"
-        PKGS+=" screen grep locales net-tools"
+        PKGS+=" screen grep locales net-tools python"
         PKGS+=" shellinabox openssh-client sshpass"
         [ -z "$SKIP_OS_PKG_UPDATE" ] && apt-get -y update
         apt-get -y install $PKGS
