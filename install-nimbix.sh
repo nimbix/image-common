@@ -192,16 +192,17 @@ EOF
     if [ -f /etc/redhat-release ]; then
         echo "$SHELLINABOX_CERT_CONF" >>/etc/sysconfig/shellinaboxd
         echo "OPTS=\"$SHELLINABOX_OPTS\"" >>/etc/sysconfig/shellinaboxd
+        service_file=/usr/lib/systemd/system/shellinaboxd.service
+        [ -f $service_file ] && sed -i -e "s|^ExecStart=|ExecStartPre=-$toolsdir/shellinabox/certificate.sh\nExecStart=|" $service_file
         (type -p systemctl && systemctl enable shellinaboxd) || \
         (type -p chkconfig && chkconfig --add shellinaboxd) || \
         /bin/true
     else # Ubuntu
         echo "$SHELLINABOX_CERT_CONF" >>/etc/default/shellinabox
         echo "SHELLINABOX_ARGS=\"$SHELLINABOX_OPTS\"" >>/etc/default/shellinabox
+        service_file=/usr/lib/systemd/system/shellinabox.service
+        [ -f $service_file ] && sed -i -e "s|^ExecStart=|ExecStartPre=-$toolsdir/shellinabox/certificate.sh\nExecStart=|" $service_file
     fi
-    for f in /usr/lib/systemd/system/shellinabox*.service; do
-        sed -i -e "s|^ExecStart=|ExecStartPre=-$toolsdir/shellinabox/certificate.sh\nExecStart=|" $f
-    done
 }
 
 function cleanup() {
