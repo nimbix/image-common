@@ -193,7 +193,7 @@ EOF
         echo "$SHELLINABOX_CERT_CONF" >>/etc/sysconfig/shellinaboxd
         echo "OPTS=\"$SHELLINABOX_OPTS\"" >>/etc/sysconfig/shellinaboxd
         service_file=/usr/lib/systemd/system/shellinaboxd.service
-        [ -f $service_file ] && sed -i -e "s|^ExecStart=|ExecStartPre=-$toolsdir/shellinabox/certificate.sh\nExecStart=|" $service_file
+        [ -f $service_file ] && sed -i -e "s|^ExecStart=|ExecStartPre=-$toolsdir/shellinabox/certificate.sh\nExecStart=|" $service_file || /bin/true
         (type -p systemctl && systemctl enable shellinaboxd) || \
         (type -p chkconfig && chkconfig --add shellinaboxd) || \
         /bin/true
@@ -201,7 +201,7 @@ EOF
         echo "$SHELLINABOX_CERT_CONF" >>/etc/default/shellinabox
         echo "SHELLINABOX_ARGS=\"$SHELLINABOX_OPTS\"" >>/etc/default/shellinabox
         service_file=/usr/lib/systemd/system/shellinabox.service
-        [ -f $service_file ] && sed -i -e "s|^ExecStart=|ExecStartPre=-$toolsdir/shellinabox/certificate.sh\nExecStart=|" $service_file
+        [ -f $service_file ] && sed -i -e "s|^ExecStart=|ExecStartPre=-$toolsdir/shellinabox/certificate.sh\nExecStart=|" $service_file || /bin/true
     fi
 }
 
