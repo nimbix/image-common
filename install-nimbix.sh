@@ -64,9 +64,13 @@ function setup_base_os() {
         PKGS+=" passwd xz tar file openssh-server infiniband-diags"
         PKGS+=" openmpi perftest libibverbs-utils libmthca libcxgb4 libmlx4"
         PKGS+=" libmlx5 dapl compat-dapl dap.i686 compat-dapl.i686 which"
+        PKGS+=" shellinabox openssh-clients sshpass"
         [ -z "$SKIP_OS_PKG_UPDATE" ] && yum -y update
         yum -y install $PKGS
         yum clean all
+
+        # Set locale
+        localedef -i en_US -f UTF-8 en_US.UTF-8
 
         rm -f /etc/sysconfig/network-scripts/ifcfg-eth0
         if [ $VERSION_ID -gt 6 ]; then
@@ -78,11 +82,11 @@ function setup_base_os() {
             chkconfig udev-post off
             echo "$ETC_HOSTS" >/etc/hosts
         fi
-
     else # Ubuntu
         # upstart fixes
         # init-fake.conf from https://raw.githubusercontent.com/tianon/dockerfiles/master/sbin-init/ubuntu/upstart/14.04/init-fake.conf
-        echo "$INIT_FAKE_CONF" >/etc/init/fake-container-events.conf
+        [ -d /etc/init ] && \
+            echo "$INIT_FAKE_CONF" >/etc/init/fake-container-events.conf
         rm -f /usr/sbin/policy-rc.d /sbin/initctl
         dpkg-divert --rename --remove /sbin/initctl
         echo '# /lib/init/fstab: cleared out for bare-bones Docker' \
@@ -95,7 +99,8 @@ function setup_base_os() {
         PKGS+=" libmlx4-1 libmlx5-1 iptables infiniband-diags build-essential"
         PKGS+=" libibverbs-dev libibverbs1 librdmacm1 librdmacm-dev"
         PKGS+=" rdmacm-utils libibmad-dev libibmad5 byacc flex git cmake"
-        PKGS+=" screen grep locales net-tools"
+        PKGS+=" screen grep locales net-tools python"
+        PKGS+=" shellinabox openssh-client sshpass"
         [ -z "$SKIP_OS_PKG_UPDATE" ] && apt-get -y update
         apt-get -y install $PKGS
         apt-get clean
@@ -126,6 +131,12 @@ function setup_jarvice_emulation {
     cp -a /tmp/image-common-$BRANCH/tools /usr/lib/JARVICE
     mkdir -p /usr/local/JARVICE
     cp -a /tmp/image-common-$BRANCH/tools /usr/local/JARVICE
+    cat <<'EOF' | tee /etc/profile.d/jarvice-tools.sh >/dev/null
+JARVICE_TOOLS="/usr/local/JARVICE/tools"
+JARVICE_TOOLS_BIN="$JARVICE_TOOLS/bin"
+PATH="$PATH:$JARVICE_TOOLS_BIN"
+export JARVICE_TOOLS JARVICE_TOOLS_BIN PATH
+EOF
     ln -s /usr/lib/JARVICE/tools/noVNC/images/favicon.png \
         /usr/lib/JARVICE/tools/noVNC/favicon.png
     ln -s /usr/lib/JARVICE/tools/noVNC/images/favicon.png \
@@ -169,13 +180,45 @@ function setup_nimbix_desktop() {
     /sbin/mkhomedir_helper nimbix
 }
 
+function setup_post() {
+    toolsdir=/usr/lib/JARVICE/tools
+    [ -d /usr/local/JARVICE/tools ] && toolsdir=/usr/local/JARVICE/tools
+
+    SHELLINABOX_CERT_CONF="$(cat <<'EOF'
+[ -f /etc/profile.d/jarvice-tools.sh ] && . /etc/profile.d/jarvice-tools.sh && $JARVICE_TOOLS/shellinabox/certificate.sh
+EOF
+)"
+    SHELLINABOX_OPTS="--disable-ssl-menu -s '/:root:root:HOME:$toolsdir/shellinabox/cmd.sh \\\"\\\${url}\\\"'"
+    if [ -f /etc/redhat-release ]; then
+        echo "$SHELLINABOX_CERT_CONF" >>/etc/sysconfig/shellinaboxd
+        echo "OPTS=\"$SHELLINABOX_OPTS\"" >>/etc/sysconfig/shellinaboxd
+        service_file=/usr/lib/systemd/system/shellinaboxd.service
+        (type -p systemctl && systemctl enable shellinaboxd) || \
+        (type -p chkconfig && chkconfig --add shellinaboxd) || \
+        /bin/true
+    else # Ubuntu
+        echo "$SHELLINABOX_CERT_CONF" >>/etc/default/shellinabox
+        echo "SHELLINABOX_ARGS=\"$SHELLINABOX_OPTS\"" >>/etc/default/shellinabox
+        service_file=/usr/lib/systemd/system/shellinabox.service
+    fi
+    if [ -f "$service_file" ]; then
+        sed -i -e "s|^ExecStart=|ExecStartPre=-$toolsdir/shellinabox/certificate.sh\nExecStart=|" $service_file
+    fi
+}
+
 function cleanup() {
+    if [ -f /etc/redhat-release ]; then
+        yum clean all
+    else # Ubuntu
+        apt-get clean
+    fi
     rm -rf /tmp/image-common-$BRANCH
 }
 
 setup_base_os
 setup_jarvice_emulation
 [ -n "$SETUP_NIMBIX_DESKTOP" ] && setup_nimbix_desktop
+setup_post
 cleanup
 
 exit 0
