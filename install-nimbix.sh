@@ -131,6 +131,12 @@ function setup_jarvice_emulation {
     cp -a /tmp/image-common-$BRANCH/tools /usr/lib/JARVICE
     mkdir -p /usr/local/JARVICE
     cp -a /tmp/image-common-$BRANCH/tools /usr/local/JARVICE
+    cat <<'EOF' | tee /etc/profile.d/jarvice-tools.sh >/dev/null
+JARVICE_TOOLS="/usr/local/JARVICE/tools"
+JARVICE_TOOLS_BIN="$JARVICE_TOOLS/bin"
+PATH="$PATH:$JARVICE_TOOLS_BIN"
+export JARVICE_TOOLS JARVICE_TOOLS_BIN PATH
+EOF
     ln -s /usr/lib/JARVICE/tools/noVNC/images/favicon.png \
         /usr/lib/JARVICE/tools/noVNC/favicon.png
     ln -s /usr/lib/JARVICE/tools/noVNC/images/favicon.png \
@@ -178,22 +184,22 @@ function setup_post() {
     toolsdir=/usr/lib/JARVICE/tools
     [ -d /usr/local/JARVICE/tools ] && toolsdir=/usr/local/JARVICE/tools
 
-    # Copy cert for shellinabox
-    cp /etc/JARVICE/cert.pem /var/lib/shellinabox/certificate.pem
-
-    if [ -f /etc/redhat-release ]; then
-        # Config shellinabox
-        cat <<EOF | tee -a /etc/sysconfig/shellinaboxd >/dev/null
-OPTS="--disable-ssl-menu -s '/:root:root:HOME:$toolsdir/shellinabox/cmd.sh \"\\\${url}\"'"
+    SHELLINABOX_CERT_CONF="$(cat <<'EOF'
+[ -f /etc/JARVICE/jobinfo.sh ] && . /etc/JARVICE/jobinfo.sh
+SERVERNAME=$(echo "$JOB_PUBLICADDR" | tr A-Z a-z)
+[ -n "$SERVERNAME" ] && [ -f /etc/JARVICE/cert.pem ] && ln -s /etc/JARVICE/cert.pem /var/lib/shellinabox/certificate-$SERVERNAME.pem
 EOF
+)"
+    SHELLINABOX_OPTS="--disable-ssl-menu -s '/:root:root:HOME:$toolsdir/shellinabox/cmd.sh \\\"\\\${url}\\\"'"
+    if [ -f /etc/redhat-release ]; then
+        echo "$SHELLINABOX_CERT_CONF" >>/etc/sysconfig/shellinaboxd
+        echo "OPTS=\"$SHELLINABOX_OPTS\"" >>/etc/sysconfig/shellinaboxd
         (type -p systemctl && systemctl enable shellinaboxd) || \
         (type -p chkconfig && chkconfig --add shellinaboxd) || \
         /bin/true
     else # Ubuntu
-        # Config shellinabox
-        cat <<EOF | tee -a /etc/default/shellinabox >/dev/null
-SHELLINABOX_ARGS="--disable-ssl-menu -s '/:root:root:HOME:$toolsdir/shellinabox/cmd.sh \"\\\${url}\"'"
-EOF
+        echo "$SHELLINABOX_CERT_CONF" >>/etc/default/shellinabox
+        echo "SHELLINABOX_ARGS=\"$SHELLINABOX_OPTS\"" >>/etc/default/shellinabox
     fi
 }
 
