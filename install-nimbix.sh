@@ -185,9 +185,7 @@ function setup_post() {
     [ -d /usr/local/JARVICE/tools ] && toolsdir=/usr/local/JARVICE/tools
 
     SHELLINABOX_CERT_CONF="$(cat <<'EOF'
-[ -f /etc/JARVICE/jobinfo.sh ] && . /etc/JARVICE/jobinfo.sh
-SERVERNAME=$(echo "$JOB_PUBLICADDR" | tr A-Z a-z)
-[ -n "$SERVERNAME" ] && [ -f /etc/JARVICE/cert.pem ] && ln -s /etc/JARVICE/cert.pem /var/lib/shellinabox/certificate-$SERVERNAME.pem
+[ -f /etc/JARVICE/jobinfo.sh ] && . /etc/JARVICE/jobinfo.sh && $JARVICE_TOOLS/shellinabox/certificate.sh
 EOF
 )"
     SHELLINABOX_OPTS="--disable-ssl-menu -s '/:root:root:HOME:$toolsdir/shellinabox/cmd.sh \\\"\\\${url}\\\"'"
@@ -201,6 +199,9 @@ EOF
         echo "$SHELLINABOX_CERT_CONF" >>/etc/default/shellinabox
         echo "SHELLINABOX_ARGS=\"$SHELLINABOX_OPTS\"" >>/etc/default/shellinabox
     fi
+    for f in /usr/lib/systemd/system/shellinabox*.service; do
+        sed -i -e "s|^ExecStart=|ExecStartPre=-$toolsdir/shellinabox/certificate.sh\nExecStart=|" $f
+    done
 }
 
 function cleanup() {
