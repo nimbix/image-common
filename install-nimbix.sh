@@ -185,8 +185,7 @@ function setup_post() {
     [ -d /usr/local/JARVICE/tools ] && toolsdir=/usr/local/JARVICE/tools
 
     SHELLINABOX_CERT_CONF="$(cat <<'EOF'
-[ -f /etc/JARVICE/jobinfo.sh ] && . /etc/JARVICE/jobinfo.sh
-$JARVICE_TOOLS/shellinabox/certificate.sh
+[ -f /etc/profile.d/jarvice-tools.sh ] && . /etc/profile.d/jarvice-tools.sh && $JARVICE_TOOLS/shellinabox/certificate.sh
 EOF
 )"
     SHELLINABOX_OPTS="--disable-ssl-menu -s '/:root:root:HOME:$toolsdir/shellinabox/cmd.sh \\\"\\\${url}\\\"'"
