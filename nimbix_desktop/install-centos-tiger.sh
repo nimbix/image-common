@@ -17,6 +17,9 @@ VGL32="https://downloads.sourceforge.net/project/virtualgl/$VGL64VER/VirtualGL-$
 VGL64SRC="https://downloads.sourceforge.net/project/virtualgl/$VGL64VER/VirtualGL-$VGL64VER.tar.gz"
 dirname=$(dirname $0)
 
+# Get CentOS release version
+VERSION_ID=$(cat /etc/system-release-cpe | awk -F: '{print $5}')
+
 function build_and_install_tiger() {
     yum -y install git cmake make gcc-c++ \
         libX11-devel zlib-devel turbojpeg-devel libjpeg-turbo-devel \
@@ -71,6 +74,9 @@ yum -y groupinstall Xfce
 yum -y groupinstall Fonts
 yum -y install perl wget xauth pygtk2 gnome-icon-theme xorg-x11-fonts-Type1 xorg-x11-fonts-misc xorg-x11-fonts-75dpi xorg-x11-fonts-100dpi xkeyboard-config firefox net-tools glx-utils xorg-x11-utils
 yum -y install xorg-x11-fonts-ISO8859-1-100dpi xorg-x11-fonts-ISO8859-1-75dpi compat-libstdc++-33
+if [ $VERSION_ID -gt 6 ]; then
+    yum -y install ristretto
+fi
 
 if [ "$ARCH" != "x86_64" ]; then
     #build_and_install_tiger
