@@ -11,6 +11,10 @@ while [ $# -gt 0 ]; do
             SETUP_NIMBIX_DESKTOP=1
             shift
             ;;
+        --setup-realvnc)
+            SETUP_REALVNC=1
+            shift
+            ;;
         --disable-desktop-autostart)
             export DISABLE_DESKTOP_AUTOSTART=1
             shift
@@ -166,7 +170,11 @@ function setup_nimbix_desktop() {
             /usr/local/lib/nimbix_desktop
     done
     if [ -f /etc/redhat-release ]; then
-        /usr/local/lib/nimbix_desktop/install-centos-tiger.sh
+        if [ -n "$SETUP_REALVNC" ]; then
+            /usr/local/lib/nimbix_desktop/install-centos-real.sh
+        else
+            /usr/local/lib/nimbix_desktop/install-centos-tiger.sh
+        fi
         yum clean all
         #echo "/usr/local/bin/nimbix_desktop" >>/etc/rc.local
     else

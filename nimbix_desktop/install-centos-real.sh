@@ -3,8 +3,10 @@
 # assumes install-centos-tiger.sh was run first
 
 # update links
-REALVNC="https://www.realvnc.com/download/file/vnc.files/VNC-5.3.2-Linux-x64-RPM.tar.gz"
-wget --content-disposition -O - "$REALVNC"|tar -C /tmp -xzf -
+#REALVNC="https://www.realvnc.com/download/file/vnc.files/VNC-5.3.2-Linux-x64-RPM.tar.gz"
+REALVNC_VER=6.2.1
+REALVNC="https://www.realvnc.com/download/file/vnc.files/VNC-Server-$REALVNC_VER-Linux-x64.rpm"
+wget --content-disposition -O /tmp/$(basename $REALVNC) "$REALVNC"
 rm -f /usr/bin/Xvnc
 yum -y install /tmp/VNC-Server-*-Linux-x64.rpm
 rm -f /tmp/VNC-*.rpm
