@@ -141,15 +141,16 @@ JARVICE_TOOLS_BIN="$JARVICE_TOOLS/bin"
 PATH="$PATH:$JARVICE_TOOLS_BIN"
 export JARVICE_TOOLS JARVICE_TOOLS_BIN PATH
 EOF
-    ln -s /usr/lib/JARVICE/tools/noVNC/images/favicon.png \
+    ln -sf /usr/lib/JARVICE/tools/noVNC/images/favicon.png \
         /usr/lib/JARVICE/tools/noVNC/favicon.png
-    ln -s /usr/lib/JARVICE/tools/noVNC/images/favicon.png \
+    ln -sf /usr/lib/JARVICE/tools/noVNC/images/favicon.png \
         /usr/lib/JARVICE/tools/noVNC/favicon.ico
     cd /usr/lib/JARVICE/tools/noVNC/utils
-    ln -s websockify /usr/lib/JARVICE/tools/noVNC/utils/websockify.py
-    ln -s websockify /usr/lib/JARVICE/tools/noVNC/utils/wsproxy.py
+    ln -sf websockify /usr/lib/JARVICE/tools/noVNC/utils/websockify.py
+    ln -sf websockify /usr/lib/JARVICE/tools/noVNC/utils/wsproxy.py
     cd /tmp
-    cp -a /tmp/image-common-$BRANCH/etc /etc/JARVICE
+    mkdir -p /etc/JARVICE
+    cp -a /tmp/image-common-$BRANCH/etc/* /etc/JARVICE
     chmod 755 /etc/JARVICE
     mkdir -m 0755 -p /data
     chown nimbix:nimbix /data
@@ -181,7 +182,7 @@ function setup_nimbix_desktop() {
         /usr/local/lib/nimbix_desktop/install-ubuntu-tiger.sh
     fi
 
-    ln -s /usr/local/lib/nimbix_desktop /usr/lib/JARVICE/tools/nimbix_desktop
+    ln -sf /usr/local/lib/nimbix_desktop /usr/lib/JARVICE/tools/nimbix_desktop
 
     # recreate nimbix user home to get the right skeleton files
     /bin/rm -rf /home/nimbix

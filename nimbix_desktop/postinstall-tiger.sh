@@ -10,9 +10,9 @@ for i in $SKEL_CONFIGS; do
     chmod u+w /etc/skel/.config/$i
 done
 rm -f /usr/local/bin/nimbix_desktop
-ln -s $dirname/nimbix_desktop /usr/local/bin/nimbix_desktop
+ln -sf $dirname/nimbix_desktop /usr/local/bin/nimbix_desktop
 rm -f /usr/local/bin/xfce4-session-logout
-ln -s $dirname/xfce4-session-logout /usr/local/bin/xfce4-session-logout
+ln -sf $dirname/xfce4-session-logout /usr/local/bin/xfce4-session-logout
 
 mkdir -p /etc/NAE
 cp $dirname/help-tiger.html /etc/NAE/help.html
