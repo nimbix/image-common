@@ -182,7 +182,8 @@ function setup_nimbix_desktop() {
         /usr/local/lib/nimbix_desktop/install-ubuntu-tiger.sh
     fi
 
-    ln -sf /usr/local/lib/nimbix_desktop /usr/lib/JARVICE/tools/nimbix_desktop
+    rm -f /usr/lib/JARVICE/tools/nimbix_desktop
+    ln -sf /usr/local/lib/nimbix_desktop/ /usr/lib/JARVICE/tools/nimbix_desktop
 
     # recreate nimbix user home to get the right skeleton files
     /bin/rm -rf /home/nimbix
