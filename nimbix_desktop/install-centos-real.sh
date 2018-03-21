@@ -11,7 +11,7 @@ rm -f /usr/bin/Xvnc
 yum -y install /tmp/VNC-Server-*-Linux-x64.rpm || \
     yum -y update /tmp/VNC-Server-*-Linux-x64.rpm
 rm -f /tmp/VNC-*.rpm
-[ -e /usr/bin/Xvnc ] || ln -sf /usr/bin/Xvnc-realvnc /usr/bin/Xvnc
+ln -sf /usr/bin/Xvnc-realvnc /usr/bin/Xvnc
 
 dirname=$(dirname $0)
 [ "$dirname" = "." ] && dirname=`pwd`
