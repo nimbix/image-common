@@ -14,5 +14,5 @@ rm -f /tmp/VNC-*.rpm
 
 dirname=$(dirname $0)
 [ "$dirname" = "." ] && dirname=`pwd`
-cp -f $dirname/help-real.html /etc/NAE/help.html
+cp $dirname/help-real.html /etc/NAE/help.html
 
