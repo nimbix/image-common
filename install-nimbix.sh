@@ -11,6 +11,10 @@ while [ $# -gt 0 ]; do
             SETUP_NIMBIX_DESKTOP=1
             shift
             ;;
+        --setup-realvnc)
+            SETUP_REALVNC=1
+            shift
+            ;;
         --disable-desktop-autostart)
             export DISABLE_DESKTOP_AUTOSTART=1
             shift
@@ -59,7 +63,7 @@ function setup_base_os() {
         if [ ! -f /etc/fedora-release ]; then
             VERSION_ID=$(cat /etc/system-release-cpe | awk -F: '{print $5}')
             EPEL="https://dl.fedoraproject.org/pub/epel/epel-release-latest-${VERSION_ID}.noarch.rpm"
-            rpm -iv $EPEL
+            rpm -Uv $EPEL || /bin/true
         fi
         PKGS+=" passwd xz tar file openssh-server infiniband-diags"
         PKGS+=" openmpi perftest libibverbs-utils libmthca libcxgb4 libmlx4"
@@ -137,15 +141,16 @@ JARVICE_TOOLS_BIN="$JARVICE_TOOLS/bin"
 PATH="$PATH:$JARVICE_TOOLS_BIN"
 export JARVICE_TOOLS JARVICE_TOOLS_BIN PATH
 EOF
-    ln -s /usr/lib/JARVICE/tools/noVNC/images/favicon.png \
+    ln -sf /usr/lib/JARVICE/tools/noVNC/images/favicon.png \
         /usr/lib/JARVICE/tools/noVNC/favicon.png
-    ln -s /usr/lib/JARVICE/tools/noVNC/images/favicon.png \
+    ln -sf /usr/lib/JARVICE/tools/noVNC/images/favicon.png \
         /usr/lib/JARVICE/tools/noVNC/favicon.ico
     cd /usr/lib/JARVICE/tools/noVNC/utils
-    ln -s websockify /usr/lib/JARVICE/tools/noVNC/utils/websockify.py
-    ln -s websockify /usr/lib/JARVICE/tools/noVNC/utils/wsproxy.py
+    ln -sf websockify /usr/lib/JARVICE/tools/noVNC/utils/websockify.py
+    ln -sf websockify /usr/lib/JARVICE/tools/noVNC/utils/wsproxy.py
     cd /tmp
-    cp -a /tmp/image-common-$BRANCH/etc /etc/JARVICE
+    mkdir -p /etc/JARVICE
+    cp -a /tmp/image-common-$BRANCH/etc/* /etc/JARVICE
     chmod 755 /etc/JARVICE
     mkdir -m 0755 -p /data
     chown nimbix:nimbix /data
@@ -166,14 +171,19 @@ function setup_nimbix_desktop() {
             /usr/local/lib/nimbix_desktop
     done
     if [ -f /etc/redhat-release ]; then
-        /usr/local/lib/nimbix_desktop/install-centos-tiger.sh
+        if [ -n "$SETUP_REALVNC" ]; then
+            /usr/local/lib/nimbix_desktop/install-centos-real.sh
+        else
+            /usr/local/lib/nimbix_desktop/install-centos-tiger.sh
+        fi
         yum clean all
         #echo "/usr/local/bin/nimbix_desktop" >>/etc/rc.local
     else
         /usr/local/lib/nimbix_desktop/install-ubuntu-tiger.sh
     fi
 
-    ln -s /usr/local/lib/nimbix_desktop /usr/lib/JARVICE/tools/nimbix_desktop
+    rm -f /usr/lib/JARVICE/tools/nimbix_desktop
+    ln -sf /usr/local/lib/nimbix_desktop/ /usr/lib/JARVICE/tools/nimbix_desktop
 
     # recreate nimbix user home to get the right skeleton files
     /bin/rm -rf /home/nimbix
