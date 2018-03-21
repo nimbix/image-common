@@ -87,7 +87,7 @@ else
     cd /tmp
     wget --content-disposition "$VGL64"
     wget --content-disposition "$VGL32"
-    yum -y update VirtualGL*.rpm
+    yum -y install VirtualGL*.rpm || yum -y update VirtualGL*.rpm
     rm -f VirtualGL*.rpm
 fi
 
