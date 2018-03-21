@@ -63,7 +63,7 @@ function setup_base_os() {
         if [ ! -f /etc/fedora-release ]; then
             VERSION_ID=$(cat /etc/system-release-cpe | awk -F: '{print $5}')
             EPEL="https://dl.fedoraproject.org/pub/epel/epel-release-latest-${VERSION_ID}.noarch.rpm"
-            rpm -iv $EPEL
+            rpm -Uv $EPEL || /bin/true
         fi
         PKGS+=" passwd xz tar file openssh-server infiniband-diags"
         PKGS+=" openmpi perftest libibverbs-utils libmthca libcxgb4 libmlx4"
