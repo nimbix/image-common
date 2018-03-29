@@ -3,9 +3,9 @@
 # assumes install-centos-tiger.sh was run first
 
 # update links
-#REALVNC="https://www.realvnc.com/download/file/vnc.files/VNC-5.3.2-Linux-x64-RPM.tar.gz"
-REALVNC_VER=6.2.1
-REALVNC="https://www.realvnc.com/download/file/vnc.files/VNC-Server-$REALVNC_VER-Linux-x64.rpm"
+#REALVNC_VER=6.2.1
+#REALVNC="https://www.realvnc.com/download/file/vnc.files/VNC-Server-$REALVNC_VER-Linux-x64.rpm"
+REALVNC="https://www.realvnc.com/download/file/vnc.files/VNC-5.3.2-Linux-x64-RPM.tar.gz"
 
 VGL64VER=2.5.2
 VGL64="https://downloads.sourceforge.net/project/virtualgl/$VGL64VER/VirtualGL-${VGL64VER}.x86_64.rpm"
@@ -23,7 +23,8 @@ if [ $VERSION_ID -gt 6 ]; then
     yum -y install ristretto
 fi
 
-curl $REALVNC >/tmp/$(basename $REALVNC)
+#curl $REALVNC >/tmp/$(basename $REALVNC)
+wget --content-disposition -O - "$REALVNC"|tar -C /tmp -xzf -
 rm -f /usr/bin/Xvnc
 yum -y install /tmp/VNC-Server-*-Linux-x64.rpm || \
     yum -y update /tmp/VNC-Server-*-Linux-x64.rpm
