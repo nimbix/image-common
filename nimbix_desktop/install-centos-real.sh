@@ -7,6 +7,11 @@
 REALVNC_VER=6.2.1
 REALVNC="https://www.realvnc.com/download/file/vnc.files/VNC-Server-$REALVNC_VER-Linux-x64.rpm"
 
+VGL64VER=2.5.2
+VGL64="https://downloads.sourceforge.net/project/virtualgl/$VGL64VER/VirtualGL-${VGL64VER}.x86_64.rpm"
+VGL32="https://downloads.sourceforge.net/project/virtualgl/$VGL64VER/VirtualGL-${VGL64VER}.i386.rpm"
+VGL64SRC="https://downloads.sourceforge.net/project/virtualgl/$VGL64VER/VirtualGL-$VGL64VER.tar.gz"
+
 yum -y groupinstall Xfce
 yum -y groupinstall Fonts
 yum -y install perl wget xauth pygtk2 gnome-icon-theme xorg-x11-fonts-Type1 xorg-x11-fonts-misc xorg-x11-fonts-75dpi xorg-x11-fonts-100dpi xkeyboard-config firefox net-tools glx-utils xorg-x11-utils
@@ -21,6 +26,16 @@ yum -y install /tmp/VNC-Server-*-Linux-x64.rpm || \
     yum -y update /tmp/VNC-Server-*-Linux-x64.rpm
 rm -f /tmp/VNC-*.rpm
 ln -sf /usr/bin/Xvnc-realvnc /usr/bin/Xvnc
+
+if [ "$ARCH" != "x86_64" ]; then
+    yum -y install VirtualGL
+else
+    cd /tmp
+    wget --content-disposition "$VGL64"
+    wget --content-disposition "$VGL32"
+    yum -y install VirtualGL*.rpm || yum -y update VirtualGL*.rpm
+    rm -f VirtualGL*.rpm
+fi
 
 dirname=$(dirname $0)
 [ "$dirname" = "." ] && dirname=`pwd`
