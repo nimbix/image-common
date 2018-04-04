@@ -17,7 +17,9 @@ ln -sf $dirname/xfce4-session-logout /usr/local/bin/xfce4-session-logout
 mkdir -p /etc/NAE
 cp $dirname/help-tiger.html /etc/NAE/help.html
 if [ -z "$DISABLE_DESKTOP_AUTOSTART" ]; then
-    echo 'https://%PUBLICADDR%/vnc.html?password=%NIMBIXPASSWD%' >/etc/NAE/url.txt
+    if [ ! -e /etc/NAE/url.txt ]; then
+        echo 'https://%PUBLICADDR%/vnc.html?password=%NIMBIXPASSWD%' >/etc/NAE/url.txt
+    fi
 fi
 
 if [ -d /etc/init.d ]; then
