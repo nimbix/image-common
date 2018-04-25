@@ -120,9 +120,17 @@ function setup_base_os() {
             sed -ie 's/start on.*/start on filesystem/' /etc/init/ssh.conf
 
         echo "set -a" >/etc/profile.d/00-container-environment.sh
-        env |grep -v ^HOSTNAME=|grep -v ^PWD=|grep -v \
-            ^DEBIAN_FRONTEND=|grep -v ^HOME=|grep -v \
-            ^SHLVL= >>/etc/profile.d/00-container-environment.sh
+        for i in `env|cut -d '=' -f 1`; do
+            case $i in
+                HOSTNAME|_|DEBIAN_FRONTEND|SHLVL)
+                    ;;
+                *)
+                    printf "$i=" >>/etc/profile.d/00-container-environment.sh
+                    echo "${!i}" |sed 's/\(.\)/\\\1/g' \
+                        >>/etc/profile.d/00-container-environment.sh
+                    ;;
+            esac
+        done
         echo "set +a" >>/etc/profile.d/00-container-environment.sh
     fi
 }
