@@ -108,7 +108,9 @@ function setup_base_os() {
 
         # unfortunately on Ubuntu we can't skip the apt-get update since
         # most images have broken cache, so we have to do it anyway
-        #[ -z "$SKIP_OS_PKG_UPDATE" ] && apt-get -y update
+        #(was [ -z "$SKIP_OS_PKG_UPDATE" ] && apt-get -y update)
+        apt-get -y update
+        # XXX ^^^
         apt-get -y install $PKGS
         apt-get clean
         locale-gen en_US.UTF-8
