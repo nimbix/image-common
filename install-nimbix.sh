@@ -86,7 +86,7 @@ function setup_base_os() {
             chkconfig udev-post off
             echo "$ETC_HOSTS" >/etc/hosts
         fi
-    else # Ubuntu
+    else # Ubuntu (assumed)
         # upstart fixes
         # init-fake.conf from https://raw.githubusercontent.com/tianon/dockerfiles/master/sbin-init/ubuntu/upstart/14.04/init-fake.conf
         [ -d /etc/init ] && \
@@ -105,7 +105,10 @@ function setup_base_os() {
         PKGS+=" rdmacm-utils libibmad-dev libibmad5 byacc flex git cmake"
         PKGS+=" screen grep locales net-tools python"
         PKGS+=" shellinabox openssh-client sshpass"
-        [ -z "$SKIP_OS_PKG_UPDATE" ] && apt-get -y update
+
+        # unfortunately on Ubuntu we can't skip the apt-get update since
+        # most images have broken cache, so we have to do it anyway
+        #[ -z "$SKIP_OS_PKG_UPDATE" ] && apt-get -y update
         apt-get -y install $PKGS
         apt-get clean
         locale-gen en_US.UTF-8
