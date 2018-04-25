@@ -118,21 +118,21 @@ function setup_base_os() {
 
         [ -f /etc/init/ssh.conf ] && \
             sed -ie 's/start on.*/start on filesystem/' /etc/init/ssh.conf
-
-        echo "set -a" >/etc/profile.d/00-container-environment.sh
-        for i in `env|cut -d '=' -f 1`; do
-            case $i in
-                HOSTNAME|_|DEBIAN_FRONTEND|SHLVL|SKIP_OS_PKG_UPDATE|HOME|PWD|USER|LOGNAME|TERM|OLDPWD|SHELL)
-                    ;;
-                *)
-                    printf "$i=" >>/etc/profile.d/00-container-environment.sh
-                    echo "${!i}" |sed 's/\(.\)/\\\1/g' \
-                        >>/etc/profile.d/00-container-environment.sh
-                    ;;
-            esac
-        done
-        echo "set +a" >>/etc/profile.d/00-container-environment.sh
     fi
+
+    echo "set -a" >/etc/profile.d/00-container-environment.sh
+    for i in `env|cut -d '=' -f 1`; do
+        case $i in
+            HOSTNAME|_|DEBIAN_FRONTEND|SHLVL|SKIP_OS_PKG_UPDATE|HOME|PWD|USER|LOGNAME|TERM|OLDPWD|SHELL)
+                ;;
+            *)
+                printf "$i=" >>/etc/profile.d/00-container-environment.sh
+                echo "${!i}" |sed 's/\(.\)/\\\1/g' \
+                    >>/etc/profile.d/00-container-environment.sh
+                ;;
+        esac
+    done
+    echo "set +a" >>/etc/profile.d/00-container-environment.sh
 }
 
 # Nimbix JARVICE emulation
