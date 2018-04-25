@@ -122,7 +122,7 @@ function setup_base_os() {
         echo "set -a" >/etc/profile.d/00-container-environment.sh
         for i in `env|cut -d '=' -f 1`; do
             case $i in
-                HOSTNAME|_|DEBIAN_FRONTEND|SHLVL)
+                HOSTNAME|_|DEBIAN_FRONTEND|SHLVL|SKIP_OS_PKG_UPDATE|HOME|PWD|USER|LOGNAME|TERM|OLDPWD|SHELL)
                     ;;
                 *)
                     printf "$i=" >>/etc/profile.d/00-container-environment.sh
