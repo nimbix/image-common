@@ -88,6 +88,12 @@ else
 fi
 apt-get clean
 
-pip install Wand
+# pip is too old on trusty to drop cache
+UBUVER=$(lsb_release -sr)
+if [[ ${UBUVER} == 14.04 ]]; then
+    pip install Wand
+else
+    pip install --no-cache-dir Wand
+fi
 
 . $dirname/postinstall-tiger.sh
