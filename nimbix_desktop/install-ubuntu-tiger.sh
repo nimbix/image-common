@@ -71,9 +71,9 @@ export DEBIAN_FRONTEND=noninteractive
 #add-apt-repository -y ppa:canonical-x/x-staging  # latest xorg server
 apt-get -y update
 apt-get -y install librtmp0 || apt-get -y install librtmp1
-apt-get -y install wget python python-gtk2 gnome-icon-theme-full \
-    humanity-icon-theme tango-icon-theme xfce4 xfce4-terminal \
-    fonts-freefont-ttf xfonts-base xfonts-100dpi xfonts-75dpi \
+apt-get -y install wget python python-gtk2 python-pip gnome-icon-theme-full \
+    humanity-icon-theme libmagickwand-dev tango-icon-theme xfce4 xfce4-terminal \
+    fonts-freefont-ttf xfonts-base xfonts-100dpi xfonts-75dpi x11-apps \
     xfonts-scalable xauth firefox ristretto mesa-utils init-system-helpers
 
 if [ "$ARCH" != "x86_64" ]; then
@@ -87,5 +87,7 @@ else
     rm -f virtualgl*.deb
 fi
 apt-get clean
+
+pip install --no-cache-dir Wand
 
 . $dirname/postinstall-tiger.sh
