@@ -88,6 +88,6 @@ else
 fi
 apt-get clean
 
-pip install --no-cache-dir Wand
+pip install Wand
 
 . $dirname/postinstall-tiger.sh
