@@ -37,6 +37,7 @@ EOF
 else
     vncserver -geometry $VNC_GEOMETRY \
         -render \
+        -extension MIT-SHM \
         -rfbauth /etc/JARVICE/vncpasswd \
         -dpi 100 \
         -SecurityTypes=VeNCrypt,TLSVnc,VncAuth :1
