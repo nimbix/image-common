@@ -106,7 +106,7 @@ function setup_base_os() {
         PKGS+=" screen grep locales net-tools"
         PKGS+=" shellinabox openssh-client sshpass"
         if [ ! -e /usr/bin/python ]; then
-            PKGS+=" python"
+            PKGS+=" python python-pip"
         fi
 
         # unfortunately on Ubuntu we can't skip the apt-get update since
