@@ -72,7 +72,7 @@ export DEBIAN_FRONTEND=noninteractive
 apt-get -y update
 apt-get -y install librtmp0 || apt-get -y install librtmp1
 apt-get -y install wget gnome-icon-theme-full \
-    humanity-icon-theme libmagickwand-dev tango-icon-theme xfce4 xfce4-terminal \
+    humanity-icon-theme tango-icon-theme xfce4 xfce4-terminal \
     fonts-freefont-ttf xfonts-base xfonts-100dpi xfonts-75dpi x11-apps \
     xfonts-scalable xauth firefox ristretto mesa-utils init-system-helpers
 
@@ -86,14 +86,22 @@ else
     dpkg --install virtualgl*.deb || apt-get -f install
     rm -f virtualgl*.deb
 fi
-apt-get clean
 
-# pip is too old on trusty to drop cache
-UBUVER=$(lsb_release -sr)
-if [[ ${UBUVER} == 14.04 ]]; then
-    pip install Wand
-else
-    pip install --no-cache-dir Wand
+PY2=`python -V 2>&1 |grep "^Python 2" || true`
+if [ -n "$PY2" ]; then
+
+    # this clobbers py3 only, so do it only if we have py2
+    apt-get -y install libmagickwand-dev
+
+    # pip is too old on trusty to drop cache
+    UBUVER=$(lsb_release -sr)
+    if [[ ${UBUVER} == 14.04 ]]; then
+        pip install Wand
+    else
+        pip install --no-cache-dir Wand
+    fi
 fi
+
+apt-get clean
 
 . $dirname/postinstall-tiger.sh
