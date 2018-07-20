@@ -103,8 +103,11 @@ function setup_base_os() {
         PKGS+=" libmlx4-1 libmlx5-1 iptables infiniband-diags build-essential"
         PKGS+=" libibverbs-dev libibverbs1 librdmacm1 librdmacm-dev"
         PKGS+=" rdmacm-utils libibmad-dev libibmad5 byacc flex git cmake"
-        PKGS+=" screen grep locales net-tools python"
+        PKGS+=" screen grep locales net-tools"
         PKGS+=" shellinabox openssh-client sshpass"
+        if [ ! -e /usr/bin/python ]; then
+            PKGS+=" python"
+        fi
 
         # unfortunately on Ubuntu we can't skip the apt-get update since
         # most images have broken cache, so we have to do it anyway
