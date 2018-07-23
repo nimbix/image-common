@@ -5,7 +5,8 @@
 # update links
 #REALVNC_VER=6.2.1
 #REALVNC="https://www.realvnc.com/download/file/vnc.files/VNC-Server-$REALVNC_VER-Linux-x64.rpm"
-REALVNC="https://www.realvnc.com/download/file/vnc.files/VNC-5.3.2-Linux-x64-RPM.tar.gz"
+#REALVNC="https://www.realvnc.com/download/file/vnc.files/VNC-5.3.2-Linux-x64-RPM.tar.gz"
+REALVNC="https://www.realvnc.com/download/file/vnc.files/VNC-Server-6.3.1-Linux-x64.rpm"
 
 VGL64VER=2.5.2
 VGL64="https://downloads.sourceforge.net/project/virtualgl/$VGL64VER/VirtualGL-${VGL64VER}.x86_64.rpm"
