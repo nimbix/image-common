@@ -24,9 +24,8 @@ if [ ${VERSION_ID} -gt 6 ]; then
     yum -y install ristretto
 fi
 
-#curl $REALVNC >/tmp/$(basename $REALVNC)
+curl $REALVNC >/tmp/$(basename $REALVNC)
 #wget --content-disposition -O - "$REALVNC"|tar -C /tmp -xzf -
-wget --content-disposition -O - "$REALVNC"
 rm -f /usr/bin/Xvnc
 yum -y install /tmp/VNC-Server-*-Linux-x64.rpm || \
     yum -y update /tmp/VNC-Server-*-Linux-x64.rpm
