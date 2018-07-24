@@ -6,7 +6,7 @@
 #REALVNC_VER=6.2.1
 #REALVNC="https://www.realvnc.com/download/file/vnc.files/VNC-Server-$REALVNC_VER-Linux-x64.rpm"
 #REALVNC="https://www.realvnc.com/download/file/vnc.files/VNC-5.3.2-Linux-x64-RPM.tar.gz"
-REALVNC="https://www.realvnc.com/download/file/vnc.files/VNC-Server-6.3.1-Linux-x64-ANY.tar.gz"
+REALVNC="https://www.realvnc.com/download/file/vnc.files/VNC-Server-6.3.1-Linux-x64.rpm"
 
 VGL64VER=2.5.2
 VGL64="https://downloads.sourceforge.net/project/virtualgl/$VGL64VER/VirtualGL-${VGL64VER}.x86_64.rpm"
@@ -25,7 +25,8 @@ if [ ${VERSION_ID} -gt 6 ]; then
 fi
 
 #curl $REALVNC >/tmp/$(basename $REALVNC)
-wget --content-disposition -O - "$REALVNC"|tar -C /tmp -xzf -
+#wget --content-disposition -O - "$REALVNC"|tar -C /tmp -xzf -
+wget --content-disposition -O - "$REALVNC"
 rm -f /usr/bin/Xvnc
 yum -y install /tmp/VNC-Server-*-Linux-x64.rpm || \
     yum -y update /tmp/VNC-Server-*-Linux-x64.rpm
