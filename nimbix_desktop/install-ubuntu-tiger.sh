@@ -91,7 +91,7 @@ PY2=`python -V 2>&1 |grep "^Python 2" || true`
 if [ -n "$PY2" ]; then
 
     # this clobbers py3 only, so do it only if we have py2
-    apt-get -y install python-pip libmagickwand-dev
+    apt-get -y install python-pip libmagickwand-dev python-gtk2 python-gnome2
 
     # pip is too old on trusty to drop cache
     UBUVER=$(lsb_release -sr)
