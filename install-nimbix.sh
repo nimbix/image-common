@@ -61,9 +61,7 @@ function setup_base_os() {
     PKGS="curl zip unzip sudo"
     if [ -f /etc/redhat-release ]; then
         if [ ! -f /etc/fedora-release ]; then
-            VERSION_ID=$(cat /etc/system-release-cpe | awk -F: '{print $5}')
-            EPEL="https://dl.fedoraproject.org/pub/epel/epel-release-latest-${VERSION_ID}.noarch.rpm"
-            rpm -Uv $EPEL || /bin/true
+            PKGS+=" epel-release"
         fi
         PKGS+=" passwd xz tar file openssh-server infiniband-diags"
         PKGS+=" openmpi perftest libibverbs-utils libmthca libcxgb4 libmlx4"
