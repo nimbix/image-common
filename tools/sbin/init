@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-[ $$ -ne 1 ] && exec sudo -H -u nimbix "$@"
+[ $$ -ne 1 ] && exec sudo -H -u ${JARVICE_ID_USER} "$@"
 
 if [ "$1" = "/sbin/init" ]; then
 	echo ""
@@ -21,24 +21,26 @@ if [ -x "$NVINST" ]; then
 		--no-unified-memory
 fi
 
-if [ ! -d /home/nimbix/.ssh ]; then
+if [ ! -d /home/${JARVICE_ID_USER}/.ssh ]; then
 	echo ""
-	echo "Establishing SSH trust for user nimbix (to itself)..."
-	sudo -H -u nimbix ssh-keygen -q -N "" </dev/zero >/dev/null 2>&1
-	sudo -H -u nimbix cp /home/nimbix/.ssh/id_rsa.pub \
-		/home/nimbix/.ssh/authorized_keys
-	chmod 600 /home/nimbix/.ssh/authorized_keys
-	cat <<EOF >/home/nimbix/.ssh/config
+	echo "Establishing SSH trust for user ${JARVICE_ID_USER} (to itself)..."
+	sudo -H -u ${JARVICE_ID_USER} ssh-keygen -q -N "" </dev/zero \
+        >/dev/null 2>&1
+	sudo -H -u ${JARVICE_ID_USER} cp /home/${JARVICE_ID_USER}/.ssh/id_rsa.pub \
+		/home/${JARVICE_ID_USER}/.ssh/authorized_keys
+	chmod 600 /home/${JARVICE_ID_USER}/.ssh/authorized_keys
+	cat <<EOF >/home/${JARVICE_ID_USER}/.ssh/config
 Host *
 StrictHostKeyChecking no
 EOF
-	chown nimbix:nimbix /home/nimbix/.ssh/config
-	chmod 600 /home/nimbix/.ssh/config
+	chown ${JARVICE_ID_USER}:${JARVICE_ID_USER} \
+        /home/${JARVICE_ID_USER}/.ssh/config
+	chmod 600 /home/${JARVICE_ID_USER}/.ssh/config
 fi
 
 echo ""
-echo "Executing $* as nimbix ..."
-sudo -H -u nimbix "$@" &
+echo "Executing $* as ${JARVICE_ID_USER} ..."
+sudo -H -u ${JARVICE_ID_USER} "$@" &
 wait $!
 exit $?
 

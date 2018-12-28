@@ -139,10 +139,13 @@ function setup_base_os() {
 # Nimbix JARVICE emulation
 function setup_jarvice_emulation {
     cd /tmp
-    curl https://codeload.github.com/nimbix/image-common/zip/$BRANCH \
-        >/tmp/nimbix.zip
-    unzip nimbix.zip
-    rm -f nimbix.zip
+#    curl https://codeload.github.com/nimbix/image-common/zip/$BRANCH \
+#        >/tmp/nimbix.zip
+#    unzip nimbix.zip
+#    rm -f nimbix.zip
+    git clone /tmp/image-common /tmp/image-common-$BRANCH
+    cd /tmp/image-common-$BRANCH
+    git checkout $BRANCH
     /tmp/image-common-$BRANCH/setup-nimbix.sh
 
     mkdir -p /usr/lib/JARVICE
@@ -167,7 +170,7 @@ EOF
     cp -a /tmp/image-common-$BRANCH/etc/* /etc/JARVICE
     chmod 755 /etc/JARVICE
     mkdir -m 0755 -p /data
-    chown nimbix:nimbix /data
+    chown ${JARVICE_ID_USER}:${JARVICE_ID_USER} /data
 }
 
 function setup_nimbix_desktop() {
@@ -200,8 +203,8 @@ function setup_nimbix_desktop() {
     ln -sf /usr/local/lib/nimbix_desktop/ /usr/lib/JARVICE/tools/nimbix_desktop
 
     # recreate nimbix user home to get the right skeleton files
-    /bin/rm -rf /home/nimbix
-    /sbin/mkhomedir_helper nimbix
+    /bin/rm -rf /home/${JARVICE_ID_USER}
+    /sbin/mkhomedir_helper ${JARVICE_ID_USER}
 }
 
 function setup_post() {
