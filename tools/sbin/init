@@ -40,7 +40,7 @@ fi
 
 echo ""
 echo "Executing $* as ${JARVICE_ID_USER} ..."
-sudo -H -u ${JARVICE_ID_USER} "$@" &
+sudo -E -H -u ${JARVICE_ID_USER} "$@" &
 wait $!
 exit $?
 
