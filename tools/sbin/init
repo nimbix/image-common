@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-[ $$ -ne 1 ] && exec sudo -H -u ${JARVICE_ID_USER} "$@"
+[ $$ -ne 1 ] && exec sudo -E -H -u ${JARVICE_ID_USER} "$@"
 
 if [ "$1" = "/sbin/init" ]; then
 	echo ""
