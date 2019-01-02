@@ -143,7 +143,6 @@ function setup_jarvice_emulation {
         >/tmp/nimbix.zip
     unzip nimbix.zip
     rm -f nimbix.zip
-    /tmp/image-common-$BRANCH/setup-nimbix.sh
 
     mkdir -p /usr/lib/JARVICE
     cp -a /tmp/image-common-$BRANCH/tools /usr/lib/JARVICE
