@@ -146,7 +146,7 @@ function setup_jarvice_emulation {
     git clone /tmp/image-common /tmp/image-common-$BRANCH
     cd /tmp/image-common-$BRANCH
     git checkout $BRANCH
-    /tmp/image-common-$BRANCH/setup-nimbix.sh
+#    /tmp/image-common-$BRANCH/setup-nimbix.sh
 
     mkdir -p /usr/lib/JARVICE
     cp -a /tmp/image-common-$BRANCH/tools /usr/lib/JARVICE
@@ -170,7 +170,6 @@ EOF
     cp -a /tmp/image-common-$BRANCH/etc/* /etc/JARVICE
     chmod 755 /etc/JARVICE
     mkdir -m 0755 -p /data
-    chown ${JARVICE_ID_USER}:${JARVICE_ID_USER} /data
 }
 
 function setup_nimbix_desktop() {
@@ -181,7 +180,7 @@ function setup_nimbix_desktop() {
     else
         files="install-ubuntu-tiger.sh"
     fi
-    files+=" help-tiger.html postinstall-tiger.sh"
+    files+=" help-tiger.html postinstall-tiger.sh setup-nimbix.sh"
     files+=" nimbix_desktop url.txt xfce4-session-logout share skel.config"
     for i in $files; do
         cp -a /tmp/image-common-$BRANCH/nimbix_desktop/$i \

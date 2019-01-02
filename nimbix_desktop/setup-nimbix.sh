@@ -8,6 +8,7 @@ Defaults: root !requiretty
 ${JARVICE_ID_USER} ALL=(ALL) NOPASSWD: ALL
 EOF
 chmod 0440 /etc/sudoers.d/00-${JARVICE_ID_USER}
+chown ${JARVICE_ID_USER}:${JARVICE_ID_USER} /data
 [ -d /etc/init ] && echo "manual" >/etc/init/network-manager.override
 
 # for standalone use
