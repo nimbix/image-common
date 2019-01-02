@@ -139,14 +139,11 @@ function setup_base_os() {
 # Nimbix JARVICE emulation
 function setup_jarvice_emulation {
     cd /tmp
-#    curl https://codeload.github.com/nimbix/image-common/zip/$BRANCH \
-#        >/tmp/nimbix.zip
-#    unzip nimbix.zip
-#    rm -f nimbix.zip
-    git clone /tmp/image-common /tmp/image-common-$BRANCH
-    cd /tmp/image-common-$BRANCH
-    git checkout $BRANCH
-#    /tmp/image-common-$BRANCH/setup-nimbix.sh
+    curl https://codeload.github.com/nimbix/image-common/zip/$BRANCH \
+        >/tmp/nimbix.zip
+    unzip nimbix.zip
+    rm -f nimbix.zip
+    /tmp/image-common-$BRANCH/setup-nimbix.sh
 
     mkdir -p /usr/lib/JARVICE
     cp -a /tmp/image-common-$BRANCH/tools /usr/lib/JARVICE
