@@ -9,6 +9,9 @@ ${JARVICE_ID_USER} ALL=(ALL) NOPASSWD: ALL
 EOF
 chmod 0440 /etc/sudoers.d/00-${JARVICE_ID_USER}
 chown ${JARVICE_ID_USER}:${JARVICE_ID_USER} /data
+# recreate nimbix user home to get the right skeleton files
+/bin/rm -rf /home/${JARVICE_ID_USER}
+/sbin/mkhomedir_helper ${JARVICE_ID_USER}
 [ -d /etc/init ] && echo "manual" >/etc/init/network-manager.override
 
 # for standalone use

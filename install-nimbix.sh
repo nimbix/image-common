@@ -201,9 +201,6 @@ function setup_nimbix_desktop() {
     rm -f /usr/lib/JARVICE/tools/nimbix_desktop
     ln -sf /usr/local/lib/nimbix_desktop/ /usr/lib/JARVICE/tools/nimbix_desktop
 
-    # recreate nimbix user home to get the right skeleton files
-    /bin/rm -rf /home/${JARVICE_ID_USER}
-    /sbin/mkhomedir_helper ${JARVICE_ID_USER}
 }
 
 function setup_post() {

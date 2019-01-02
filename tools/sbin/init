@@ -1,5 +1,5 @@
 #!/bin/bash -e
-[ -d /home/${JARVICE_ID_USER} ] || /usr/lib/tools/nimbix_desktop/setup-nimbix.sh
+[ -d /home/${JARVICE_ID_USER} ] || /usr/lib/JARVICE/tools/nimbix_desktop/setup-nimbix.sh
 [ $$ -ne 1 ] && exec sudo -E -H -u ${JARVICE_ID_USER} "$@"
 
 if [ "$1" = "/sbin/init" ]; then
