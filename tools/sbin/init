@@ -33,7 +33,7 @@ if [ ! -d /home/${JARVICE_ID_USER}/.ssh ]; then
 Host *
 StrictHostKeyChecking no
 EOF
-	chown ${JARVICE_ID_USER}:${JARVICE_ID_USER} \
+	chown ${JARVICE_ID_USER}:${JARVICE_ID_GROUP} \
         /home/${JARVICE_ID_USER}/.ssh/config
 	chmod 600 /home/${JARVICE_ID_USER}/.ssh/config
 fi
