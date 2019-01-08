@@ -1,4 +1,6 @@
 #!/bin/bash -e
+# Set default JARVICE user
+JARVICE_ID_USER=${JARVICE_ID_USER:-nimbix}
 [ -d /home/${JARVICE_ID_USER} ] || /usr/lib/JARVICE/tools/nimbix_desktop/setup-nimbix.sh
 [ $$ -ne 1 ] && exec sudo -E -H -u ${JARVICE_ID_USER} "$@"
 
