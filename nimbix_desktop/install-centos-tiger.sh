@@ -11,10 +11,16 @@ TIGERSRC="https://github.com/TigerVNC/tigervnc/archive/v$VERSION.tar.gz"
 XORGVER=1.17.4
 XORGSRC="https://www.x.org/archive//individual/xserver/xorg-server-$XORGVER.tar.gz"
 
-VGL64VER=2.5.2
+#VGL64VER=2.5.2
+#VGL64="https://downloads.sourceforge.net/project/virtualgl/$VGL64VER/VirtualGL-${VGL64VER}.x86_64.rpm"
+#VGL32="https://downloads.sourceforge.net/project/virtualgl/$VGL64VER/VirtualGL-${VGL64VER}.i386.rpm"
+#VGL64SRC="https://downloads.sourceforge.net/project/virtualgl/$VGL64VER/VirtualGL-$VGL64VER.tar.gz"
+
+VGL64VER=2.6.1
 VGL64="https://downloads.sourceforge.net/project/virtualgl/$VGL64VER/VirtualGL-${VGL64VER}.x86_64.rpm"
 VGL32="https://downloads.sourceforge.net/project/virtualgl/$VGL64VER/VirtualGL-${VGL64VER}.i386.rpm"
 VGL64SRC="https://downloads.sourceforge.net/project/virtualgl/$VGL64VER/VirtualGL-$VGL64VER.tar.gz"
+
 dirname=$(dirname $0)
 
 # Get CentOS release version
@@ -72,8 +78,11 @@ function build_and_install_tiger() {
 
 yum -y groupinstall Xfce
 yum -y groupinstall Fonts
-yum -y install perl wget xauth pygtk2 gnome-icon-theme xorg-x11-fonts-Type1 xorg-x11-fonts-misc xorg-x11-fonts-75dpi xorg-x11-fonts-100dpi xkeyboard-config firefox net-tools glx-utils xorg-x11-utils
-yum -y install xorg-x11-fonts-ISO8859-1-100dpi xorg-x11-fonts-ISO8859-1-75dpi compat-libstdc++-33 python-pip ImageMagick-devel xorg-x11-apps
+yum -y install perl wget xauth pygtk2 gnome-icon-theme xorg-x11-fonts-Type1 \
+       xorg-x11-fonts-misc xorg-x11-fonts-75dpi xorg-x11-fonts-100dpi \
+       xkeyboard-config firefox net-tools glx-utils xorg-x11-utils \
+       xorg-x11-fonts-ISO8859-1-100dpi xorg-x11-fonts-ISO8859-1-75dpi \
+        dcompat-libstdc++-33 python-pip ImageMagick-devel xorg-x11-apps
 if [ $VERSION_ID -gt 6 ]; then
     yum -y install ristretto
 fi
