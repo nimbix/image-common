@@ -1,6 +1,6 @@
 #!/bin/bash -ex
 
-VERSION=1.7.1
+VERSION=1.9.0
 ARCH=$(arch)
 
 # update links as needed
@@ -10,7 +10,7 @@ TIGERSRC="https://github.com/TigerVNC/tigervnc/archive/v$VERSION.tar.gz"
 XORGVER=1.18.4
 XORGSRC="https://www.x.org/archive//individual/xserver/xorg-server-$XORGVER.tar.gz"
 
-VGL64VER=2.5
+VGL64VER=2.6.1
 VGL64="https://downloads.sourceforge.net/project/virtualgl/$VGL64VER/virtualgl_${VGL64VER}_amd64.deb"
 VGL64SRC="https://downloads.sourceforge.net/project/virtualgl/$VGL64VER/VirtualGL-$VGL64VER.tar.gz"
 dirname=$(dirname $0)
