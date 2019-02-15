@@ -84,7 +84,7 @@ export DEBIAN_FRONTEND=noninteractive
 apt-get -y update
 apt-get -y install librtmp0 || apt-get -y install librtmp1
 
-if grep -q trusty /etc/lsb-release; then
+if $(grep -q trusty /etc/lsb-release); then
     apt-get -y install wget gnome-icon-theme-full \
         humanity-icon-theme tango-icon-theme xfce4 xfce4-terminal \
         fonts-freefont-ttf xfonts-base xfonts-100dpi xfonts-75dpi x11-apps \
