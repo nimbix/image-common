@@ -17,4 +17,3 @@ fi
 [ ! -d /var/run/sshd ] && sudo mkdir -p /var/run/sshd
 #[ -x /usr/sbin/sshd ] && sudo /usr/sbin/sshd -D
 [ -x /usr/sbin/sshd ] && sudo /usr/sbin/sshd "$@"
-

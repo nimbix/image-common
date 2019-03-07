@@ -1,29 +1,35 @@
-<h1><a href="https://%PUBLICADDR%/vnc.html?host=%PUBLICADDR%&port=443&password=%NIMBIXPASSWD%" target="%JOBNAME%">Click Here to Connect</a></h1>
+<h1>
+    <a href="https://%PUBLICADDR%/vnc.html?host=%PUBLICADDR%&port=443&password=%NIMBIXPASSWD%"
+       target="%JOBNAME%">Click Here to Connect</a></h1>
 <p>
-Alternatively, you may connect securely with a Real VNC&reg; client:
+    Alternatively, you may connect securely with a Real VNC&reg; client:
 <ul>
-<tt>
-VNC Server:&nbsp;<b>%PUBLICADDR%:1</b><br>
-&nbsp;&nbsp;Password:&nbsp;<b>%NIMBIXPASSWD%</b><br>
-</tt>
+    <code>
+        VNC Server:&nbsp;<b>%PUBLICADDR%:1</b><br>
+        &nbsp;&nbsp;Password:&nbsp;<b>%NIMBIXPASSWD%</b><br>
+    </code>
 </ul>
-Please note that the password is case sensitive and should not contain any leading or trailing spaces when entered.  It is recommended that you copy and paste it from above directly into the VNC&reg; Viewer password prompt to ensure accuracy.
+Please note that the password is case sensitive and should not contain any leading or trailing spaces when entered.
+It is recommended that you copy and paste it from above directly into the VNC&reg; Viewer password prompt to ensure accuracy.
 </p>
 <p>
-<a href="http://www.realvnc.com/download/viewer/" target="_realvnc_download"><b>Click here to download Real VNC&reg; Viewer</b></a><br>
+    <a href="http://www.realvnc.com/download/viewer/"
+       target="_realvnc_download"><b>Click here to download Real VNC&reg;
+        Viewer</b></a><br>
 </p>
 <h2>Alternative Connection Methods</h2>
 <p>
-You may also connect via Secure Shell:
+    You may also connect via Secure Shell:
 <ul>
-<tt>
-&nbsp;Address:&nbsp;<b>nimbix@%PUBLICADDR%</b><br>
-Password:&nbsp;<b>%NIMBIXPASSWD%</b><br>
-</tt>
+    <code>
+        &nbsp;Address:&nbsp;<b>%NIMBIXUSER%@%PUBLICADDR%</b><br>
+        Password:&nbsp;<b>%NIMBIXPASSWD%</b><br>
+    </code>
 </ul>
 </p>
 <p>
-You may optionally install an SSH public key for password-less access by clicking on your username in the top right of the portal, then <i>Account Settings</i>, then
-<i>SSH Keys</i> to manage your SSH keys.
+    You may optionally install an SSH public key for password-less access by
+    clicking on your username in the top right of the portal, then <i>Account
+    Settings</i>, then
+    <i>SSH Keys</i> to manage your SSH keys.
 </p>
-
