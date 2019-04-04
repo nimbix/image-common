@@ -173,7 +173,7 @@ EOF
 function setup_nimbix_desktop() {
     mkdir -p /usr/local/lib/nimbix_desktop
     if [ -f /etc/redhat-release ]; then
-        files="install-centos-tiger.sh"
+        files="install-centos-tiger.sh install-centos-turbo.sh"
         files+=" install-centos-real.sh help-real.html postinstall-real.sh"
     else
         files="install-ubuntu-tiger.sh"
