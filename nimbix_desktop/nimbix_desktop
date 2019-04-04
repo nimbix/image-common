@@ -59,11 +59,14 @@ EOF
 fi
 
 # Fix a missing machine-id file for Dbus
-[[ -e /usr/bin/dbus-uuidgen ]] && sudo dbus-uuidgen --ensure
+#[[ -e /usr/bin/dbus-uuidgen ]] && sudo dbus-uuidgen --ensure
 
 tools=/usr/lib/JARVICE/tools
 [[ -f /etc/init.d/messagebus ]] && SVC=messagebus || SVC=dbus
 sudo service $SVC start
+
+# Fix a missing machine-id file for Dbus
+[[ -e /usr/bin/dbus-uuidgen ]] && sudo dbus-uuidgen --ensure
 
 while [ 1 ]; do
     $tools/sbin/init $tools/bin/vncstart.sh $xinitrc
