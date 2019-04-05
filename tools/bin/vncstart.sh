@@ -34,6 +34,8 @@ EOF
         -AllowHttp=0 -Encryption PreferOn -Authentication VncAuth \
         -DisableAddNewClient -EnableRemotePrinting=0 -dpi 100 \
         -SecurityTypes RA2:256+,RA2,RA2ne,VeNCrypt,TLSVnc,VncAuth $FP :1
+#elif [[ -x /opt/TurboVNC/bin/Xvnc ]]; then
+#    vncserver -geometry $VNC_GEOMETRY
 else
     vncserver -geometry $VNC_GEOMETRY \
         -render \

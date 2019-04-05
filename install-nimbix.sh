@@ -5,7 +5,7 @@ set -x
 
 BRANCH=master
 
-while [ $# -gt 0 ]; do
+while [[ $# -gt 0 ]]; do
     case $1 in
         --setup-nimbix-desktop)
             SETUP_NIMBIX_DESKTOP=1
@@ -13,6 +13,10 @@ while [ $# -gt 0 ]; do
             ;;
         --setup-realvnc)
             SETUP_REALVNC=1
+            shift
+            ;;
+         --setup-turbovnc)
+            SETUP_TURBOVNC=1
             shift
             ;;
         --disable-desktop-autostart)
@@ -172,21 +176,24 @@ EOF
 
 function setup_nimbix_desktop() {
     mkdir -p /usr/local/lib/nimbix_desktop
-    if [ -f /etc/redhat-release ]; then
+    if [[ -f /etc/redhat-release ]]; then
         files="install-centos-tiger.sh install-centos-turbo.sh"
         files+=" install-centos-real.sh help-real.html postinstall-real.sh"
     else
         files="install-ubuntu-tiger.sh"
     fi
     files+=" help-tiger.html postinstall-tiger.sh"
+    files+=" help-turbo.html postinstall-turbo.sh"
     files+=" nimbix_desktop url.txt xfce4-session-logout share skel.config"
     for i in $files; do
         cp -a /tmp/image-common-$BRANCH/nimbix_desktop/$i \
             /usr/local/lib/nimbix_desktop
     done
-    if [ -f /etc/redhat-release ]; then
-        if [ -n "$SETUP_REALVNC" ]; then
+    if [[ -f /etc/redhat-release ]]; then
+        if [[ -n "$SETUP_REALVNC" ]]; then
             /usr/local/lib/nimbix_desktop/install-centos-real.sh
+        elif [[ -n "$SETUP_TURBOVNC" ]]; then
+            /usr/local/lib/nimbix_desktop/install-centos-turbo.sh
         else
             /usr/local/lib/nimbix_desktop/install-centos-tiger.sh
         fi
