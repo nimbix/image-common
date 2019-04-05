@@ -15,7 +15,7 @@ while [[ $# -gt 0 ]]; do
             SETUP_REALVNC=1
             shift
             ;;
-         --setup-turbovnc)
+        --setup-turbovnc)
             SETUP_TURBOVNC=1
             shift
             ;;

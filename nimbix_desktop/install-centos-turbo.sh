@@ -20,6 +20,19 @@ dirname=$(dirname $0)
 # Get CentOS release version
 VERSION_ID=$(cat /etc/system-release-cpe | awk -F: '{print $5}')
 
+#Package curl-7.29.0-51.el7.x86_64 already installed and latest version
+#Package passwd-0.79-4.el7.x86_64 already installed and latest version
+#Package xz-5.2.2-1.el7.x86_64 already installed and latest version
+#Package 2:tar-1.26-35.el7.x86_64 already installed and latest version
+#No package dap.i686 available.
+#No package shellinabox available.
+#Package 4:perl-5.16.3-294.el7_6.x86_64 already installed and latest version
+#Package 1:xorg-x11-xauth-1.0.9-1.el7.x86_64 already installed and latest version
+#Package gnome-icon-theme-3.12.0-1.el7.noarch already installed and latest version
+#Package xkeyboard-config-2.24-1.el7.noarch already installed and latest version
+#Package glx-utils-8.3.0-10.el7.x86_64 already installed and latest version
+#Package xcb-util-0.4.0-2.el7.x86_64 already installed and latest version
+
 yum -y groupinstall Xfce
 yum -y groupinstall Fonts
 yum -y install perl wget xauth pygtk2 gnome-icon-theme xorg-x11-fonts-Type1 \
@@ -37,7 +50,7 @@ if [[ "$ARCH" != "x86_64" ]]; then
     yum -y install turbovnc-server VirtualGL
 else
     # Grab newer binary packages on x86_64
-    wget --content-disposition -O - "TURBOVNC" |tar -C / -xzf - --strip-components=1
+    wget --content-disposition -O - "$TURBOVNC" |tar -C / -xzf - --strip-components=1
     cd /tmp
     wget --content-disposition "$VGL64"
     wget --content-disposition "$VGL32"
