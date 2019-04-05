@@ -50,8 +50,10 @@ if [[ "$ARCH" != "x86_64" ]]; then
     yum -y install turbovnc-server VirtualGL
 else
     # Grab newer binary packages on x86_64
-    wget --content-disposition -O - "$TURBOVNC" |tar -C / -xzf - --strip-components=1
     cd /tmp
+    wget --content-disposition "$TURBOVNC"
+    yum -y install turbovnc*.rpm
+    rm -f turbovnc*.rpm
     wget --content-disposition "$VGL64"
     wget --content-disposition "$VGL32"
     yum -y install VirtualGL*.rpm || yum -y update VirtualGL*.rpm
