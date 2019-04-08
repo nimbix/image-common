@@ -4,9 +4,11 @@
 if [ ! -x /usr/bin/vglrun ]; then
     export VGL_DISPLAY=""
 fi
+
 cd
 rm -rf .vnc
 mkdir -p .vnc
+
 cat <<EOF >.vnc/xstartup
 #!/bin/sh
 if [ ! -z "$VGL_DISPLAY" ]; then
@@ -16,10 +18,14 @@ if [ ! -z "$VGL_DISPLAY" ]; then
 fi
 xsetroot -solid "#000050"
 EOF
+
 chmod +x .vnc/xstartup
+
 if [ -d /etc/X11/fontpath.d ]; then
     FP="-fp catalogue:/etc/X11/fontpath.d,built-ins"
 fi
+
+# Start the selected VNC server, whether Real, Tiger and Turbo
 if [ -x /usr/bin/Xvnc-realvnc ]; then
     mkdir -p ~/.vnc/config.d
     chmod 700 ~/.vnc/config.d
@@ -34,8 +40,14 @@ EOF
         -AllowHttp=0 -Encryption PreferOn -Authentication VncAuth \
         -DisableAddNewClient -EnableRemotePrinting=0 -dpi 100 \
         -SecurityTypes RA2:256+,RA2,RA2ne,VeNCrypt,TLSVnc,VncAuth $FP :1
-#elif [[ -x /opt/TurboVNC/bin/Xvnc ]]; then
-#    vncserver -geometry $VNC_GEOMETRY
+elif [[ -x /opt/TurboVNC/bin/Xvnc ]]; then
+    PATH=$PATH:/opt/TurboVNC/bin
+    vncserver -geometry $VNC_GEOMETRY \
+        -render \
+        -extension MIT-SHM \
+        -rfbauth /etc/JARVICE/vncpasswd \
+        -dpi 100 \
+        -SecurityTypes=VeNCrypt,TLSVnc,VncAuth :1
 else
     vncserver -geometry $VNC_GEOMETRY \
         -render \
@@ -44,20 +56,24 @@ else
         -dpi 100 \
         -SecurityTypes=VeNCrypt,TLSVnc,VncAuth :1
 fi
+
 export DISPLAY=:1
 export LANG=en_US.UTF-8 # XXX
 export TERM=xterm
 export VGL_READBACK=sync
+
 cd /usr/lib/JARVICE/tools/noVNC
 (sudo utils/launch.sh --cert /etc/JARVICE/cert.pem --listen 443 --vnc localhost:5901 >/tmp/novnc.log 2>&1 &)
+
 cd
 ln -sf /data .
 mkdir -p Desktop
 ln -sf /data Desktop
+
 sleep 2
+
 if [ -z "$VGL_DISPLAY" ]; then
     exec "$@"
 else
     exec vglrun -d $VGL_DISPLAY -c rgb "$@"
 fi
-
