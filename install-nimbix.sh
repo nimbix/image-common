@@ -97,7 +97,7 @@ function setup_base_os() {
         touch /etc/init.d/systemd-logind
 
         export DEBIAN_FRONTEND noninteractive
-        PKGS+=" module-init-tools xz-utils vim openssh-server libpam-systemd"
+        PKGS+=" kmod xz-utils vim openssh-server libpam-systemd"
         PKGS+=" libmlx4-1 libmlx5-1 iptables infiniband-diags build-essential"
         PKGS+=" libibverbs-dev libibverbs1 librdmacm1 librdmacm-dev"
         PKGS+=" rdmacm-utils libibmad-dev libibmad5 byacc flex git cmake"
