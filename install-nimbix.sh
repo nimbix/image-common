@@ -115,7 +115,8 @@ function setup_base_os() {
         apt-get -y install $PKGS
         apt-get clean
         locale-gen en_US.UTF-8
-        update-locale LC_ALL=en_US.UTF-8
+#        update-locale LC_ALL=en_US.UTF-8
+        localectl set-locale LC_ALL=en_US.UTF-8
 #
 #        apt-get update
 #apt-get install -y locales
