@@ -101,7 +101,7 @@ function setup_base_os() {
         PKGS+=" libmlx4-1 libmlx5-1 iptables infiniband-diags build-essential"
         PKGS+=" libibverbs-dev libibverbs1 librdmacm1 librdmacm-dev"
         PKGS+=" rdmacm-utils libibmad-dev libibmad5 byacc flex git cmake"
-        PKGS+=" screen grep locales net-tools"
+        PKGS+=" screen grep locales locales-all net-tools"
         PKGS+=" shellinabox openssh-client sshpass"
         if [ ! -e /usr/bin/python ]; then
             PKGS+=" python python-pip"
@@ -115,13 +115,7 @@ function setup_base_os() {
         apt-get -y install $PKGS
         apt-get clean
         locale-gen en_US.UTF-8
-#        update-locale LC_ALL=en_US.UTF-8
-        localectl set-locale LC_ALL=en_US.UTF-8
-#
-#        apt-get update
-#apt-get install -y locales
-#locale-gen "en_US.UTF-8"
-#update-locale LC_ALL="en_US.UTF-8"
+        update-locale LANG=en_US.UTF-8
 
         [ -f /etc/init/ssh.conf ] && \
             sed -ie 's/start on.*/start on filesystem/' /etc/init/ssh.conf
