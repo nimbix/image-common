@@ -1,0 +1,65 @@
+#!/usr/bin/python
+#
+# NIMBIX CONFIDENTIAL
+# -------------------
+#
+# Copyright (c) 2016 Nimbix, Inc.  All Rights Reserved.
+#
+# NOTICE:  All information contained herein is, and remains the property of
+# Nimbix, Inc. and its suppliers, if any.  The intellectual and technical
+# concepts contained herein are proprietary to Nimbix, Inc.  and its suppliers
+# and may be covered by U.S. and Foreign Patents, patents in process, and are
+# protected by trade secret or copyright law.  Dissemination of this
+# information or reproduction of this material is strictly forbidden unless
+# prior written permission is obtained from Nimbix, Inc.
+#
+
+import sys
+import socket
+import time
+
+
+# attempts to connect to a specific server:port for a specific period of time
+def port_wait(addr, port, timeout):
+    timeout = time.time() + float(timeout)
+    while time.time() < timeout:
+        s = socket.socket()
+        try:
+            s.connect((addr, port))
+            return True
+        except:
+            time.sleep(1)
+            pass
+
+    return False
+
+
+if __name__ == '__main__':
+    try:
+        ipaddr = sys.argv[1]
+        hostname = sys.argv[2]
+        port = int(sys.argv[3])
+        timeout = int(sys.argv[4])
+        assert(port > 0 and timeout > 0)
+    except:
+        print >> sys.stderr, \
+            ('usage: %s <ip-address> <hostname> <port> <timeout-secs>' %
+             sys.argv[0])
+        sys.exit(1)
+
+    # does server name override port?
+    parts = hostname.split('@')
+    if len(parts) > 1:
+        port = int(parts[0]) if parts[0] else port
+        hostname = parts[-1]
+
+    # test port
+    if not port_wait(ipaddr, port, timeout):
+        print >> sys.stderr, ('Timed out attempting to connect to %s:%d' %
+                              (ipaddr, port))
+        sys.exit(1)
+
+    # update /etc/hosts file
+    with open('/etc/hosts', 'a') as f:
+        f.write('%s %s\n' % (ipaddr, hostname))
+    sys.exit(0)
