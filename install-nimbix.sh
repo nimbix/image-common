@@ -66,7 +66,7 @@ function setup_base_os() {
         PKGS+=" passwd xz tar file openssh-server infiniband-diags"
         PKGS+=" openmpi perftest libibverbs-utils libmthca libcxgb4 libmlx4"
         PKGS+=" libmlx5 dapl compat-dapl dap.i686 compat-dapl.i686 which"
-        PKGS+=" shellinabox openssh-clients sshpass"
+        PKGS+=" openssh-clients sshpass"
         [ -z "$SKIP_OS_PKG_UPDATE" ] && yum -y update
         yum -y install $PKGS
         yum clean all
@@ -102,7 +102,7 @@ function setup_base_os() {
         PKGS+=" libibverbs-dev libibverbs1 librdmacm1 librdmacm-dev"
         PKGS+=" rdmacm-utils libibmad-dev libibmad5 byacc flex git cmake"
         PKGS+=" screen grep locales locales-all net-tools"
-        PKGS+=" shellinabox openssh-client sshpass"
+        PKGS+=" openssh-client sshpass"
         if [ ! -e /usr/bin/python ]; then
             PKGS+=" python python-pip"
         fi
@@ -207,27 +207,7 @@ function setup_nimbix_desktop() {
 function setup_post() {
     toolsdir=/usr/lib/JARVICE/tools
     [ -d /usr/local/JARVICE/tools ] && toolsdir=/usr/local/JARVICE/tools
-
-    SHELLINABOX_CERT_CONF="$(cat <<'EOF'
-[ -f /etc/profile.d/jarvice-tools.sh ] && . /etc/profile.d/jarvice-tools.sh && $JARVICE_TOOLS/shellinabox/certificate.sh
-EOF
-)"
-    SHELLINABOX_OPTS="--disable-ssl-menu -s '/:root:root:HOME:$toolsdir/shellinabox/cmd.sh \\\"\\\${url}\\\"'"
-    if [ -f /etc/redhat-release ]; then
-        echo "$SHELLINABOX_CERT_CONF" >>/etc/sysconfig/shellinaboxd
-        echo "OPTS=\"$SHELLINABOX_OPTS\"" >>/etc/sysconfig/shellinaboxd
-        service_file=/usr/lib/systemd/system/shellinaboxd.service
-        (type -p systemctl && systemctl enable shellinaboxd) || \
-        (type -p chkconfig && chkconfig --add shellinaboxd) || \
-        /bin/true
-    else # Ubuntu
-        echo "$SHELLINABOX_CERT_CONF" >>/etc/default/shellinabox
-        echo "SHELLINABOX_ARGS=\"$SHELLINABOX_OPTS\"" >>/etc/default/shellinabox
-        service_file=/usr/lib/systemd/system/shellinabox.service
-    fi
-    if [ -f "$service_file" ]; then
-        sed -i -e "s|^ExecStart=|ExecStartPre=-$toolsdir/shellinabox/certificate.sh\nExecStart=|" $service_file
-    fi
+    /bin/true
 }
 
 function cleanup() {
@@ -242,7 +222,7 @@ function cleanup() {
 setup_base_os
 setup_jarvice_emulation
 [ -n "$SETUP_NIMBIX_DESKTOP" ] && setup_nimbix_desktop
-setup_post
+#setup_post
 cleanup
 
 exit 0
