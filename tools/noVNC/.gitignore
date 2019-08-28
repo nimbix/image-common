@@ -2,4 +2,11 @@
 *.o
 tests/data_*.js
 utils/rebind.so
-node_modules
+utils/websockify
+/node_modules
+/build
+/lib
+recordings
+*.swp
+*~
+noVNC-*.tgz
