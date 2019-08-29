@@ -18,7 +18,7 @@ mkdir -p /etc/NAE
 cp $dirname/help-tiger.html /etc/NAE/help.html
 if [ -z "$DISABLE_DESKTOP_AUTOSTART" ]; then
     if [ ! -e /etc/NAE/url.txt ]; then
-        echo 'https://%PUBLICADDR%/vnc.html?password=%NIMBIXPASSWD%' >/etc/NAE/url.txt
+        echo 'https://%PUBLICADDR%/vnc.html?password=%NIMBIXPASSWD%&autoconnect=true&reconnect=true' >/etc/NAE/url.txt
     fi
 fi
 

@@ -1,1 +1,1 @@
-https://%PUBLICADDR%/vnc.html?password=%NIMBIXPASSWD%
+https://%PUBLICADDR%/vnc.html?password=%NIMBIXPASSWD%&autoconnect=true&reconnect=true
