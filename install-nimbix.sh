@@ -155,13 +155,17 @@ JARVICE_TOOLS_BIN="$JARVICE_TOOLS/bin"
 PATH="$PATH:$JARVICE_TOOLS_BIN"
 export JARVICE_TOOLS JARVICE_TOOLS_BIN PATH
 EOF
+    # Nimbix mages
     ln -sf /usr/lib/JARVICE/tools/noVNC/images/favicon.png \
         /usr/lib/JARVICE/tools/noVNC/favicon.png
     ln -sf /usr/lib/JARVICE/tools/noVNC/images/favicon.png \
         /usr/lib/JARVICE/tools/noVNC/favicon.ico
-    cd /usr/lib/JARVICE/tools/noVNC/utils
-    ln -sf websockify /usr/lib/JARVICE/tools/noVNC/utils/websockify.py
-    ln -sf websockify /usr/lib/JARVICE/tools/noVNC/utils/wsproxy.py
+
+    # customize setup for websocksify
+#    cd /usr/lib/JARVICE/tools/noVNC/utils
+#    ln -sf websockify /usr/lib/JARVICE/tools/noVNC/utils/websockify.py
+#    ln -sf websockify /usr/lib/JARVICE/tools/noVNC/utils/wsproxy.py
+
     cd /tmp
     mkdir -p /etc/JARVICE
     cp -a /tmp/image-common-$BRANCH/etc/* /etc/JARVICE
