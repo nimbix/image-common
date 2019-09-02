@@ -155,10 +155,10 @@ JARVICE_TOOLS_BIN="$JARVICE_TOOLS/bin"
 PATH="$PATH:$JARVICE_TOOLS_BIN"
 export JARVICE_TOOLS JARVICE_TOOLS_BIN PATH
 EOF
-    # Nimbix mages
-    ln -sf /usr/lib/JARVICE/tools/noVNC/images/favicon.png \
+    # Nimbix images
+    ln -sf /usr/lib/JARVICE/tools/noVNC/app/images/favicon.png \
         /usr/lib/JARVICE/tools/noVNC/favicon.png
-    ln -sf /usr/lib/JARVICE/tools/noVNC/images/favicon.png \
+    ln -sf /usr/lib/JARVICE/tools/noVNC/app/images/favicon.png \
         /usr/lib/JARVICE/tools/noVNC/favicon.ico
 
     # customize setup for websocksify
