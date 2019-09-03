@@ -122,7 +122,7 @@ function setup_base_os() {
     fi
 
     echo "set -a" >/etc/profile.d/00-container-environment.sh
-    for i in `env|cut -d '=' -f 1`; do
+    for i in $(env|cut -d '=' -f 1); do
         case $i in
             HOSTNAME|_|DEBIAN_FRONTEND|SHLVL|SKIP_OS_PKG_UPDATE|HOME|PWD|USER|LOGNAME|TERM|OLDPWD|SHELL)
                 ;;
@@ -156,10 +156,10 @@ PATH="$PATH:$JARVICE_TOOLS_BIN"
 export JARVICE_TOOLS JARVICE_TOOLS_BIN PATH
 EOF
     # Nimbix images
-    ln -sf /usr/lib/JARVICE/tools/noVNC/app/images/favicon.png \
-        /usr/lib/JARVICE/tools/noVNC/favicon.png
-    ln -sf /usr/lib/JARVICE/tools/noVNC/app/images/favicon.png \
-        /usr/lib/JARVICE/tools/noVNC/favicon.ico
+#    ln -sf /usr/lib/JARVICE/tools/noVNC/app/images/favicon.png \
+#        /usr/lib/JARVICE/tools/noVNC/favicon.png
+#    ln -sf /usr/lib/JARVICE/tools/noVNC/app/images/favicon.png \
+#        /usr/lib/JARVICE/tools/noVNC/favicon.ico
 
     # customize setup for websocksify
 #    cd /usr/lib/JARVICE/tools/noVNC/utils
@@ -208,11 +208,11 @@ function setup_nimbix_desktop() {
     /sbin/mkhomedir_helper nimbix
 }
 
-function setup_post() {
-    toolsdir=/usr/lib/JARVICE/tools
-    [ -d /usr/local/JARVICE/tools ] && toolsdir=/usr/local/JARVICE/tools
-    /bin/true
-}
+#function setup_post() {
+#    toolsdir=/usr/lib/JARVICE/tools
+#    [ -d /usr/local/JARVICE/tools ] && toolsdir=/usr/local/JARVICE/tools
+#    /bin/true
+#}
 
 function cleanup() {
     if [ -f /etc/redhat-release ]; then
