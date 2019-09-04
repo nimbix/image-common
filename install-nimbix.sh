@@ -196,6 +196,9 @@ function setup_nimbix_desktop() {
     # recreate nimbix user home to get the right skeleton files
     /bin/rm -rf /home/nimbix
     /sbin/mkhomedir_helper nimbix
+
+    # Add a marker file for using a local, updated noVNC install
+    echo /usr/local/JARVICE/tools/noVNC | sudo tee /etc/.novnc-stable
 }
 
 #function setup_post() {
