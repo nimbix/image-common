@@ -54,9 +54,11 @@ export TERM=xterm
 export VGL_READBACK=sync
 
 # Start noVNC daemon
-cd /usr/lib/JARVICE/tools/noVNC
+NOVNC_PATH=/usr/local/JARVICE/tools/noVNC
+pushd "$NOVNC_PATH"
 (sudo utils/launch.sh --cert /etc/JARVICE/cert.pem --listen 443 --vnc localhost:5901 >/tmp/novnc.log 2>&1 &)
-cd
+echo "$NOVNC_PATH" | sudo tee /etc/.novnc-stable
+popd
 
 # Create links to the vault mounted at /data
 ln -sf /data .

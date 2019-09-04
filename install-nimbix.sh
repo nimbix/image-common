@@ -155,16 +155,6 @@ JARVICE_TOOLS_BIN="$JARVICE_TOOLS/bin"
 PATH="$PATH:$JARVICE_TOOLS_BIN"
 export JARVICE_TOOLS JARVICE_TOOLS_BIN PATH
 EOF
-    # Nimbix images
-#    ln -sf /usr/lib/JARVICE/tools/noVNC/app/images/favicon.png \
-#        /usr/lib/JARVICE/tools/noVNC/favicon.png
-#    ln -sf /usr/lib/JARVICE/tools/noVNC/app/images/favicon.png \
-#        /usr/lib/JARVICE/tools/noVNC/favicon.ico
-
-    # customize setup for websocksify
-#    cd /usr/lib/JARVICE/tools/noVNC/utils
-#    ln -sf websockify /usr/lib/JARVICE/tools/noVNC/utils/websockify.py
-#    ln -sf websockify /usr/lib/JARVICE/tools/noVNC/utils/wsproxy.py
 
     cd /tmp
     mkdir -p /etc/JARVICE
