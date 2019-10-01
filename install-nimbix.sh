@@ -58,7 +58,22 @@ EOF
 
 # Base OS
 function setup_base_os() {
-    if [ -f /etc/redhat-release ]; then
+    #CentOS 8 specific
+    if [[ -f /etc/redhat-release && $VERSION_ID == 8 ]]; then
+        PKGS="zip unzip infiniband-diags"
+        PKGS+=" openmpi perftest libibverbs-utils libcxgb4 libmlx4 libmlx5"
+#        PKGS+=" libmthca dapl compat-dapl dap.i686 compat-dapl.i686"
+        PKGS+=" sshpass mailcap"
+        [ -z "$SKIP_OS_PKG_UPDATE" ] && yum -y update
+        yum -y install "$PKGS"
+        yum clean all
+
+        # Set locale
+        localedef -i en_US -f UTF-8 en_US.UTF-8
+
+        rm -f /etc/sysconfig/network-scripts/ifcfg-eth0
+        echo '# leave empty' >/etc/fstab
+    elif [ -f /etc/redhat-release ]; then
         PKGS="curl zip unzip sudo"
         if [ ! -f /etc/fedora-release ]; then
             PKGS+=" epel-release"
@@ -84,25 +99,6 @@ function setup_base_os() {
             chkconfig udev-post off
             echo "$ETC_HOSTS" >/etc/hosts
         fi
-    #CentOS 8 specific
-    elif [[ -f /etc/redhat-release && $VERSION_ID -eq 8 ]]; then
-        PKGS="zip unzip infiniband-diags"
-        PKGS+=" openmpi perftest libibverbs-utils libcxgb4 libmlx4 libmlx5"
-#        PKGS+=" libmthca dapl compat-dapl dap.i686 compat-dapl.i686"
-        PKGS+=" sshpass mailcap"
-        [ -z "$SKIP_OS_PKG_UPDATE" ] && yum -y update
-        yum -y install "$PKGS"
-        yum clean all
-
-        # Set locale
-        localedef -i en_US -f UTF-8 en_US.UTF-8
-
-        rm -f /etc/sysconfig/network-scripts/ifcfg-eth0
-        echo '/dev/root / rootfs defaults 0 0' >/etc/fstab
-        sed -i 's|.sbin.start_udev||' /etc/rc.sysinit
-        sed -i 's|.sbin.start_udev||' /etc/rc.d/rc.sysinit
-        chkconfig udev-post off
-        echo "$ETC_HOSTS" >/etc/hosts
     else # Ubuntu (assumed)
 
         # upstart fixes
