@@ -65,7 +65,7 @@ function setup_base_os() {
 #        PKGS+=" libmthca dapl compat-dapl dap.i686 compat-dapl.i686"
 #        PKGS+=" sshpass mailcap"
         [ -z "$SKIP_OS_PKG_UPDATE" ] && dnf -y update
-        dnf -y install "$PKGS"
+        dnf -y install $PKGS
         dnf clean all
 
         # Set locale
