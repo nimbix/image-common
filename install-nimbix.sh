@@ -60,18 +60,17 @@ EOF
 function setup_base_os() {
     #CentOS 8 specific
     if [[ -f /etc/redhat-release && $VERSION_ID == 8 ]]; then
-        PKGS="zip unzip infiniband-diags"
+        PKGS="zip unzip infiniband-diags mailcap"
         PKGS+=" openmpi perftest libibverbs-utils libcxgb4 libmlx4 libmlx5"
 #        PKGS+=" libmthca dapl compat-dapl dap.i686 compat-dapl.i686"
-        PKGS+=" sshpass mailcap"
-        [ -z "$SKIP_OS_PKG_UPDATE" ] && yum -y update
-        yum -y install "$PKGS"
-        yum clean all
+#        PKGS+=" sshpass mailcap"
+        [ -z "$SKIP_OS_PKG_UPDATE" ] && dnf -y update
+        dnf -y install "$PKGS"
+        dnf clean all
 
         # Set locale
         localedef -i en_US -f UTF-8 en_US.UTF-8
 
-        rm -f /etc/sysconfig/network-scripts/ifcfg-eth0
         echo '# leave empty' >/etc/fstab
     elif [ -f /etc/redhat-release ]; then
         PKGS="curl zip unzip sudo"
