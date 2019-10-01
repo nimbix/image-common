@@ -54,12 +54,12 @@ EOF
 )"
 
 [ -e /etc/system-release-cpe ] && \
-    VERSION_ID=$(cat /etc/system-release-cpe | awk -F: '{print $5}')
+    VERSION_ID=$(awk -F: '{print $5}' /etc/system-release-cpe)
 
 # Base OS
 function setup_base_os() {
-    PKGS="curl zip unzip sudo"
     if [ -f /etc/redhat-release ]; then
+        PKGS="curl zip unzip sudo"
         if [ ! -f /etc/fedora-release ]; then
             PKGS+=" epel-release"
         fi
@@ -84,7 +84,27 @@ function setup_base_os() {
             chkconfig udev-post off
             echo "$ETC_HOSTS" >/etc/hosts
         fi
+    #CentOS 8 specific
+    elif [[ -f /etc/redhat-release && $VERSION_ID -eq 8 ]]; then
+        PKGS="zip unzip infiniband-diags"
+        PKGS+=" openmpi perftest libibverbs-utils libcxgb4 libmlx4 libmlx5"
+#        PKGS+=" libmthca dapl compat-dapl dap.i686 compat-dapl.i686"
+        PKGS+=" sshpass mailcap"
+        [ -z "$SKIP_OS_PKG_UPDATE" ] && yum -y update
+        yum -y install "$PKGS"
+        yum clean all
+
+        # Set locale
+        localedef -i en_US -f UTF-8 en_US.UTF-8
+
+        rm -f /etc/sysconfig/network-scripts/ifcfg-eth0
+        echo '/dev/root / rootfs defaults 0 0' >/etc/fstab
+        sed -i 's|.sbin.start_udev||' /etc/rc.sysinit
+        sed -i 's|.sbin.start_udev||' /etc/rc.d/rc.sysinit
+        chkconfig udev-post off
+        echo "$ETC_HOSTS" >/etc/hosts
     else # Ubuntu (assumed)
+
         # upstart fixes
         # init-fake.conf from https://raw.githubusercontent.com/tianon/dockerfiles/master/sbin-init/ubuntu/upstart/14.04/init-fake.conf
         [ -d /etc/init ] && \
@@ -97,6 +117,7 @@ function setup_base_os() {
         touch /etc/init.d/systemd-logind
 
         export DEBIAN_FRONTEND noninteractive
+        PKGS="curl zip unzip sudo"
         PKGS+=" kmod xz-utils vim openssh-server libpam-systemd"
         PKGS+=" libmlx4-1 libmlx5-1 iptables infiniband-diags build-essential"
         PKGS+=" libibverbs-dev libibverbs1 librdmacm1 librdmacm-dev"
