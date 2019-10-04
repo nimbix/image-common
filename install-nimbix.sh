@@ -69,7 +69,7 @@ function setup_base_os() {
         dnf clean all
 
         # Set locale
-        localedef -i en_US -f UTF-8 en_US.UTF-8
+#        localedef -i en_US -f UTF-8 en_US.UTF-8
 
         echo '# leave empty' >/etc/fstab
     elif [ -f /etc/redhat-release ]; then
