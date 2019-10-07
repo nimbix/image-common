@@ -60,7 +60,7 @@ EOF
 function setup_base_os() {
     #CentOS 8 specific
     if [[ -f /etc/redhat-release && $VERSION_ID == 8 ]]; then
-        PKGS="zip unzip infiniband-diags mailcap"
+        PKGS="epel-release zip unzip infiniband-diags mailcap glibc-langpack-en"
         PKGS+=" openmpi perftest libibverbs-utils libcxgb4 libmlx4 libmlx5"
 #        PKGS+=" libmthca dapl compat-dapl dap.i686 compat-dapl.i686"
 #        PKGS+=" sshpass mailcap"
