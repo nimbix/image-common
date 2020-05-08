@@ -63,10 +63,13 @@ function setup_base_os() {
         PKGS="epel-release zip unzip infiniband-diags mailcap glibc-langpack-en"
         PKGS+=" openmpi perftest libibverbs-utils libcxgb4 libmlx4 libmlx5"
 #        PKGS+=" libmthca dapl compat-dapl dap.i686 compat-dapl.i686"
-#        PKGS+=" sshpass mailcap"
+        PKGS+=" python2"
         [ -z "$SKIP_OS_PKG_UPDATE" ] && dnf -y update
-        dnf -y install $PKGS
+        dnf -y install "$PKGS"
         dnf clean all
+
+        # Py 2 and 3 don't set a default, fix to py2 for scripts
+        alternatives --set python /usr/bin/python2
 
         # Set locale
 #        localedef -i en_US -f UTF-8 en_US.UTF-8
