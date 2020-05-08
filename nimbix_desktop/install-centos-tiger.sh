@@ -23,7 +23,7 @@ VERSION_ID=$(cat /etc/system-release-cpe | awk -F: '{print $5}')
 
 if [ $VERSION_ID -gt 7 ]; then
     dnf --enablerepo=epel group -y install "Xfce" "base-x" "Fonts"
-    dnf -y install perl wget pygtk2 firefox net-tools \
+    dnf -y install perl wget pygtk2 firefox net-tools ImageMagick \
            xorg-x11-fonts-Type1 \
            xorg-x11-fonts-misc xorg-x11-fonts-75dpi xorg-x11-fonts-100dpi \
            xorg-x11-fonts-ISO8859-1-100dpi xorg-x11-fonts-ISO8859-1-75dpi
