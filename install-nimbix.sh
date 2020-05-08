@@ -67,7 +67,7 @@ function setup_base_os() {
         [ -z "$SKIP_OS_PKG_UPDATE" ] && dnf -y update
         dnf -y install epel-release zip unzip infiniband-diags mailcap \
                glibc-langpack-en openmpi perftest libibverbs-utils libcxgb4 \
-               libmlx4 libmlx5 python2
+               libmlx4 libmlx5 python2 sudo
         dnf clean all
 
         # Py 2 and 3 don't set a default, fix to py2 for scripts
