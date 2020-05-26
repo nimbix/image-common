@@ -46,13 +46,13 @@ else
 fi
 
 function build_and_install_tiger() {
-    yum -y install git cmake make gcc-c++ \
+    dnf --enablerepo=PowerTools -y install git cmake make gcc-c++ \
         libX11-devel zlib-devel turbojpeg-devel libjpeg-turbo-devel \
         gnutls-devel gettext fltk-devel libXrender-devel autoconf automake \
         libtool pkgconfig bison flex gperf m4 ncurses-devel intltool \
         llvm libtalloc-devel mesa-libgbm-devel mtdev-devel libgcrypt-devel \
         openssl-devel fontconfig libpng-devel freetype-devel imake \
-        libXfont-devel xorg-x11-server-devel pixman-devel xorg-x11-font-utils \
+        libXfont2-devel xorg-x11-server-devel pixman-devel xorg-x11-font-utils \
         xorg-x11-proto-devel xorg-x11-xtrans-devel libxkbfile-devel
 
     wget --content-disposition -O - "$TIGERSRC" |tar -C /tmp -xzf -
