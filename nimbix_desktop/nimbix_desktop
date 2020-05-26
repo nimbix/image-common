@@ -61,6 +61,9 @@ fi
 # Fix a missing machine-id file for Dbus
 [[ -e /usr/bin/dbus-uuidgen ]] && sudo dbus-uuidgen | sudo tee /etc/machine-id
 
+[ -e /etc/system-release-cpe ] && \
+    VERSION_ID=$(awk -F: '{print $5}' /etc/system-release-cpe)
+
 tools=/usr/lib/JARVICE/tools
 if [[ -f /etc/redhat-release && $VERSION_ID == 8 ]]; then
   sudo /usr/bin/dbus-daemon
