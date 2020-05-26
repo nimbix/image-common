@@ -62,10 +62,14 @@ fi
 [[ -e /usr/bin/dbus-uuidgen ]] && sudo dbus-uuidgen | sudo tee /etc/machine-id
 
 tools=/usr/lib/JARVICE/tools
-[[ -f /etc/init.d/messagebus ]] && SVC=messagebus || SVC=dbus
-sudo service $SVC start
+if [[ -f /etc/redhat-release && $VERSION_ID == 8 ]]; then
+  sudo /usr/bin/dbus-daemon
+else
+  [[ -f /etc/init.d/messagebus ]] && SVC=messagebus || SVC=dbus
+  sudo service $SVC start
+fi
 
-while [ 1 ]; do
+while true; do
     $tools/sbin/init $tools/bin/vncstart.sh $xinitrc
     ret=$?
     if [ -n "$app_mode" ]; then
@@ -78,4 +82,3 @@ while [ 1 ]; do
     $tools/sbin/init vncserver -kill :1
     sleep 1
 done
-
