@@ -1,6 +1,7 @@
 #!/bin/bash -ex
 
-VERSION=1.10.1
+#VERSION=1.10.1
+VERSION=master
 ARCH=$(arch)
 
 # update links as needed
