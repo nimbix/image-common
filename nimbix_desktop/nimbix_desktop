@@ -66,6 +66,7 @@ fi
 
 tools=/usr/lib/JARVICE/tools
 if [[ -f /etc/redhat-release && $VERSION_ID == 8 ]]; then
+#  sudo /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
   sudo /usr/bin/dbus-daemon --system
 else
   [[ -f /etc/init.d/messagebus ]] && SVC=messagebus || SVC=dbus

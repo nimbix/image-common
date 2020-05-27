@@ -11,8 +11,8 @@ TIGERSRC="https://github.com/TigerVNC/tigervnc/archive/master.tar.gz"
 
 
 #XORGVER=1.18.4
-#XORGVER=1.17.4
-#XORGSRC="https://www.x.org/archive//individual/xserver/xorg-server-$XORGVER.tar.gz"
+XORGVER=1.17.4
+XORGSRC="https://www.x.org/archive//individual/xserver/xorg-server-$XORGVER.tar.gz"
 
 # Adding a safe download backup since SourceForge goes offline frequently
 VGL64VER=2.6.3
@@ -52,7 +52,7 @@ function build_and_install_tiger() {
         gnutls-devel gettext fltk-devel libXrender-devel autoconf automake \
         libtool pkgconfig bison flex gperf m4 ncurses-devel intltool \
         llvm libtalloc-devel mesa-libgbm-devel mtdev-devel libgcrypt-devel \
-        openssl-devel fontconfig libpng-devel freetype-devel imake \
+        pam-devel openssl-devel fontconfig libpng-devel freetype-devel imake \
         libXfont2-devel xorg-x11-server-devel pixman-devel xorg-x11-font-utils \
         xorg-x11-proto-devel xorg-x11-xtrans-devel libxkbfile-devel
 
@@ -84,6 +84,47 @@ function build_and_install_tiger() {
         --with-xkb-bin-directory=/usr/bin \
         --with-serverconfig-path=/usr/lib/xorg
     make TIGERVNC_SRCDIR=$TIGERVNC_SOURCE install
+
+
+# TigerVNC build instrux
+#      > cd {build_directory}
+#
+#    If performing an out-of-tree build:
+#  > mkdir unix
+#  > cp -R {source_directory}/unix/xserver unix/
+#
+#  > cp -R {xorg_source}/* unix/xserver/
+#    (NOTE: {xorg_source} is the directory containing the Xorg source for the
+#    machine on which you are building TigerVNC.  The most recent versions of
+#    Red Hat/CentOS/Fedora, for instance, provide an RPM called
+#    "xorg-x11-server-source", which installs the Xorg source under
+#    /usr/share/xorg-x11-server-source.)
+#
+#  > cd unix/xserver/
+#  > patch -p1 < {source_directory}/unix/xserver{version}.patch
+#    (where {version} matches the X server version you are building, such as
+#    "120" for version 1.20.x.)
+#  > autoreconf -fiv
+#
+#  > ./configure --with-pic --without-dtrace --disable-static --disable-dri \
+#      --disable-xinerama --disable-xvfb --disable-xnest --disable-xorg \
+#      --disable-dmx --disable-xwin --disable-xephyr --disable-kdrive \
+#      --disable-config-dbus --disable-config-hal --disable-config-udev \
+#      --disable-dri2 --enable-install-libxf86config --enable-glx \
+#      --with-default-font-path="catalogue:/etc/X11/fontpath.d,built-ins" \
+#      --with-fontdir=/usr/share/X11/fonts \
+#      --with-xkb-path=/usr/share/X11/xkb \
+#      --with-xkb-output=/var/lib/xkb \
+#      --with-xkb-bin-directory=/usr/bin \
+#      --with-serverconfig-path=/usr/lib[64]/xorg \
+#      --with-dri-driver-path=/usr/lib[64]/dri \
+#      {additional configure options}
+#    (NOTE: This is merely an example that works with Red Hat Enterprise/CentOS
+#    6 and recent Fedora releases.  You should customize it for your particular
+#    system.  In particular, it will be necessary to customize the font, XKB,
+#    and DRI directories.)
+#
+#  > make TIGERVNC_SRCDIR={source_directory}
 
     #wget --content-disposition -O - "$VGL64SRC" |tar -C /tmp -xzf -
     #VGL64_SOURCE=/tmp/VirtualGL-$VGL64VER
