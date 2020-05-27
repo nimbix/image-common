@@ -78,10 +78,14 @@ function build_and_install_tiger() {
         --disable-xinerama --disable-xvfb --disable-xnest --disable-xorg \
         --disable-dmx --disable-xwin --disable-xephyr --disable-kdrive \
         --disable-config-hal --disable-config-udev \
+        --disable-config-dbus --enable-install-libxf86config \
         --disable-dri2 --enable-glx \
+        --with-default-font-path="catalogue:/etc/X11/fontpath.d,built-ins" \
+        --with-fontdir=/usr/share/X11/fonts \
         --with-xkb-path=/usr/share/X11/xkb \
         --with-xkb-output=/var/lib/xkb \
         --with-xkb-bin-directory=/usr/bin \
+        --with-dri-driver-path=/usr/lib/dri \
         --with-serverconfig-path=/usr/lib/xorg
     make TIGERVNC_SRCDIR=$TIGERVNC_SOURCE install
 
