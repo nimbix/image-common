@@ -147,17 +147,18 @@ fi
 
 if [ "$ARCH" != "x86_64" ]; then
     #build_and_install_tiger
-    yum -y install tigervnc-server VirtualGL
+    dnf -y install tigervnc-server VirtualGL
 else
     # try upstream tiger
-    build_and_install_tiger
+#    build_and_install_tiger
 
     # Grab newer binary packages on x86_64
 #    wget --content-disposition -O - "$TIGERVNC" |tar -C / -xzf - --strip-components=1
+    dnf -y install tigervnc-serve
     cd /tmp
     wget --content-disposition "$VGL64"
     wget --content-disposition "$VGL32"
-    yum -y install VirtualGL*.rpm || yum -y update VirtualGL*.rpm
+    dnf -y install VirtualGL*.rpm || dnf -y update VirtualGL*.rpm
     rm -f VirtualGL*.rpm
 fi
 
