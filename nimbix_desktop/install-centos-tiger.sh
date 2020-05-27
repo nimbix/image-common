@@ -154,7 +154,7 @@ else
 
     # Grab newer binary packages on x86_64
 #    wget --content-disposition -O - "$TIGERVNC" |tar -C / -xzf - --strip-components=1
-    dnf -y install tigervnc-serve
+    dnf -y install tigervnc-server
     cd /tmp
     wget --content-disposition "$VGL64"
     wget --content-disposition "$VGL32"
