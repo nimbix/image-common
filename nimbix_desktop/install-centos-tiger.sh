@@ -5,10 +5,10 @@ VERSION=master
 ARCH=$(arch)
 
 # update links as needed
-TIGERVNC="https://bintray.com/tigervnc/stable/download_file?file_path=tigervnc-$VERSION.$ARCH.tar.gz"
+#TIGERVNC="https://bintray.com/tigervnc/stable/download_file?file_path=tigervnc-$VERSION.$ARCH.tar.gz"
 #TIGERSRC="https://github.com/TigerVNC/tigervnc/archive/v$VERSION.tar.gz"
 TIGERSRC="https://github.com/TigerVNC/tigervnc/archive/master.tar.gz"
-
+TIGERVNC="https://files.jarvice.io/archive/tigervnc/tigervnc-1.10.1-5.el8.x86_64.rpm"
 
 #XORGVER=1.18.4
 XORGVER=1.17.4
@@ -154,8 +154,10 @@ else
 
     # Grab newer binary packages on x86_64
 #    wget --content-disposition -O - "$TIGERVNC" |tar -C / -xzf - --strip-components=1
-    dnf -y install tigervnc-server
+#    dnf -y install tigervnc-server
+
     cd /tmp
+    wget --content-disposition $TIGERVNC
     wget --content-disposition "$VGL64"
     wget --content-disposition "$VGL32"
     dnf -y install VirtualGL*.rpm || dnf -y update VirtualGL*.rpm
