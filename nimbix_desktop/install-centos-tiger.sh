@@ -158,6 +158,7 @@ else
 
     cd /tmp
     wget --content-disposition $TIGERVNC
+    dnf -y install tigervnc-server
     wget --content-disposition "$VGL64"
     wget --content-disposition "$VGL32"
     dnf -y install VirtualGL*.rpm || dnf -y update VirtualGL*.rpm
