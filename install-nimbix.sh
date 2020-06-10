@@ -65,7 +65,7 @@ function setup_base_os() {
         fi
         PKGS+=" passwd xz tar file openssh-server infiniband-diags"
         PKGS+=" openmpi perftest libibverbs-utils libmthca libcxgb4 libmlx4"
-        PKGS+=" libmlx5 dapl compat-dapl dap.i686 compat-dapl.i686 which"
+        PKGS+=" libmlx5 dapl compat-dapl dapl.i686 compat-dapl.i686 which"
         PKGS+=" openssh-clients sshpass mailcap"
         [ -z "$SKIP_OS_PKG_UPDATE" ] && yum -y update
         yum -y install $PKGS
