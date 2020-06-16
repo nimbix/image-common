@@ -28,24 +28,24 @@ from subprocess import Popen, PIPE
 
 
 def sshtest(host):
-        if host:
-                timeout = int(sys.argv[1])
-                signal.alarm(timeout)
-                output = ''
-                while output != 'OK\n':
-                        p = Popen(['/usr/bin/ssh', host, 'echo OK'],
-                                  stdout=PIPE, stderr=open('/dev/null', 'w'))
-                        output = p.communicate()[0]
-        return 'OK'
+    if host:
+        timeout = int(sys.argv[1])
+        signal.alarm(timeout)
+        output = ''
+        while output != 'OK\n':
+            p = Popen(['/usr/bin/ssh', host, 'echo OK'],
+                      stdout=PIPE, stderr=open('/dev/null', 'w'))
+            output = p.communicate()[0]
+    return 'OK'
+
 
 if __name__ == '__main__':
-        with open('/etc/JARVICE/nodes', 'r') as f:
-                nodes = f.read().splitlines()
-        slaves = len(nodes) - 1
-        start = time.time()
-        if slaves:
-                signal.alarm(int(sys.argv[1]))
-                p = Pool(slaves)
-                p.map(sshtest, nodes[1:])
-        print 'Parallel slaves ready in %d second(s)' % (
-                int(time.time() - start))
+    with open('/etc/JARVICE/nodes', 'r') as f:
+        nodes = f.read().splitlines()
+    slaves = len(nodes) - 1
+    start = time.time()
+    if slaves:
+        signal.alarm(int(sys.argv[1]))
+        p = Pool(slaves)
+        p.map(sshtest, nodes[1:])
+    print('Parallel slaves ready in %d second(s)' % (int(time.time() - start)))

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 set -e
 set -x
@@ -54,7 +54,7 @@ EOF
 )"
 
 [ -e /etc/system-release-cpe ] && \
-    VERSION_ID=$(cat /etc/system-release-cpe | awk -F: '{print $5}')
+    VERSION_ID=$(awk -F: '{print $5}' /etc/system-release-cpe)
 
 # Base OS
 function setup_base_os() {
@@ -99,7 +99,7 @@ function setup_base_os() {
         export DEBIAN_FRONTEND noninteractive
         PKGS+=" kmod xz-utils vim openssh-server libpam-systemd"
         PKGS+=" libmlx4-1 libmlx5-1 iptables infiniband-diags build-essential"
-        PKGS+=" libibverbs-dev libibverbs1 librdmacm1 librdmacm-dev"
+        PKGS+=" libibverbs-dev libibverbs1 librdmacm1 librdmacm-dev ibverbs-utils"
         PKGS+=" rdmacm-utils libibmad-dev libibmad5 byacc flex git cmake"
         PKGS+=" screen grep locales locales-all net-tools"
         PKGS+=" openssh-client sshpass"

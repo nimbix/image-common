@@ -56,7 +56,7 @@ export VGL_READBACK=sync
 # Start noVNC daemon
 NOVNC_PATH=/usr/local/JARVICE/tools/noVNC
 pushd "$NOVNC_PATH"
-(sudo utils/launch.sh --cert /etc/JARVICE/cert.pem --listen 443 --vnc localhost:5901 >/tmp/novnc.log 2>&1 &)
+(sudo utils/launch.sh --cert /etc/JARVICE/cert.pem --listen 443 --vnc localhost:5901 | sudo tee /tmp/novnc.log 2>&1 &)
 echo "$NOVNC_PATH" | sudo tee /etc/.novnc-stable
 popd
 
