@@ -11,7 +11,7 @@ TIGERSRC="https://github.com/TigerVNC/tigervnc/archive/v$SRCVERSION.tar.gz"
 XORGVER=1.18.4
 XORGSRC="https://www.x.org/archive//individual/xserver/xorg-server-$XORGVER.tar.gz"
 
-VGL64VER=2.6.1
+VGL64VER=2.6.3
 VGL64="https://downloads.sourceforge.net/project/virtualgl/$VGL64VER/virtualgl_${VGL64VER}_amd64.deb"
 VGL64SRC="https://downloads.sourceforge.net/project/virtualgl/$VGL64VER/VirtualGL-$VGL64VER.tar.gz"
 dirname=$(dirname $0)
