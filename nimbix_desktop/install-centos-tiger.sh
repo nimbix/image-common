@@ -35,7 +35,7 @@ if [ $VERSION_ID -gt 7 ]; then
 
        #xauth gnome-icon-theme xkeyboard-config glx-utils xorg-x11-utils
        # compat-libstdc++-33 numpy python-pip ImageMagick-devel xorg-x11-apps xcb-util xcb-util-keysyms
-else
+else  # CentOS 8
   yum -y groupinstall Xfce
   yum -y groupinstall Fonts
   yum -y install perl wget xauth pygtk2 gnome-icon-theme xorg-x11-fonts-Type1 \
@@ -170,6 +170,7 @@ yum clean all
 pip2 install --no-cache-dir Wand
 
 [ -f /etc/init.d/NetworkManager ] && /sbin/chkconfig NetworkManager off
+# TODO: check relevance on C8
 [ -f /etc/xdg/autostart/xfce-polkit.desktop ] && \
     rm -f /etc/xdg/autostart/xfce-polkit.desktop
 

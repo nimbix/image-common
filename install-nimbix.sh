@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 set -e
 set -x
@@ -64,7 +64,10 @@ function setup_base_os() {
 #        PKGS+=" openmpi perftest libibverbs-utils libcxgb4 libmlx4 libmlx5"
 ##        PKGS+=" libmthca dapl compat-dapl dap.i686 compat-dapl.i686"
 #        PKGS+=" python2"
+
+        # Sometimes update will pick up unexpected new packages or deps
         [ -z "$SKIP_OS_PKG_UPDATE" ] && dnf -y update
+
         dnf -y install epel-release zip unzip infiniband-diags mailcap \
                glibc-langpack-en openmpi perftest libibverbs-utils libcxgb4 \
                libmlx4 libmlx5 python2 sudo openssh-server
@@ -77,14 +80,14 @@ function setup_base_os() {
 #        localedef -i en_US -f UTF-8 en_US.UTF-8
 
         echo '# leave empty' >/etc/fstab
-    elif [ -f /etc/redhat-release ]; then
+    elif [ -f /etc/redhat-release ]; then  # CentOS 7 and 6
         PKGS="curl zip unzip sudo"
         if [ ! -f /etc/fedora-release ]; then
             PKGS+=" epel-release"
         fi
         PKGS+=" passwd xz tar file openssh-server infiniband-diags"
         PKGS+=" openmpi perftest libibverbs-utils libmthca libcxgb4 libmlx4"
-        PKGS+=" libmlx5 dapl compat-dapl dap.i686 compat-dapl.i686 which"
+        PKGS+=" libmlx5 dapl compat-dapl dapl.i686 compat-dapl.i686 which"
         PKGS+=" openssh-clients sshpass mailcap"
         [ -z "$SKIP_OS_PKG_UPDATE" ] && yum -y update
         yum -y install $PKGS
@@ -120,7 +123,7 @@ function setup_base_os() {
         PKGS="curl zip unzip sudo"
         PKGS+=" kmod xz-utils vim openssh-server libpam-systemd"
         PKGS+=" libmlx4-1 libmlx5-1 iptables infiniband-diags build-essential"
-        PKGS+=" libibverbs-dev libibverbs1 librdmacm1 librdmacm-dev"
+        PKGS+=" libibverbs-dev libibverbs1 librdmacm1 librdmacm-dev ibverbs-utils"
         PKGS+=" rdmacm-utils libibmad-dev libibmad5 byacc flex git cmake"
         PKGS+=" screen grep locales locales-all net-tools"
         PKGS+=" openssh-client sshpass"
@@ -194,7 +197,8 @@ function setup_nimbix_desktop() {
         files="install-ubuntu-tiger.sh"
     fi
     files+=" help-tiger.html postinstall-tiger.sh"
-    files+=" nimbix_desktop url.txt xfce4-session-logout share skel.config"
+#    files+=" nimbix_desktop url.txt xfce4-session-logout share skel.config"
+    files+=" nimbix_desktop url.txt xfce4-session-logout share"
     for i in $files; do
         cp -a /tmp/image-common-$BRANCH/nimbix_desktop/$i \
             /usr/local/lib/nimbix_desktop
