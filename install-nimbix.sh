@@ -103,9 +103,11 @@ function setup_base_os() {
         PKGS+=" rdmacm-utils libibmad-dev libibmad5 byacc flex git cmake"
         PKGS+=" screen grep locales locales-all net-tools"
         PKGS+=" openssh-client sshpass"
-        if [ ! -e /usr/bin/python ]; then
-            PKGS+=" python python-pip"
-        fi
+
+        # duplicated in VNC installers
+#        if [ ! -e /usr/bin/python ]; then
+#            PKGS+=" python python-pip"
+#        fi
 
         # unfortunately on Ubuntu we can't skip the apt-get update since
         # most images have broken cache, so we have to do it anyway
