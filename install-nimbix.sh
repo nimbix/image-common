@@ -109,6 +109,14 @@ function setup_base_os() {
 #            PKGS+=" python python-pip"
 #        fi
 
+        # for versions past bionic, set the default python to py2 until py3 default works
+        REL=$(lsb_release -r -s)
+        MAJOR=${REL%\.*}
+        if [[ $MAJOR -gt 18 ]]; then
+          update-alternatives --install /usr/bin/python python /usr/bin/python3.8 1
+          update-alternatives --install /usr/bin/python python /usr/bin/python2.7 2
+        fi
+
         # unfortunately on Ubuntu we can't skip the apt-get update since
         # most images have broken cache, so we have to do it anyway
         #(was [ -z "$SKIP_OS_PKG_UPDATE" ] && apt-get -y update)
