@@ -115,7 +115,7 @@ function setup_base_os() {
         apt-get -y update
         # XXX ^^^
         apt-get -y install $PKGS
-        apt-get clean
+
         locale-gen en_US.UTF-8
         update-locale LANG=en_US.UTF-8
 
@@ -123,10 +123,12 @@ function setup_base_os() {
         REL=$(lsb_release -r -s)
         MAJOR=${REL%\.*}
         if [[ $MAJOR -gt 18 ]]; then
+          apt-get -y install python2 python3
           update-alternatives --install /usr/bin/python python /usr/bin/python3.8 1
           update-alternatives --install /usr/bin/python python /usr/bin/python2.7 2
         fi
 
+        apt-get clean
         [ -f /etc/init/ssh.conf ] && \
             sed -ie 's/start on.*/start on filesystem/' /etc/init/ssh.conf
     fi
