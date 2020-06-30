@@ -101,7 +101,7 @@ function setup_base_os() {
         PKGS+=" libmlx4-1 libmlx5-1 iptables infiniband-diags build-essential"
         PKGS+=" libibverbs-dev libibverbs1 librdmacm1 librdmacm-dev ibverbs-utils"
         PKGS+=" rdmacm-utils libibmad-dev libibmad5 byacc flex git cmake"
-        PKGS+=" screen grep locales locales-all net-tools"
+        PKGS+=" screen grep locales locales-all net-tools lsb-release"
         PKGS+=" openssh-client sshpass"
 
         # duplicated in VNC installers
