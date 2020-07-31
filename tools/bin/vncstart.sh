@@ -67,5 +67,5 @@ sleep 2
 if [ -z "$VGL_DISPLAY" ]; then
     exec "$@"
 else
-    exec vglrun -d $VGL_DISPLAY -c rgb "$@"
+    exec vglrun -d $VGL_DISPLAY "$@"
 fi
