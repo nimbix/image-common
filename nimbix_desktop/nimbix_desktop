@@ -66,7 +66,8 @@ tools=/usr/lib/JARVICE/tools
 sudo service $SVC start
 
 while [ 1 ]; do
-    $tools/sbin/init $tools/bin/vncstart.sh $xinitrc
+#    $tools/sbin/init $tools/bin/vncstart.sh $xinitrc
+    $tools/sbin/init /usr/local/JARVICE/tools/bin/vncstart.sh $xinitrc
     ret=$?
     if [ -n "$app_mode" ]; then
         rm -f $app_menu
