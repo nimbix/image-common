@@ -35,7 +35,8 @@ if [ -x /usr/bin/Xvnc-realvnc ]; then
 Password=$VNCPASSWD
 EOF
     touch ~/.vnc/config.d/.Xvnc-v5-marker
-    vncserver -geometry "$VNC_GEOMETRY" -StartUI=0 -EnableAutoUpdateChecks=0 \
+    vncserver -geometry "$VNC_GEOMETRY" -StartUI=1 -EnableAutoUpdateChecks=0 \
+        -ConnNotifyTimeout=0 \
         -AllowHttp=0 -Encryption PreferOn -Authentication VncAuth \
         -DisableAddNewClient -EnableRemotePrinting=0 -dpi 100 \
         -SecurityTypes RA2:256+,RA2,RA2ne,VeNCrypt,TLSVnc,VncAuth $FP :1
