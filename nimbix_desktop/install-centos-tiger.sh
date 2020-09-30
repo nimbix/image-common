@@ -17,10 +17,10 @@ VGL64="https://files.jarvice.io/archive/virtualgl/VirtualGL-${VGL64VER}.x86_64.r
 VGL32="https://files.jarvice.io/archive/virtualgl/VirtualGL-${VGL64VER}.i386.rpm"
 #VGL64SRC="https://downloads.sourceforge.net/project/virtualgl/$VGL64VER/VirtualGL-$VGL64VER.tar.gz"
 
-dirname=$(dirname $0)
+dirname=$(dirname "$0")
 
 # Get CentOS release version
-VERSION_ID=$(cat /etc/system-release-cpe | awk -F: '{print $5}')
+VERSION_ID=$(awk -F: '{print $5}' /etc/system-release-cpe)
 
 function build_and_install_tiger() {
     yum -y install git cmake make gcc-c++ \
@@ -80,7 +80,8 @@ yum -y install perl wget xauth pygtk2 gnome-icon-theme xorg-x11-fonts-Type1 \
        xorg-x11-fonts-ISO8859-1-100dpi xorg-x11-fonts-ISO8859-1-75dpi \
        compat-libstdc++-33 numpy python-pip ImageMagick-devel xorg-x11-apps \
        xcb-util xcb-util-keysyms
-if [ $VERSION_ID -gt 6 ]; then
+
+if [ "$VERSION_ID" -gt 6 ]; then
     yum -y install ristretto
 fi
 
@@ -89,7 +90,7 @@ if [ "$ARCH" != "x86_64" ]; then
     yum -y install tigervnc-server VirtualGL
 else
     # Grab newer binary packages on x86_64
-    wget --content-disposition -O - "$TIGERVNC" |tar -C / -xzf - --strip-components=1
+    wget --content-disposition -O - "$TIGERVNC" | tar -C / -xzf - --strip-components=1
     cd /tmp
     wget --content-disposition "$VGL64"
     wget --content-disposition "$VGL32"

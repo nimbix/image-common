@@ -63,10 +63,10 @@ function setup_base_os() {
         if [ ! -f /etc/fedora-release ]; then
             PKGS+=" epel-release"
         fi
-        PKGS+=" passwd xz tar file openssh-server infiniband-diags"
-        PKGS+=" openmpi perftest libibverbs-utils libmthca libcxgb4 libmlx4"
-        PKGS+=" libmlx5 dapl compat-dapl dapl.i686 compat-dapl.i686 which"
-        PKGS+=" openssh-clients sshpass mailcap"
+        PKGS+=" passwd xz tar file openssh-server openssh-clients"
+        PKGS+=" openmpi openmpi3 perftest which sshpass mailcap"
+        PKGS+=" dapl compat-dapl dapl.i686 compat-dapl.i686 infiniband-diags"
+        PKGS+=" rdma-core rdma-core.i686 libibverbs libibverbs-utils"
         [ -z "$SKIP_OS_PKG_UPDATE" ] && yum -y update
         yum -y install $PKGS
         yum clean all
@@ -213,12 +213,6 @@ function setup_nimbix_desktop() {
     echo /usr/local/JARVICE/tools/noVNC | sudo tee /etc/.novnc-stable
 }
 
-#function setup_post() {
-#    toolsdir=/usr/lib/JARVICE/tools
-#    [ -d /usr/local/JARVICE/tools ] && toolsdir=/usr/local/JARVICE/tools
-#    /bin/true
-#}
-
 function cleanup() {
     if [ -f /etc/redhat-release ]; then
         yum clean all
@@ -231,7 +225,6 @@ function cleanup() {
 setup_base_os
 setup_jarvice_emulation
 [ -n "$SETUP_NIMBIX_DESKTOP" ] && setup_nimbix_desktop
-#setup_post
 cleanup
 
 exit 0
