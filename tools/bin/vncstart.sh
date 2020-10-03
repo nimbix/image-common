@@ -17,6 +17,7 @@ if [ ! -z "$VGL_DISPLAY" ]; then
         vglclient &
 fi
 xsetroot -solid "#000050"
+xhost +
 EOF
 chmod +x .vnc/xstartup
 

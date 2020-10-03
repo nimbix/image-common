@@ -1,6 +1,6 @@
 #!/bin/bash -ex
 
-BINVERSION=1.9.0
+BINVERSION=1.11.0
 ARCH=$(arch)
 SRCVERSION=1.8.0
 
@@ -93,7 +93,7 @@ if grep -q trusty /etc/lsb-release; then
         xfonts-scalable xauth firefox ristretto mesa-utils init-system-helpers \
         libxcb1 libxcb-keysyms1 libxcb-util1
 else
-    apt-get -y install wget gnome-icon-theme \
+    apt-get -y install wget gnome-icon-theme software-properties-common \
         humanity-icon-theme tango-icon-theme xfce4 xfce4-terminal \
         fonts-freefont-ttf xfonts-base xfonts-100dpi xfonts-75dpi x11-apps \
         xfonts-scalable xauth firefox ristretto mesa-utils init-system-helpers \

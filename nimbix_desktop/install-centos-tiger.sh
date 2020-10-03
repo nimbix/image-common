@@ -1,6 +1,6 @@
 #!/bin/bash -ex
 
-VERSION=1.9.0
+VERSION=1.11.0
 ARCH=$(arch)
 
 # update links as needed

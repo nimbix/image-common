@@ -14,7 +14,7 @@ VGL32="https://files.jarvice.io/archive/virtualgl/VirtualGL-${VGL64VER}.i386.rpm
 #VGL64SRC="https://downloads.sourceforge.net/project/virtualgl/$VGL64VER/VirtualGL-$VGL64VER.tar.gz"
 
 # Get CentOS release version
-VERSION_ID=$(cat /etc/system-release-cpe | awk -F: '{print $5}')
+VERSION_ID=$(awk -F: '{print $5}' /etc/system-release-cpe)
 
 yum -y groupinstall Xfce
 yum -y groupinstall Fonts
