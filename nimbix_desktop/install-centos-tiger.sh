@@ -91,6 +91,12 @@ if [ "$ARCH" != "x86_64" ]; then
 else
     # Grab newer binary packages on x86_64
     wget --content-disposition -O - "$TIGERVNC" | tar -C / -xzf - --strip-components=1
+
+    # Fix newer installs that put binary in /usr/libexec
+    if [[ -x /usr/libexec/vncserver ]]; then
+      ln -sf /usr/libexec/vncserver /usr/bin/vncserver
+    fi
+
     cd /tmp
     wget --content-disposition "$VGL64"
     wget --content-disposition "$VGL32"

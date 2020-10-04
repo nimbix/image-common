@@ -105,6 +105,11 @@ if [[ "$ARCH" != "x86_64" ]]; then
 else
     wget --content-disposition -O - "$TIGERVNC" |tar -C / -xzf - --strip-components=1
 
+    # Fix newer installs that put binary in /usr/libexec
+    if [[ -x /usr/libexec/vncserver ]]; then
+      ln -sf /usr/libexec/vncserver /usr/bin/vncserver
+    fi
+
     cd /tmp
     wget --content-disposition "$VGL64"
     dpkg --install virtualgl*.deb || apt-get -f install
