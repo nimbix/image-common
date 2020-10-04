@@ -1,6 +1,7 @@
 #!/bin/bash -ex
 
-BINVERSION=1.11.0
+#BINVERSION=1.11.0
+BINVERSION=1.9.0
 ARCH=$(arch)
 SRCVERSION=1.8.0
 
@@ -106,9 +107,9 @@ else
     wget --content-disposition -O - "$TIGERVNC" |tar -C / -xzf - --strip-components=1
 
     # Fix newer installs that put binary in /usr/libexec
-    if [[ -x /usr/libexec/vncserver ]]; then
-      ln -sf /usr/libexec/vncserver /usr/bin/vncserver
-    fi
+#    if [[ -x /usr/libexec/vncserver ]]; then
+#      ln -sf /usr/libexec/vncserver /usr/bin/vncserver
+#    fi
 
     cd /tmp
     wget --content-disposition "$VGL64"
