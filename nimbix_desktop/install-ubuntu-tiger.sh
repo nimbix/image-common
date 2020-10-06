@@ -87,19 +87,11 @@ export DEBIAN_FRONTEND=noninteractive
 apt-get -y update
 apt-get -y install librtmp0 || apt-get -y install librtmp1
 
-if grep -q trusty /etc/lsb-release; then
-    apt-get -y install wget gnome-icon-theme-full \
-        humanity-icon-theme tango-icon-theme xfce4 xfce4-terminal \
-        fonts-freefont-ttf xfonts-base xfonts-100dpi xfonts-75dpi x11-apps \
-        xfonts-scalable xauth firefox ristretto mesa-utils init-system-helpers \
-        libxcb1 libxcb-keysyms1 libxcb-util1
-else
-    apt-get -y install wget gnome-icon-theme software-properties-common \
-        humanity-icon-theme tango-icon-theme xfce4 xfce4-terminal \
-        fonts-freefont-ttf xfonts-base xfonts-100dpi xfonts-75dpi x11-apps \
-        xfonts-scalable xauth firefox ristretto mesa-utils init-system-helpers \
-        libxcb1 libxcb-keysyms1 libxcb-util1 python-numpy
-fi
+apt-get -y install wget gnome-icon-theme software-properties-common \
+    humanity-icon-theme tango-icon-theme xfce4 xfce4-terminal \
+    fonts-freefont-ttf xfonts-base xfonts-100dpi xfonts-75dpi x11-apps \
+    xfonts-scalable xauth firefox ristretto mesa-utils init-system-helpers \
+    libxcb1 libxcb-keysyms1 libxcb-util1 python-numpy
 
 if [[ "$ARCH" != "x86_64" ]]; then
     build_and_install_tiger
@@ -123,13 +115,8 @@ if [[ -n "$PY2" ]]; then
     # this clobbers py3 only, so do it only if we have py2
     apt-get -y install python-pip libmagickwand-dev python-gtk2 python-gnome2
 
-    # pip is too old on trusty to drop cache
-    UBUVER=$(lsb_release -sr)
-    if [[ ${UBUVER} == 14.04 ]]; then
-        pip install Wand
-    else
-        pip install --no-cache-dir Wand
-    fi
+    # Wand is used for screenshots
+    pip install Wand
 fi
 
 apt-get clean

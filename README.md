@@ -10,7 +10,6 @@ support CentOS and Ubuntu with this trick.
 Verified distributions:
 * CentOS 6 (x86_64)
 * CentOS 7 (x86_64, ppc64le)
-* Ubuntu 14.04 Trusty (amd64)
 * Ubuntu 16.04 Xenial (amd64, ppc64le)
 * Ubuntu 18.04 Bionic (amd64, ppc64le)
 
