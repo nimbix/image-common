@@ -3,7 +3,7 @@
 # NIMBIX CONFIDENTIAL
 # -------------------
 #
-# Copyright (c) 2016 Nimbix, Inc.  All Rights Reserved.
+# Copyright (c) 2020 Nimbix, Inc.  All Rights Reserved.
 #
 # NOTICE:  All information contained herein is, and remains the property of
 # Nimbix, Inc. and its suppliers, if any.  The intellectual and technical
@@ -15,7 +15,7 @@
 #
 # Author: Leo
 
-# Waits for ssh on all slaves in /etc/JARVICE/nodes
+# Waits for ssh on all worker nodes in /etc/JARVICE/nodes
 #
 # Usage:
 #    python_ssh_test <max-timeout>
@@ -42,10 +42,11 @@ def sshtest(host):
 if __name__ == '__main__':
     with open('/etc/JARVICE/nodes', 'r') as f:
         nodes = f.read().splitlines()
-    slaves = len(nodes) - 1
+    workers = len(nodes) - 1
     start = time.time()
-    if slaves:
+    if workers:
         signal.alarm(int(sys.argv[1]))
-        p = Pool(slaves)
+        p = Pool(workers)
         p.map(sshtest, nodes[1:])
-    print('Parallel slaves ready in %d second(s)' % (int(time.time() - start)))
+    print('Parallel workers ready in %d second(s)' %
+          (int(time.time() - start)))

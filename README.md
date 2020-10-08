@@ -70,7 +70,7 @@ EXPOSE 443
 This does several things:
  1. installs recommended packages for running on JARVICE
  2. makes sure SSH actually starts (important when using `nvidia/` base images for example)
- 3. sets up the nimbix user, and gives it passwordless sudo access
+ 3. sets up the nimbix user, and gives it password-less sudo access
  4. configures JARVICE "emulation" for local testing (see our PushToCompute tutorial for more on that)
  5. preserves the Docker environment variables and makes sure they are set when you run in JARVICE as well
 
