@@ -151,16 +151,16 @@ function setup_base_os() {
 # Nimbix JARVICE emulation
 function setup_jarvice_emulation {
     cd /tmp
-    curl https://codeload.github.com/nimbix/image-common/zip/$BRANCH \
-        >/tmp/nimbix.zip
-    unzip nimbix.zip
-    rm -f nimbix.zip
-    /tmp/image-common-$BRANCH/setup-nimbix.sh
+#    curl https://codeload.github.com/nimbix/image-common/zip/$BRANCH \
+#        >/tmp/nimbix.zip
+#    unzip nimbix.zip
+#    rm -f nimbix.zip
+#    /tmp/image-common-$BRANCH/setup-nimbix.sh
 
     mkdir -p /usr/lib/JARVICE
-    cp -a /tmp/image-common-$BRANCH/tools /usr/lib/JARVICE
+#    cp -a /tmp/image-common-$BRANCH/tools /usr/lib/JARVICE
     mkdir -p /usr/local/JARVICE
-    cp -a /tmp/image-common-$BRANCH/tools /usr/local/JARVICE
+#    cp -a /tmp/image-common-$BRANCH/tools /usr/local/JARVICE
     cat <<'EOF' | tee /etc/profile.d/jarvice-tools.sh >/dev/null
 JARVICE_TOOLS="/usr/local/JARVICE/tools"
 JARVICE_TOOLS_BIN="$JARVICE_TOOLS/bin"
@@ -170,7 +170,7 @@ EOF
 
     cd /tmp
     mkdir -p /etc/JARVICE
-    cp -a /tmp/image-common-$BRANCH/etc/* /etc/JARVICE
+#    cp -a /tmp/image-common-$BRANCH/etc/* /etc/JARVICE
     chmod 755 /etc/JARVICE
     mkdir -m 0755 -p /data
     chown nimbix:nimbix /data
@@ -223,7 +223,7 @@ function cleanup() {
 }
 
 setup_base_os
-setup_jarvice_emulation
+#setup_jarvice_emulation
 [ -n "$SETUP_NIMBIX_DESKTOP" ] && setup_nimbix_desktop
 cleanup
 
