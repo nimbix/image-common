@@ -161,7 +161,7 @@ function setup_jarvice_emulation {
 #    cp -a /tmp/image-common-$BRANCH/tools /usr/lib/JARVICE
     mkdir -p /usr/local/JARVICE
     cp -a /tmp/image-common-$BRANCH/tools /usr/local/JARVICE
-    ln -sf /usr/local/JARVICE/ /usr/lib/JARVICE/
+    ln -sf /usr/local/JARVICE /usr/lib/JARVICE
     cat <<'EOF' | tee /etc/profile.d/jarvice-tools.sh >/dev/null
 JARVICE_TOOLS="/usr/local/JARVICE/tools"
 JARVICE_TOOLS_BIN="$JARVICE_TOOLS/bin"
