@@ -39,19 +39,19 @@ ETC_HOSTS="$(cat <<EOF
 EOF
 )"
 
-INIT_FAKE_CONF="$(cat <<EOF
-# fake some events needed for correct startup other services
-description     "In-Container Upstart Fake Events"
-start on startup
-script
-    rm -rf /var/run/*.pid
-    rm -rf /var/run/network/*
-    /sbin/initctl emit stopped JOB=udevtrigger --no-wait
-    /sbin/initctl emit started JOB=udev --no-wait
-    /sbin/initctl emit runlevel RUNLEVEL=3 --no-wait
-end script
-EOF
-)"
+#INIT_FAKE_CONF="$(cat <<EOF
+## fake some events needed for correct startup other services
+#description     "In-Container Upstart Fake Events"
+#start on startup
+#script
+#    rm -rf /var/run/*.pid
+#    rm -rf /var/run/network/*
+#    /sbin/initctl emit stopped JOB=udevtrigger --no-wait
+#    /sbin/initctl emit started JOB=udev --no-wait
+#    /sbin/initctl emit runlevel RUNLEVEL=3 --no-wait
+#end script
+#EOF
+#)"
 
 [ -e /etc/system-release-cpe ] && \
     VERSION_ID=$(awk -F: '{print $5}' /etc/system-release-cpe)
@@ -87,10 +87,10 @@ function setup_base_os() {
     else # Ubuntu (assumed)
         # upstart fixes
         # init-fake.conf from https://raw.githubusercontent.com/tianon/dockerfiles/master/sbin-init/ubuntu/upstart/14.04/init-fake.conf
-        [ -d /etc/init ] && \
-            echo "$INIT_FAKE_CONF" >/etc/init/fake-container-events.conf
-        rm -f /usr/sbin/policy-rc.d /sbin/initctl
-        dpkg-divert --rename --remove /sbin/initctl
+#        [ -d /etc/init ] && \
+#            echo "$INIT_FAKE_CONF" >/etc/init/fake-container-events.conf
+#        rm -f /usr/sbin/policy-rc.d /sbin/initctl
+#        dpkg-divert --rename --remove /sbin/initctl
         echo '# /lib/init/fstab: cleared out for bare-bones Docker' \
             >/lib/init/fstab
 
@@ -157,8 +157,9 @@ function setup_jarvice_emulation {
     rm -f nimbix.zip
     /tmp/image-common-$BRANCH/setup-nimbix.sh
 
-#    mkdir -p /usr/lib/JARVICE
-#    cp -a /tmp/image-common-$BRANCH/tools /usr/lib/JARVICE
+    # Redundant directory copies, use a soft link, favor the /usr/local/
+    # mkdir -p /usr/lib/JARVICE
+    # cp -a /tmp/image-common-$BRANCH/tools /usr/lib/JARVICE
     mkdir -p /usr/local/JARVICE
     cp -a /tmp/image-common-$BRANCH/tools /usr/local/JARVICE
     ln -sf /usr/local/JARVICE /usr/lib/JARVICE
@@ -173,7 +174,7 @@ EOF
     mkdir -p /etc/JARVICE
     cp -a /tmp/image-common-$BRANCH/etc/* /etc/JARVICE
     chmod 755 /etc/JARVICE
-    mkdir -m 0755 -p /data
+    mkdir -m 0755 /data
     chown nimbix:nimbix /data
 }
 
