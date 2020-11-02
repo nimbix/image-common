@@ -69,7 +69,7 @@ function setup_base_os() {
         PKGS+=" rdma-core rdma-core.i686 libibverbs libibverbs-utils"
         [ -z "$SKIP_OS_PKG_UPDATE" ] && yum -y update
         yum -y install $PKGS
-        yum clean all
+#        yum clean all
 
         # Set locale
         localedef -i en_US -f UTF-8 en_US.UTF-8
@@ -91,8 +91,8 @@ function setup_base_os() {
 #            echo "$INIT_FAKE_CONF" >/etc/init/fake-container-events.conf
 #        rm -f /usr/sbin/policy-rc.d /sbin/initctl
 #        dpkg-divert --rename --remove /sbin/initctl
-        echo '# /lib/init/fstab: cleared out for bare-bones Docker' \
-            >/lib/init/fstab
+#        echo '# /lib/init/fstab: cleared out for bare-bones Docker' \
+#            >/lib/init/fstab
 
         touch /etc/init.d/systemd-logind
 
@@ -128,24 +128,24 @@ function setup_base_os() {
           update-alternatives --install /usr/bin/python python /usr/bin/python2.7 2
         fi
 
-        apt-get clean
+#        apt-get clean
         [ -f /etc/init/ssh.conf ] && \
             sed -ie 's/start on.*/start on filesystem/' /etc/init/ssh.conf
     fi
-
-    echo "set -a" >/etc/profile.d/00-container-environment.sh
-    for i in $(env|cut -d '=' -f 1); do
-        case $i in
-            HOSTNAME|_|DEBIAN_FRONTEND|SHLVL|SKIP_OS_PKG_UPDATE|HOME|PWD|USER|LOGNAME|TERM|OLDPWD|SHELL)
-                ;;
-            *)
-                printf "$i=" >>/etc/profile.d/00-container-environment.sh
-                echo "${!i}" |sed 's/\(.\)/\\\1/g' \
-                    >>/etc/profile.d/00-container-environment.sh
-                ;;
-        esac
-    done
-    echo "set +a" >>/etc/profile.d/00-container-environment.sh
+#
+#    echo "set -a" >/etc/profile.d/00-container-environment.sh
+#    for i in $(env|cut -d '=' -f 1); do
+#        case $i in
+#            HOSTNAME|_|DEBIAN_FRONTEND|SHLVL|SKIP_OS_PKG_UPDATE|HOME|PWD|USER|LOGNAME|TERM|OLDPWD|SHELL)
+#                ;;
+#            *)
+#                printf "$i=" >>/etc/profile.d/00-container-environment.sh
+#                echo "${!i}" |sed 's/\(.\)/\\\1/g' \
+#                    >>/etc/profile.d/00-container-environment.sh
+#                ;;
+#        esac
+#    done
+#    echo "set +a" >>/etc/profile.d/00-container-environment.sh
 }
 
 # Nimbix JARVICE emulation
@@ -198,7 +198,7 @@ function setup_nimbix_desktop() {
         else
             /usr/local/lib/nimbix_desktop/install-centos-tiger.sh
         fi
-        yum clean all
+#        yum clean all
         #echo "/usr/local/bin/nimbix_desktop" >>/etc/rc.local
     else
         /usr/local/lib/nimbix_desktop/install-ubuntu-tiger.sh
