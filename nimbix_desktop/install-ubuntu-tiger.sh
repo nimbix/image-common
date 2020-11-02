@@ -85,13 +85,12 @@ function build_and_install_tiger() {
 
 export DEBIAN_FRONTEND=noninteractive
 apt-get -y update
-apt-get -y install librtmp0 || apt-get -y install librtmp1
 
 apt-get -y install wget gnome-icon-theme software-properties-common \
     humanity-icon-theme tango-icon-theme xfce4 xfce4-terminal \
     fonts-freefont-ttf xfonts-base xfonts-100dpi xfonts-75dpi x11-apps \
     xfonts-scalable xauth firefox ristretto mesa-utils init-system-helpers \
-    libxcb1 libxcb-keysyms1 libxcb-util1 python-numpy
+    libxcb1 libxcb-keysyms1 libxcb-util1 librtmp1 python-numpy
 
 if [[ "$ARCH" != "x86_64" ]]; then
     build_and_install_tiger
