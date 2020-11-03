@@ -34,6 +34,7 @@ if [ -d /etc/init.d ]; then
 ### BEGIN INIT INFO
 # Provides:          nimbix_desktop
 # Required-Start:    $required_start
+# Required-Stop:
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 6
 ### END INIT INFO
@@ -84,6 +85,13 @@ Restart=always
 WantedBy=multi-user.target
 EOF
 fi
+
+# TODO: failures from xenial startup:
+#[91m++ systemctl enable nimbix_desktop
+#[0m[91mSynchronizing state of nimbix_desktop.service with SysV init with /lib/systemd/systemd-sysv-install...
+#Executing /lib/systemd/systemd-sysv-install enable nimbix_desktop
+#[0m[91minsserv: Script nimbix_desktop is broken: incomplete LSB comment.
+#insserv: missing `Required-Stop:'  entry: please add even if empty.
 
 if [ -z "$DISABLE_DESKTOP_AUTOSTART" ]; then
     (type -p systemctl && systemctl enable nimbix_desktop) || \
