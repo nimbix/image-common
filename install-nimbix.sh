@@ -50,7 +50,7 @@ function setup_base_os() {
         yum -y install epel-release
 
         # Packages to support MPI and basic container operation
-        PKGS+=" passwd xz tar file openssh-server openssh-clients"
+        PKGS+=" passwd xz tar file openssh-server openssh-clients python3"
         PKGS+=" openmpi openmpi3 perftest which sshpass mailcap"
         PKGS+=" dapl compat-dapl dapl.i686 compat-dapl.i686 infiniband-diags"
         PKGS+=" rdma-core rdma-core.i686 libibverbs libibverbs-utils"
