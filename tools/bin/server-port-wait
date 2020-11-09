@@ -1,9 +1,9 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 #
 # NIMBIX CONFIDENTIAL
 # -------------------
 #
-# Copyright (c) 2016 Nimbix, Inc.  All Rights Reserved.
+# Copyright (c) 2020 Nimbix, Inc.  All Rights Reserved.
 #
 # NOTICE:  All information contained herein is, and remains the property of
 # Nimbix, Inc. and its suppliers, if any.  The intellectual and technical
@@ -20,12 +20,12 @@ import time
 
 
 # attempts to connect to a specific server:port for a specific period of time
-def port_wait(addr, port, timeout):
-    timeout = time.time() + float(timeout)
-    while time.time() < timeout:
+def port_wait(addr, prt, tmout):
+    tmout = time.time() + float(tmout)
+    while time.time() < tmout:
         s = socket.socket()
         try:
-            s.connect((addr, port))
+            s.connect((addr, prt))
             return True
         except:
             time.sleep(1)
@@ -42,9 +42,8 @@ if __name__ == '__main__':
         timeout = int(sys.argv[4])
         assert(port > 0 and timeout > 0)
     except:
-        print >> sys.stderr, \
-            ('usage: %s <ip-address> <hostname> <port> <timeout-secs>' %
-             sys.argv[0])
+        print('usage: %s <ip-address> <hostname> <port> <timeout-secs>' %
+              sys.argv[0], file=sys.stderr)
         sys.exit(1)
 
     # does server name override port?
@@ -55,8 +54,8 @@ if __name__ == '__main__':
 
     # test port
     if not port_wait(ipaddr, port, timeout):
-        print >> sys.stderr, ('Timed out attempting to connect to %s:%d' %
-                              (ipaddr, port))
+        print('Timed out attempting to connect to %s:%d' %
+              (ipaddr, port), file=sys.stderr)
         sys.exit(1)
 
     # update /etc/hosts file
