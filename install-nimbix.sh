@@ -46,9 +46,10 @@ EOF
 function setup_base_os() {
     PKGS="curl zip unzip sudo"
     if [ -f /etc/redhat-release ]; then
-        if [ ! -f /etc/fedora-release ]; then
-            PKGS+=" epel-release"
-        fi
+        # install EPEL first, successive packages live there
+        yum -y install epel-release
+
+        # Packages to support MPI and basic container operation
         PKGS+=" passwd xz tar file openssh-server openssh-clients"
         PKGS+=" openmpi openmpi3 perftest which sshpass mailcap"
         PKGS+=" dapl compat-dapl dapl.i686 compat-dapl.i686 infiniband-diags"
