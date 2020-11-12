@@ -106,8 +106,9 @@ function setup_base_os() {
           update-alternatives --install /usr/bin/python python /usr/bin/python2.7 2
         fi
 
-        [ -f /etc/init/ssh.conf ] && \
+        if [[ -f /etc/init/ssh.conf ]]; then
             sed -ie 's/start on.*/start on filesystem/' /etc/init/ssh.conf
+        fi
     fi
 
 }
