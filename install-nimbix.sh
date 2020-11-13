@@ -146,8 +146,8 @@ function setup_nimbix_desktop() {
 
     # Install both server types on CentOS
     if [ -f /etc/redhat-release ]; then
-        /usr/local/lib/nimbix_desktop/install-centos-real.sh
         /usr/local/lib/nimbix_desktop/install-centos-tiger.sh
+        /usr/local/lib/nimbix_desktop/install-centos-real.sh
     else
         /usr/local/lib/nimbix_desktop/install-ubuntu-tiger.sh
     fi
