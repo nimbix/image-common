@@ -3,6 +3,8 @@
 # assumes install-centos-tiger.sh was run first -- XX old assumption
 #ARCH=$(arch)
 
+INSTALLPATH=/usr/local/realvnc
+
 # update links
 #REALVNC_VER=6.2.1
 #REALVNC="https://www.realvnc.com/download/file/vnc.files/VNC-Server-$REALVNC_VER-Linux-x64.rpm"
@@ -29,12 +31,19 @@ REALVNC="https://www.realvnc.com/download/file/vnc.files/VNC-5.3.2-Linux-x64-RPM
 #fi
 
 #curl $REALVNC >/tmp/$(basename $REALVNC)
+
+# Download the tarball of RPMs and un-archive
 wget --content-disposition -O - "$REALVNC"|tar -C /tmp -xzf -
-rm -f /usr/bin/Xvnc
-yum -y install /tmp/VNC-Server-*-Linux-x64.rpm || \
-    yum -y update /tmp/VNC-Server-*-Linux-x64.rpm
+#  XXX rm -f /usr/bin/Xvnc
+#yum -y install /tmp/VNC-Server-*-Linux-x64.rpm || \
+#    yum -y update /tmp/VNC-Server-*-Linux-x64.rpm
+
+# Install to alternate location, leaving Tiger as default, and not conflicting
+#   by files
+mkdir $INSTALLPATH
+rpm -Uvh --prefix=$INSTALLPATH
 rm -f /tmp/VNC-*.rpm
-ln -sf /usr/bin/Xvnc-realvnc /usr/bin/Xvnc
+#  XXX ln -sf /usr/bin/Xvnc-realvnc /usr/bin/Xvnc
 
 #if [ "$ARCH" != "x86_64" ]; then
 #    yum -y install VirtualGL
