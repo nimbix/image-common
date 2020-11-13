@@ -79,7 +79,7 @@ yum -y install perl wget xauth pygtk2 gnome-icon-theme xorg-x11-fonts-Type1 \
        xkeyboard-config firefox net-tools glx-utils xorg-x11-utils \
        xorg-x11-fonts-ISO8859-1-100dpi xorg-x11-fonts-ISO8859-1-75dpi \
        compat-libstdc++-33 numpy python-pip ImageMagick-devel xorg-x11-apps \
-       xcb-util xcb-util-keysyms ristretto
+       xcb-util xcb-util-keysyms ristretto xterm
 
 if [ "$ARCH" != "x86_64" ]; then
     #build_and_install_tiger
