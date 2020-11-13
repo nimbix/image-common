@@ -41,7 +41,7 @@ wget --content-disposition -O - "$REALVNC"|tar -C /tmp -xzf -
 # Install to alternate location, leaving Tiger as default, and not conflicting
 #   by files
 mkdir $INSTALLPATH
-rpm -Uvh --prefix=$INSTALLPATH
+rpm -Uvh --prefix=$INSTALLPATH /tmp/VNC-Server-*-Linux-x64.rpm
 rm -f /tmp/VNC-*.rpm
 #  XXX ln -sf /usr/bin/Xvnc-realvnc /usr/bin/Xvnc
 
