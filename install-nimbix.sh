@@ -11,8 +11,7 @@ while [ $# -gt 0 ]; do
             SETUP_NIMBIX_DESKTOP=1
             shift
             ;;
-        --setup-realvnc)
-            SETUP_REALVNC=1
+        --setup-realvnc)  # Legacy, leave in place for older Dockerfile compat
             shift
             ;;
         --disable-desktop-autostart)
@@ -33,15 +32,6 @@ while [ $# -gt 0 ]; do
     esac
 done
 
-ETC_HOSTS="$(cat <<EOF
-127.0.0.1   localhost
-::1         localhost ip6-localhost ip6-loopback
-EOF
-)"
-
-[ -e /etc/system-release-cpe ] && \
-    VERSION_ID=$(awk -F: '{print $5}' /etc/system-release-cpe)
-
 # Base OS
 function setup_base_os() {
     PKGS="curl zip unzip sudo"
@@ -60,16 +50,7 @@ function setup_base_os() {
         # Set locale
         localedef -i en_US -f UTF-8 en_US.UTF-8
 
-        rm -f /etc/sysconfig/network-scripts/ifcfg-eth0
-        if [ $VERSION_ID -gt 6 ]; then
-            echo '# leave empty' >/etc/fstab
-        else
-            echo '/dev/root / rootfs defaults 0 0' >/etc/fstab
-            sed -i 's|.sbin.start_udev||' /etc/rc.sysinit
-            sed -i 's|.sbin.start_udev||' /etc/rc.d/rc.sysinit
-            chkconfig udev-post off
-            echo "$ETC_HOSTS" >/etc/hosts
-        fi
+        echo '# leave empty' >/etc/fstab
     else # Ubuntu (assumed)
 
         touch /etc/init.d/systemd-logind
@@ -138,7 +119,7 @@ EOF
 
     cd /tmp
     mkdir -p /etc/JARVICE
-    cp -a /tmp/image-common-$BRANCH/etc/* /etc/JARVICE
+    cp -a /tmp/image-common-"$BRANCH"/etc/* /etc/JARVICE
     chmod 755 /etc/JARVICE
     mkdir -m 0755 /data
     chown nimbix:nimbix /data
@@ -146,6 +127,8 @@ EOF
 
 function setup_nimbix_desktop() {
     mkdir -p /usr/local/lib/nimbix_desktop
+
+    # Copy in the VNC server installers, both for CentOS, and the XFCE files
     if [ -f /etc/redhat-release ]; then
         files="install-centos-tiger.sh"
         files+=" install-centos-real.sh help-real.html postinstall-real.sh"
@@ -154,21 +137,22 @@ function setup_nimbix_desktop() {
     fi
     files+=" help-tiger.html postinstall-tiger.sh"
     files+=" nimbix_desktop url.txt xfce4-session-logout share skel.config"
+
+    # Pull the files from the install bolus
     for i in $files; do
-        cp -a /tmp/image-common-$BRANCH/nimbix_desktop/$i \
+        cp -a /tmp/image-common-"$BRANCH"/nimbix_desktop/"$i" \
             /usr/local/lib/nimbix_desktop
     done
+
+    # Install both server types on CentOS
     if [ -f /etc/redhat-release ]; then
-        if [ -n "$SETUP_REALVNC" ]; then
-            /usr/local/lib/nimbix_desktop/install-centos-real.sh
-        else
-            /usr/local/lib/nimbix_desktop/install-centos-tiger.sh
-        fi
-        #echo "/usr/local/bin/nimbix_desktop" >>/etc/rc.local
+        /usr/local/lib/nimbix_desktop/install-centos-real.sh
+        /usr/local/lib/nimbix_desktop/install-centos-tiger.sh
     else
         /usr/local/lib/nimbix_desktop/install-ubuntu-tiger.sh
     fi
 
+    # clean up older copies, make a link for all apps to find nimbix_desktop
     rm -f /usr/lib/JARVICE/tools/nimbix_desktop
     ln -sf /usr/local/lib/nimbix_desktop/ /usr/lib/JARVICE/tools/nimbix_desktop
 

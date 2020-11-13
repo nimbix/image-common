@@ -21,7 +21,7 @@ VGL32="https://files.jarvice.io/archive/virtualgl/VirtualGL-${VGL64VER}.i386.rpm
 dirname=$(dirname "$0")
 
 # Get CentOS release version
-VERSION_ID=$(awk -F: '{print $5}' /etc/system-release-cpe)
+#VERSION_ID=$(awk -F: '{print $5}' /etc/system-release-cpe)
 
 function build_and_install_tiger() {
     yum -y install git cmake make gcc-c++ \
@@ -73,24 +73,19 @@ function build_and_install_tiger() {
     #make install
 }
 
-yum -y groupinstall Xfce
-yum -y groupinstall Fonts
+yum -y groupinstall Xfce Fonts
 yum -y install perl wget xauth pygtk2 gnome-icon-theme xorg-x11-fonts-Type1 \
        xorg-x11-fonts-misc xorg-x11-fonts-75dpi xorg-x11-fonts-100dpi \
        xkeyboard-config firefox net-tools glx-utils xorg-x11-utils \
        xorg-x11-fonts-ISO8859-1-100dpi xorg-x11-fonts-ISO8859-1-75dpi \
        compat-libstdc++-33 numpy python-pip ImageMagick-devel xorg-x11-apps \
-       xcb-util xcb-util-keysyms
-
-if [ "$VERSION_ID" -gt 6 ]; then
-    yum -y install ristretto
-fi
+       xcb-util xcb-util-keysyms ristretto
 
 if [ "$ARCH" != "x86_64" ]; then
     #build_and_install_tiger
     yum -y install tigervnc-server VirtualGL
 else
-    # Grab newer binary packages on x86_64
+    # Grab newer binary packages on x86_64, install in place
     wget --content-disposition -O - "$TIGERVNC" | tar -C / -xzf - --strip-components=1
 
     # Fix newer installs that put binary in /usr/libexec
