@@ -60,7 +60,8 @@ rm -f /tmp/VNC-*.rpm
 dirname=$(dirname $0)
 [ "$dirname" = "." ] && dirname=$(pwd)
 mkdir -p /etc/NAE
-cp "$dirname"/help-real.html /etc/NAE/help.html
+#cp "$dirname"/help-real.html /etc/NAE/help.html
+cp "$dirname"/help-real.html /etc/NAE/
 
 #yum clean all
 
@@ -70,4 +71,4 @@ cp "$dirname"/help-real.html /etc/NAE/help.html
 #[ -f /etc/xdg/autostart/xfce-polkit.desktop ] && \
 #    rm -f /etc/xdg/autostart/xfce-polkit.desktop
 
-. ${dirname}/postinstall-real.sh
+#. ${dirname}/postinstall-real.sh
