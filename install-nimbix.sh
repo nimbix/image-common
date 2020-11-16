@@ -131,7 +131,7 @@ function setup_nimbix_desktop() {
     # Copy in the VNC server installers, both for CentOS, and the XFCE files
     if [ -f /etc/redhat-release ]; then
         files="install-centos-tiger.sh"
-        files+=" install-centos-real.sh help-real.html postinstall-real.sh"
+        files+=" install-centos-real.sh help-real.html"
     else
         files="install-ubuntu-tiger.sh"
     fi
