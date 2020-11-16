@@ -45,6 +45,8 @@ rpm -Uvh --prefix=$INSTALLPATH /tmp/VNC-Server-*-Linux-x64.rpm
 rm -f /tmp/VNC-*.rpm
 #  XXX ln -sf /usr/bin/Xvnc-realvnc /usr/bin/Xvnc
 
+#[91m/var/tmp/rpm-tmp.RXubfJ: line 338: vncinitconfig: command not found
+
 #if [ "$ARCH" != "x86_64" ]; then
 #    yum -y install VirtualGL
 #else

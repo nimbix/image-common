@@ -144,7 +144,7 @@ function setup_nimbix_desktop() {
             /usr/local/lib/nimbix_desktop
     done
 
-    # Install both server types on CentOS
+    # Install both VNC server types on CentOS
     if [ -f /etc/redhat-release ]; then
         /usr/local/lib/nimbix_desktop/install-centos-tiger.sh
         /usr/local/lib/nimbix_desktop/install-centos-real.sh
