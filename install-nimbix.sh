@@ -3,6 +3,7 @@
 set -e
 set -x
 
+ARCH=$(arch)
 BRANCH=master
 
 while [ $# -gt 0 ]; do
@@ -144,10 +145,12 @@ function setup_nimbix_desktop() {
             /usr/local/lib/nimbix_desktop
     done
 
-    # Install both VNC server types on CentOS
+    # Install both VNC server types on CentOS, RealVNC only for x86_64 arch
     if [ -f /etc/redhat-release ]; then
         /usr/local/lib/nimbix_desktop/install-centos-tiger.sh
-        /usr/local/lib/nimbix_desktop/install-centos-real.sh
+        if [[ $ARCH == x86_64 ]]; then
+          /usr/local/lib/nimbix_desktop/install-centos-real.sh
+        fi
     else
         /usr/local/lib/nimbix_desktop/install-ubuntu-tiger.sh
     fi
