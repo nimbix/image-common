@@ -26,7 +26,9 @@ if [ -d /etc/X11/fontpath.d ]; then
 fi
 
 # Start the VNC server
-if [ -x /usr/bin/Xvnc-realvnc ]; then
+#  TODO: switch server based on license available
+#if [ -x /usr/bin/Xvnc-realvnc ]; then
+if realpath /usr/bin/Xvnc |grep -q real; then
     mkdir -p ~/.vnc/config.d
     chmod 700 ~/.vnc/config.d
     cp -f /usr/lib/JARVICE/tools/etc/realvnc.key ~/.vnc/private.key
