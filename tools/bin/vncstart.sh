@@ -42,7 +42,7 @@ EOF
         -DisableAddNewClient -EnableRemotePrinting=0 -dpi 100 \
         -SecurityTypes RA2:256+,RA2,RA2ne,VeNCrypt,TLSVnc,VncAuth $FP :1
 else
-    export PATH=/usr/local/tigervnc/bin:$PATH
+#    export PATH=/usr/local/tigervnc/bin:$PATH
     vncserver -geometry "$VNC_GEOMETRY" \
         -rfbauth /etc/JARVICE/vncpasswd \
         -dpi 100 \

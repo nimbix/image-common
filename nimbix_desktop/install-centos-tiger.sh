@@ -99,7 +99,8 @@ else
     #sudo alternatives --verbose --install /usr/bin/vncserver vncserver /usr/local/tigervnc/bin/vncserver 50
     #                  --slave /usr/bin/Xvnc Xvnc /usr/local/tigervnc/bin/Xvnc
     alternatives --install /usr/bin/vncserver vncserver /usr/local/tigervnc/bin/vncserver 50 \
-                 --slave /usr/bin/Xvnc Xvnc /usr/local/tigervnc/bin/Xvnc
+                 --slave /usr/bin/Xvnc Xvnc /usr/local/tigervnc/bin/Xvnc \
+                 --slave /usr/bin/vncpasswd vncpasswd /usr/local/tigervnc/bin/vncpasswd
 
 
     cd /tmp

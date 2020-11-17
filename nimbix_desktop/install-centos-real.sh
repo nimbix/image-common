@@ -21,7 +21,8 @@ rm -f /tmp/VNC-*.rpm
 #sudo alternatives --install /usr/bin/vncserver vncserver /usr/local/realvnc/bin/vncserver-virtual 10
 #                  --slave /usr/bin/Xvnc Xvnc /usr/local/realvnc/bin/Xvnc-realvnc
 alternatives --install /usr/bin/vncserver vncserver /usr/local/realvnc/bin/vncserver-virtual 10 \
-             --slave /usr/bin/Xvnc Xvnc /usr/local/realvnc/bin/Xvnc-realvnc
+             --slave /usr/bin/Xvnc Xvnc /usr/local/realvnc/bin/Xvnc-realvnc \
+             --slave /usr/bin/vnclicense vnclicense /usr/local/realvnc/bin/vnclicense
 
 # TODO: find any effect of this error seen at install
 #[91m/var/tmp/rpm-tmp.RXubfJ: line 338: vncinitconfig: command not found
