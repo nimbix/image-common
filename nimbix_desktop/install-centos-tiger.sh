@@ -95,6 +95,13 @@ else
 #      ln -sf /usr/libexec/vncserver /usr/bin/vncserver
 #    fi
 
+    # Install the alternatives link for vncserver and Xvnc
+    #sudo alternatives --verbose --install /usr/bin/vncserver vncserver /usr/local/tigervnc/bin/vncserver 50
+    #                  --slave /usr/bin/Xvnc Xvnc /usr/local/tigervnc/bin/Xvnc
+    alternatives --install /usr/bin/vncserver vncserver /usr/local/tigervnc/bin/vncserver 50 \
+                 --slave /usr/bin/Xvnc Xvnc /usr/local/tigervnc/bin/Xvnc
+
+
     cd /tmp
     wget --content-disposition "$VGL64"
     wget --content-disposition "$VGL32"
