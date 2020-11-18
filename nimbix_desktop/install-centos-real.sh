@@ -22,11 +22,11 @@ rm -f /tmp/VNC-*.rpm
 # Install the alternatives link for vncserver and Xvnc
 #sudo alternatives --install /usr/bin/vncserver vncserver /usr/local/realvnc/bin/vncserver-virtual 10
 #                  --slave /usr/bin/Xvnc Xvnc /usr/local/realvnc/bin/Xvnc-realvnc
-alternatives --install /usr/bin/vncserver vncserver /usr/local/realvnc/bin/vncserver-virtual 10 \
+alternatives --verbose --install /usr/bin/vncserver vncserver /usr/local/realvnc/bin/vncserver-virtual 10 \
              --slave /usr/bin/Xvnc Xvnc /usr/local/realvnc/bin/Xvnc-realvnc \
              --slave /usr/bin/vnclicense vnclicense /usr/local/realvnc/bin/vnclicense \
              --slave /usr/bin/vncserverui vncserverui /usr/local/realvnc/bin/vncserverui \
-             --slave /usr/share/vnc/rgb.txt rgb /usr/local/realvnc/share/vnc/rgb.txt
+             --slave /usr/share/vnc/rgb.txt rgb.txt /usr/local/realvnc/share/vnc/rgb.txt
 
 # TODO: find any effect of this error seen at install
 #Updating / installing...
