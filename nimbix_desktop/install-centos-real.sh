@@ -1,6 +1,7 @@
 #!/bin/bash -ex
 
 INSTALLPATH=/usr/local/realvnc
+CONFIGPATH=/etc/vnc
 
 # update links
 #REALVNC_VER=6.2.1
@@ -12,6 +13,7 @@ wget --content-disposition -O - "$REALVNC"|tar -C /tmp -xzf -
 
 # Install to alternate location, leaving Tiger as default, and not conflicting
 #   by files
+mkdir $CONFIGPATH
 mkdir $INSTALLPATH
 rpm -Uvh --prefix=$INSTALLPATH /tmp/VNC-Server-*-Linux-x64.rpm
 rm -f /tmp/VNC-*.rpm
@@ -22,7 +24,9 @@ rm -f /tmp/VNC-*.rpm
 #                  --slave /usr/bin/Xvnc Xvnc /usr/local/realvnc/bin/Xvnc-realvnc
 alternatives --install /usr/bin/vncserver vncserver /usr/local/realvnc/bin/vncserver-virtual 10 \
              --slave /usr/bin/Xvnc Xvnc /usr/local/realvnc/bin/Xvnc-realvnc \
-             --slave /usr/bin/vnclicense vnclicense /usr/local/realvnc/bin/vnclicense
+             --slave /usr/bin/vnclicense vnclicense /usr/local/realvnc/bin/vnclicense \
+             --slave /usr/bin/vncserverui vncserverui /usr/local/realvnc/bin/vncserverui \
+             --slave /usr/share/vnc/rgb.txt rgb /usr/local/realvnc/share/vnc/rgb.txt
 
 # TODO: find any effect of this error seen at install
 #Updating / installing...
@@ -30,6 +34,8 @@ alternatives --install /usr/bin/vncserver vncserver /usr/local/realvnc/bin/vncse
 #[91m/var/tmp/rpm-tmp.D6xkSg: line 318: /usr/lib/vnc/rpmConflictSymlinks: No such file or directory
 #[0mChecking for getenforce... [Not found]
 #[91m/var/tmp/rpm-tmp.D6xkSg: line 338: vncinitconfig: command not found
+
+#Couldn't open RGB_DB '/usr/share/vnc/rgb'
 
 # link used to start up the service, virtual mode
 #lrwxrwxrwx 1 root root        17 Sep 16 20:03 vncserver -> vncserver-virtual
