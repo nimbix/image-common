@@ -25,7 +25,11 @@ alternatives --install /usr/bin/vncserver vncserver /usr/local/realvnc/bin/vncse
              --slave /usr/bin/vnclicense vnclicense /usr/local/realvnc/bin/vnclicense
 
 # TODO: find any effect of this error seen at install
-#[91m/var/tmp/rpm-tmp.RXubfJ: line 338: vncinitconfig: command not found
+#Updating / installing...
+#realvnc-vnc-server-5.3.2.19179-1      ##
+#[91m/var/tmp/rpm-tmp.D6xkSg: line 318: /usr/lib/vnc/rpmConflictSymlinks: No such file or directory
+#[0mChecking for getenforce... [Not found]
+#[91m/var/tmp/rpm-tmp.D6xkSg: line 338: vncinitconfig: command not found
 
 # link used to start up the service, virtual mode
 #lrwxrwxrwx 1 root root        17 Sep 16 20:03 vncserver -> vncserver-virtual

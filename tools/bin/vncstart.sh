@@ -29,7 +29,7 @@ fi
 #  TODO: detect JARVICE RealVNC variable
 if [[ -f /usr/lib/JARVICE/tools/etc/realvnc.key ]]; then
   echo "Enabling RealVNC server for VNC service"
-  alternatives --set vncserver /usr/local/realvnc/bin/vncserver-virtual
+  sudo alternatives --set vncserver /usr/local/realvnc/bin/vncserver-virtual
 fi
 
 # Start the VNC server
