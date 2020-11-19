@@ -2,6 +2,7 @@
 
 INSTALLPATH=/usr/local/realvnc
 CONFIGPATH=/etc/vnc
+SHAREPATH=/usr/share/vnc
 
 # update links
 #REALVNC_VER=6.2.1
@@ -14,6 +15,7 @@ wget --content-disposition -O - "$REALVNC"|tar -C /tmp -xzf -
 # Install to alternate location, leaving Tiger as default, and not conflicting
 #   by files
 mkdir $CONFIGPATH
+mkdir $SHAREPATH
 mkdir $INSTALLPATH
 rpm -Uvh --prefix=$INSTALLPATH /tmp/VNC-Server-*-Linux-x64.rpm
 rm -f /tmp/VNC-*.rpm
