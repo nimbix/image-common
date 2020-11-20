@@ -3,6 +3,7 @@
 INSTALLPATH=/usr/local/realvnc
 CONFIGPATH=/etc/vnc
 SHAREPATH=/usr/share/vnc
+LIBPATH=/usr/lib/vnc
 
 # update links
 #REALVNC_VER=6.2.1
@@ -17,17 +18,22 @@ wget --content-disposition -O - "$REALVNC"|tar -C /tmp -xzf -
 mkdir $CONFIGPATH
 mkdir $SHAREPATH
 mkdir $INSTALLPATH
+mkdir $LIBPATH
 export PATH=/usr/local/realvnc/bin:$PATH
 rpm -Uvh --prefix=$INSTALLPATH /tmp/VNC-Server-*-Linux-x64.rpm
 rm -f /tmp/VNC-*.rpm
-#  XXX ln -sf /usr/bin/Xvnc-realvnc /usr/bin/Xvnc
+
+echo "Creating RealVNC config manually..."
+/usr/local/realvnc/bin/vncinitconfig --config
 
 # Install the alternatives link for vncserver and Xvnc
-#sudo alternatives --install /usr/bin/vncserver vncserver /usr/local/realvnc/bin/vncserver-virtual 10
-#                  --slave /usr/bin/Xvnc Xvnc /usr/local/realvnc/bin/Xvnc-realvnc
 alternatives --verbose --install /usr/bin/vncserver vncserver /usr/local/realvnc/bin/vncserver-virtual 10 \
              --slave /usr/bin/Xvnc Xvnc /usr/local/realvnc/bin/Xvnc-realvnc \
              --slave /usr/bin/vnclicense vnclicense /usr/local/realvnc/bin/vnclicense \
+             --slave /usr/bin/vnclicensehelper vnclicensehelper /usr/local/realvnc/bin/vnclicensehelper \
+             --slave /usr/bin/vncinitconfig vncinitconfig /usr/local/realvnc/bin/vncinitconfig \
+             --slave /usr/lib/vnc/get_primary_ip4 get_primary_ip4 /usr/local/realvnc/lib/vnc/get_primary_ip4 \
+             --slave /usr/lib/vnc/vncelevate vncelevate /usr/local/realvnc/lib/vnc/vncelevate \
              --slave /usr/bin/vncserverui vncserverui /usr/local/realvnc/bin/vncserverui \
              --slave /usr/share/vnc/rgb.txt rgb.txt /usr/local/realvnc/share/vnc/rgb.txt
 
