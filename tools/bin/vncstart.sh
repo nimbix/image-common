@@ -27,15 +27,17 @@ fi
 
 # Detect and enable RealVNC service, replacing TigerVNC
 #  TODO: detect JARVICE RealVNC variable
-if [[ -f /usr/lib/JARVICE/tools/etc/realvnc.key ]]; then
-  echo "Enabling RealVNC server for VNC service"
-  sudo alternatives --set vncserver /usr/local/realvnc/bin/vncserver-virtual
-fi
+#if [[ -f /usr/lib/JARVICE/tools/etc/realvnc.key ]]; then
+#  echo "Enabling RealVNC server for VNC service"
+#  sudo alternatives --set vncserver /usr/local/realvnc/bin/vncserver-virtual
+#fi
 
 # Start the VNC server
 #  TODO: switch server based on license available
 #if [ -x /usr/bin/Xvnc-realvnc ]; then
-if realpath /usr/bin/Xvnc |grep -q real; then
+#if realpath /usr/bin/Xvnc |grep -q real; then
+if [[ -f /usr/lib/JARVICE/tools/etc/realvnc.key ]]; then
+    echo "Enabling RealVNC server for VNC service"
     mkdir -p ~/.vnc/config.d
     chmod 700 ~/.vnc/config.d
     cp -f /usr/lib/JARVICE/tools/etc/realvnc.key ~/.vnc/private.key
@@ -45,13 +47,13 @@ if realpath /usr/bin/Xvnc |grep -q real; then
 Password=$VNCPASSWD
 EOF
     touch ~/.vnc/config.d/.Xvnc-v5-marker
-    vncserver -geometry "$VNC_GEOMETRY" -StartUI=1 -EnableAutoUpdateChecks=0 \
+    /usr/bin/vncserver -geometry "$VNC_GEOMETRY" -StartUI=1 -EnableAutoUpdateChecks=0 \
         -ConnNotifyTimeout=0 \
         -AllowHttp=0 -Encryption PreferOn -Authentication VncAuth \
         -DisableAddNewClient -EnableRemotePrinting=0 -dpi 100 \
         -SecurityTypes RA2:256+,RA2,RA2ne,VeNCrypt,TLSVnc,VncAuth $FP :1
 else
-#    export PATH=/usr/local/tigervnc/bin:$PATH
+    # Default path to Tiger in /usr/local/bin
     vncserver -geometry "$VNC_GEOMETRY" \
         -rfbauth /etc/JARVICE/vncpasswd \
         -dpi 100 \

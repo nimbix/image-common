@@ -74,11 +74,11 @@ function build_and_install_tiger() {
 }
 
 yum -y groupinstall Xfce
-yum -y install perl wget xauth pygtk2 gnome-icon-theme xorg-x11-fonts-Type1 \
-       xorg-x11-fonts-misc xorg-x11-fonts-75dpi xorg-x11-fonts-100dpi \
+yum -y install perl wget xauth pygtk2 gnome-icon-theme  \
+       xorg-x11-fonts-Type1 xorg-x11-fonts-misc xorg-x11-fonts-75dpi xorg-x11-fonts-100dpi \
        xorg-x11-fonts-ISO8859-1-100dpi xorg-x11-fonts-ISO8859-1-75dpi \
-       xkeyboard-config firefox net-tools glx-utils xorg-x11-utils \
-       xcb-util xcb-util-keysyms ImageMagick-devel xorg-x11-apps \
+       xkeyboard-config xorg-x11-apps xcb-util xcb-util-keysyms xorg-x11-utils \
+       net-tools glx-utils ImageMagick-devel firefox \
        compat-libstdc++-33 ristretto xterm numpy python-pip
 
 if [ "$ARCH" != "x86_64" ]; then
@@ -86,9 +86,9 @@ if [ "$ARCH" != "x86_64" ]; then
     yum -y install tigervnc-server VirtualGL
 else
     # Grab newer binary packages on x86_64, install in place to an location that needs pathing
-    mkdir -p /usr/local/tigervnc
+#    mkdir -p /usr/local/tigervnc
 #    wget --content-disposition -O - "$TIGERVNC" | tar -C / -xzf - --strip-components=1
-    wget --content-disposition -O - "$TIGERVNC" | tar -C /usr/local/tigervnc -xzf - --strip-components=2
+    wget --content-disposition -O - "$TIGERVNC" | tar -C /usr/local -xzf - --strip-components=2
 
     # Fix newer installs that put binary in /usr/libexec
 #    if [[ -x /usr/libexec/vncserver ]]; then
@@ -96,10 +96,10 @@ else
 #    fi
 
     # Install the alternatives link for vncserver and Xvnc
-    alternatives --install /usr/bin/vncserver vncserver /usr/local/tigervnc/bin/vncserver 50 \
-                 --slave /usr/bin/Xvnc Xvnc /usr/local/tigervnc/bin/Xvnc \
-                 --slave /usr/lib64/swrast_dri.so swrast_dri.so /usr/local/tigervnc/lib64/swrast_dri.so \
-                 --slave /usr/bin/vncpasswd vncpasswd /usr/local/tigervnc/bin/vncpasswd
+#    alternatives --install /usr/local/bin/vncserver vncserver /usr/local/tigervnc/bin/vncserver 50 \
+#                 --slave /usr/local/bin/Xvnc Xvnc /usr/local/tigervnc/bin/Xvnc \
+#                 --slave /usr/lib64/swrast_dri.so swrast_dri.so /usr/local/tigervnc/lib64/swrast_dri.so \
+#                 --slave /usr/local/bin/vncpasswd vncpasswd /usr/local/tigervnc/bin/vncpasswd
 
     cd /tmp
     wget --content-disposition "$VGL64"
