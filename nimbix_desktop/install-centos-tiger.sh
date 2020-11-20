@@ -73,13 +73,13 @@ function build_and_install_tiger() {
     #make install
 }
 
-yum -y groupinstall Xfce Fonts
+yum -y groupinstall Xfce
 yum -y install perl wget xauth pygtk2 gnome-icon-theme xorg-x11-fonts-Type1 \
        xorg-x11-fonts-misc xorg-x11-fonts-75dpi xorg-x11-fonts-100dpi \
-       xkeyboard-config firefox net-tools glx-utils xorg-x11-utils \
        xorg-x11-fonts-ISO8859-1-100dpi xorg-x11-fonts-ISO8859-1-75dpi \
-       compat-libstdc++-33 numpy python-pip ImageMagick-devel xorg-x11-apps \
-       xcb-util xcb-util-keysyms ristretto xterm
+       xkeyboard-config firefox net-tools glx-utils xorg-x11-utils \
+       xcb-util xcb-util-keysyms ImageMagick-devel xorg-x11-apps \
+       compat-libstdc++-33 ristretto xterm numpy python-pip
 
 if [ "$ARCH" != "x86_64" ]; then
     #build_and_install_tiger
@@ -96,12 +96,10 @@ else
 #    fi
 
     # Install the alternatives link for vncserver and Xvnc
-    #sudo alternatives --verbose --install /usr/bin/vncserver vncserver /usr/local/tigervnc/bin/vncserver 50
-    #                  --slave /usr/bin/Xvnc Xvnc /usr/local/tigervnc/bin/Xvnc
     alternatives --install /usr/bin/vncserver vncserver /usr/local/tigervnc/bin/vncserver 50 \
                  --slave /usr/bin/Xvnc Xvnc /usr/local/tigervnc/bin/Xvnc \
+                 --slave /usr/lib64/swrast_dri.so swrast_dri.so /usr/local/tigervnc/lib64/swrast_dri.so \
                  --slave /usr/bin/vncpasswd vncpasswd /usr/local/tigervnc/bin/vncpasswd
-
 
     cd /tmp
     wget --content-disposition "$VGL64"
