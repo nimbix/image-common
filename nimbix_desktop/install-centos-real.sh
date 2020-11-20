@@ -19,12 +19,18 @@ mkdir $CONFIGPATH
 mkdir $SHAREPATH
 mkdir $INSTALLPATH
 mkdir $LIBPATH
+
+rpm -Uvh /tmp/VNC-Server-*-Linux-x64.rpm
+tar czvf /tmp/realvnc-cfg.tgz /etc/vnc
+rpm -e realvnc-vnc-server
+cd / && tar xf /tmp/realvnc-cfg.tgz
+
 export PATH=/usr/local/realvnc/bin:$PATH
 rpm -Uvh --prefix=$INSTALLPATH /tmp/VNC-Server-*-Linux-x64.rpm
 rm -f /tmp/VNC-*.rpm
 
 echo "Creating RealVNC config manually..."
-/usr/local/realvnc/bin/vncinitconfig --config
+#/usr/local/realvnc/bin/vncinitconfig --config
 
 # Install the alternatives link for vncserver and Xvnc
 alternatives --verbose --install /usr/bin/vncserver vncserver /usr/local/realvnc/bin/vncserver-virtual 10 \
