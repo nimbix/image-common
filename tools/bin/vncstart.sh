@@ -54,7 +54,7 @@ EOF
         -SecurityTypes RA2:256+,RA2,RA2ne,VeNCrypt,TLSVnc,VncAuth $FP :1
 else
     # Default path to Tiger in /usr/local/bin
-    vncserver -geometry "$VNC_GEOMETRY" \
+    /usr/local/bin/vncserver -geometry "$VNC_GEOMETRY" \
         -rfbauth /etc/JARVICE/vncpasswd \
         -dpi 100 \
         -SecurityTypes=VeNCrypt,TLSVnc,VncAuth :1
