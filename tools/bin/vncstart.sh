@@ -29,7 +29,7 @@ fi
 RET=1 && (vnclicense -check >/dev/null 2>&1) && RET=$?
 if [[ -x /usr/bin/Xvnc-realvnc && -f /usr/lib/JARVICE/tools/etc/realvnc.key && $RET -eq 0 ]]; then
     echo "Enabling RealVNC server for VNC service"
-    cp -f /etc/NAE/help-real.html /etc/NAE/help.html
+    sudo cp -f /etc/NAE/help-real.html /etc/NAE/help.html
     mkdir -p ~/.vnc/config.d
     chmod 700 ~/.vnc/config.d
     cp -f /usr/lib/JARVICE/tools/etc/realvnc.key ~/.vnc/private.key
