@@ -26,8 +26,8 @@ if [ -d /etc/X11/fontpath.d ]; then
 fi
 
 # Start the VNC server
-#  TODO: switch server based on license available
-if [[ -f /usr/lib/JARVICE/tools/etc/realvnc.key ]]; then
+RET=1 && (vnclicense -check >/dev/null 2>&1) && RET=$?
+if [[ -x /usr/bin/Xvnc-realvnc && -f /usr/lib/JARVICE/tools/etc/realvnc.key && $RET -eq 0 ]]; then
     echo "Enabling RealVNC server for VNC service"
     cp -f /etc/NAE/help-real.html /etc/NAE/help.html
     mkdir -p ~/.vnc/config.d

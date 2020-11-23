@@ -12,7 +12,8 @@ while [ $# -gt 0 ]; do
             SETUP_NIMBIX_DESKTOP=1
             shift
             ;;
-        --setup-realvnc)  # Legacy, leave in place for older Dockerfile compat
+        --setup-realvnc)
+            SETUP_REALVNC=1
             shift
             ;;
         --disable-desktop-autostart)
@@ -148,7 +149,7 @@ function setup_nimbix_desktop() {
     # Install both VNC server types on CentOS, RealVNC only for x86_64 arch
     if [ -f /etc/redhat-release ]; then
         /usr/local/lib/nimbix_desktop/install-centos-tiger.sh
-        if [[ $ARCH == x86_64 ]]; then
+        if [[ $ARCH == x86_64 && -n "$SETUP_REALVNC" ]]; then
           /usr/local/lib/nimbix_desktop/install-centos-real.sh
         fi
     else
