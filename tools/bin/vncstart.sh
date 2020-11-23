@@ -25,19 +25,11 @@ if [ -d /etc/X11/fontpath.d ]; then
     FP="-fp catalogue:/etc/X11/fontpath.d,built-ins"
 fi
 
-# Detect and enable RealVNC service, replacing TigerVNC
-#  TODO: detect JARVICE RealVNC variable
-#if [[ -f /usr/lib/JARVICE/tools/etc/realvnc.key ]]; then
-#  echo "Enabling RealVNC server for VNC service"
-#  sudo alternatives --set vncserver /usr/local/realvnc/bin/vncserver-virtual
-#fi
-
 # Start the VNC server
 #  TODO: switch server based on license available
-#if [ -x /usr/bin/Xvnc-realvnc ]; then
-#if realpath /usr/bin/Xvnc |grep -q real; then
 if [[ -f /usr/lib/JARVICE/tools/etc/realvnc.key ]]; then
     echo "Enabling RealVNC server for VNC service"
+    cp -f /etc/NAE/help-real.html /etc/NAE/help.html
     mkdir -p ~/.vnc/config.d
     chmod 700 ~/.vnc/config.d
     cp -f /usr/lib/JARVICE/tools/etc/realvnc.key ~/.vnc/private.key

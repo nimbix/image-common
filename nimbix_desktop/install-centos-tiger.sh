@@ -86,20 +86,12 @@ if [ "$ARCH" != "x86_64" ]; then
     yum -y install tigervnc-server VirtualGL
 else
     # Grab newer binary packages on x86_64, install in place to an location that needs pathing
-#    mkdir -p /usr/local/tigervnc
-#    wget --content-disposition -O - "$TIGERVNC" | tar -C / -xzf - --strip-components=1
     wget --content-disposition -O - "$TIGERVNC" | tar -C /usr/local -xzf - --strip-components=2
 
     # Fix newer installs that put binary in /usr/libexec
 #    if [[ -x /usr/libexec/vncserver ]]; then
 #      ln -sf /usr/libexec/vncserver /usr/bin/vncserver
 #    fi
-
-    # Install the alternatives link for vncserver and Xvnc
-#    alternatives --install /usr/local/bin/vncserver vncserver /usr/local/tigervnc/bin/vncserver 50 \
-#                 --slave /usr/local/bin/Xvnc Xvnc /usr/local/tigervnc/bin/Xvnc \
-#                 --slave /usr/lib64/swrast_dri.so swrast_dri.so /usr/local/tigervnc/lib64/swrast_dri.so \
-#                 --slave /usr/local/bin/vncpasswd vncpasswd /usr/local/tigervnc/bin/vncpasswd
 
     cd /tmp
     wget --content-disposition "$VGL64"
