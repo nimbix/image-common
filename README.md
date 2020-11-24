@@ -8,7 +8,6 @@ Dockerfile without having to change your FROM line.  Currently, we only
 support CentOS and Ubuntu with this trick.
 
 Verified distributions:
-* CentOS 6 (x86_64)
 * CentOS 7 (x86_64, ppc64le)
 * Ubuntu 16.04 Xenial (amd64, ppc64le)
 * Ubuntu 18.04 Bionic (amd64, ppc64le)
