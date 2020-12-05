@@ -95,7 +95,8 @@ apt-get -y install wget gnome-icon-theme software-properties-common \
 if [[ "$ARCH" != "x86_64" ]]; then
     build_and_install_tiger
 else
-    wget --content-disposition -O - "$TIGERVNC" |tar -C / -xzf - --strip-components=1
+    # Grab newer binary packages on x86_64, install in place to an location that needs pathing
+    wget --content-disposition -O - "$TIGERVNC" | tar -C /usr/local -xzf - --strip-components=2
 
     # Fix newer installs that put binary in /usr/libexec
 #    if [[ -x /usr/libexec/vncserver ]]; then

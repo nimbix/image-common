@@ -107,8 +107,8 @@ function setup_jarvice_emulation {
 
     # Redundant directory copies, use a soft link, favor the /usr/local/ but
     #  J2 depends on this so allow the full copies for now
-     mkdir -p /usr/lib/JARVICE
-     cp -a /tmp/image-common-$BRANCH/tools /usr/lib/JARVICE
+    mkdir -p /usr/lib/JARVICE
+    cp -a /tmp/image-common-$BRANCH/tools /usr/lib/JARVICE
     mkdir -p /usr/local/JARVICE
     cp -a /tmp/image-common-$BRANCH/tools /usr/local/JARVICE
 #    ln -sf /usr/local/JARVICE /usr/lib/JARVICE
