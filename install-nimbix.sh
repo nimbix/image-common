@@ -149,8 +149,9 @@ function setup_nimbix_desktop() {
     # Install both VNC server types on CentOS, RealVNC only for x86_64 arch
     if [ -f /etc/redhat-release ]; then
         /usr/local/lib/nimbix_desktop/install-centos-tiger.sh
-        if [[ $ARCH == x86_64 && -n "$SETUP_REALVNC" ]]; then
-          /usr/local/lib/nimbix_desktop/install-centos-real.sh
+#        if [[ $ARCH == x86_64 && -n "$SETUP_REALVNC" ]]; then
+        if [[ $ARCH == x86_64 ]]; then
+          /usr/local/lib/nimbix_desktop/prep-centos-real.sh
         fi
     else
         /usr/local/lib/nimbix_desktop/install-ubuntu-tiger.sh
