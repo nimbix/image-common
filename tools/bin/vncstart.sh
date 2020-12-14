@@ -30,10 +30,6 @@ if [[ $(uname -i) == x86_64 && -f /usr/lib/JARVICE/tools/etc/realvnc.key ]]; the
     sudo /usr/local/lib/nimbix_desktop/install-centos-real.sh
 fi
 
-#RET=1 && (vnclicense -check >/dev/null 2>&1) && RET=$?
-#if [[ -x /usr/bin/Xvnc-realvnc && -f /usr/lib/JARVICE/tools/etc/realvnc.key && $RET -eq 0 ]]; then
-#if [[ -f /usr/lib/JARVICE/tools/etc/realvnc.key && $RET -eq 0 ]]; then
-
 # Start the VNC server
 if [[ -x /usr/bin/Xvnc-realvnc ]]; then
     echo "Enabling RealVNC server for VNC service"

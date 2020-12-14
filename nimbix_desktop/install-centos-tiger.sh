@@ -86,7 +86,6 @@ if [ "$ARCH" != "x86_64" ]; then
     yum -y install tigervnc-server VirtualGL
 else
     # Grab newer binary packages on x86_64, install in place to an location that needs pathing
-#    wget --content-disposition -O - "$TIGERVNC" | tar -C /usr/local -xzf - --strip-components=2
     wget --content-disposition -O - "$TIGERVNC" | tar -C / -xzf - --strip-components=1
 
     # Fix newer installs that put binary in /usr/libexec
