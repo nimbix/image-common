@@ -26,7 +26,7 @@ if [ -d /etc/X11/fontpath.d ]; then
 fi
 
 # Install the RealVNC server if licensed, overwriting TigerVNC
-if [[ $ARCH == x86_64 && -f /usr/lib/JARVICE/tools/etc/realvnc.key ]]; then
+if [[ $(uname -i) == x86_64 && -f /usr/lib/JARVICE/tools/etc/realvnc.key ]]; then
     /usr/local/lib/nimbix_desktop/install-centos-real.sh
 fi
 
