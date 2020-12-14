@@ -27,7 +27,7 @@ fi
 
 # Install the RealVNC server if licensed, overwriting TigerVNC
 if [[ $(uname -i) == x86_64 && -f /usr/lib/JARVICE/tools/etc/realvnc.key ]]; then
-    /usr/local/lib/nimbix_desktop/install-centos-real.sh
+    sudo /usr/local/lib/nimbix_desktop/install-centos-real.sh
 fi
 
 #RET=1 && (vnclicense -check >/dev/null 2>&1) && RET=$?
