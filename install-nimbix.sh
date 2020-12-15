@@ -151,6 +151,7 @@ function setup_nimbix_desktop() {
         /usr/local/lib/nimbix_desktop/install-centos-tiger.sh
         if [[ $ARCH == x86_64 ]]; then
           /usr/local/lib/nimbix_desktop/prep-centos-real.sh
+          cp /usr/local/lib/nimbix_desktop/vnclicense /usr/bin/
         fi
     else
         /usr/local/lib/nimbix_desktop/install-ubuntu-tiger.sh

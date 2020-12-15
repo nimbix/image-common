@@ -1,4 +1,4 @@
-#!/bin/bash -ex
+#!/bin/bash
 
 # update links
 REALVNC="https://www.realvnc.com/download/file/vnc.files/VNC-5.3.2-Linux-x64-RPM.tar.gz"
