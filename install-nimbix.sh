@@ -149,10 +149,12 @@ function setup_nimbix_desktop() {
     # Install RealVNC server on CentOS if requested, setup the desktop files
     if [ -f /etc/redhat-release ]; then
         /usr/local/lib/nimbix_desktop/install-centos-desktop.sh
-        if [[ $ARCH == x86_64 && -n "$SETUP_REALVNC" ]]; then
-            /usr/local/lib/nimbix_desktop/install-centos-real.sh
-        else
+
+        if [[ $ARCH == x86_64 ]]; then
             /usr/local/lib/nimbix_desktop/prep-tiger.sh
+            if [[ -n "$SETUP_REALVNC" ]]; then
+                /usr/local/lib/nimbix_desktop/install-centos-real.sh
+            fi
         fi
     else
         /usr/local/lib/nimbix_desktop/install-ubuntu-tiger.sh
