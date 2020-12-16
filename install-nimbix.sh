@@ -135,7 +135,7 @@ function setup_nimbix_desktop() {
         files="install-centos-desktop.sh prep-tiger.sh"
         files+=" install-centos-real.sh help-real.html"
     else
-        files="install-ubuntu-tiger.sh"
+        files="install-ubuntu-desktop.sh"
     fi
     files+=" install-tiger.sh help-tiger.html postinstall-desktop.sh"
     files+=" nimbix_desktop url.txt xfce4-session-logout share skel.config"
