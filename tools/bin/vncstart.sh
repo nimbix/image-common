@@ -25,13 +25,12 @@ if [ -d /etc/X11/fontpath.d ]; then
     FP="-fp catalogue:/etc/X11/fontpath.d,built-ins"
 fi
 
-# Install the RealVNC server if licensed, overwriting TigerVNC
-if [[ $(uname -i) == x86_64 && -f /usr/lib/JARVICE/tools/etc/realvnc.key ]]; then
-    sudo /usr/local/lib/nimbix_desktop/install-centos-real.sh
-fi
-
 # Start the VNC server
-if [[ -x /usr/bin/Xvnc-realvnc ]]; then
+RET=1 && (vnclicense -check >/dev/null 2>&1) && RET=$?
+#if [[ -x /usr/bin/Xvnc-realvnc && -f /usr/lib/JARVICE/tools/etc/realvnc.key && $RET -eq 0 ]]; then
+if [[ -x /usr/bin/Xvnc-realvnc && $RET -eq 0 ]]; then
+
+#if [[ -x /usr/bin/Xvnc-realvnc ]]; then
     echo "Enabling RealVNC server for VNC service"
     sudo cp -f /etc/NAE/help-real.html /etc/NAE/help.html
     mkdir -p ~/.vnc/config.d
@@ -49,7 +48,10 @@ EOF
         -DisableAddNewClient -EnableRemotePrinting=0 -dpi 100 \
         -SecurityTypes RA2:256+,RA2,RA2ne,VeNCrypt,TLSVnc,VncAuth $FP :1
 else
-    # Default path to Tiger
+    # Install Tiger from local tarball or package
+    /usr/local/lib/nimbix_desktop/install-tiger.sh
+
+    # Start the Tiger server
     vncserver -geometry "$VNC_GEOMETRY" \
         -rfbauth /etc/JARVICE/vncpasswd \
         -dpi 100 \
