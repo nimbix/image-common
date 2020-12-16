@@ -1,4 +1,4 @@
-#!/bin/bash -ex
+#!/bin/bash
 
 VERSION=1.9.0
 ARCH=$(arch)
