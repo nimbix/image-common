@@ -161,6 +161,10 @@ function setup_nimbix_desktop() {
         /usr/local/lib/nimbix_desktop/prep-tiger.sh
     fi
 
+    if [[ -z "$SETUP_REALVNC" ]]; then
+        cp /usr/local/lib/nimbix_desktop/help-tiger.html /etc/NAE/help.html
+    fi
+
     # clean up older copies, make a link for all apps to find nimbix_desktop
     rm -f /usr/lib/JARVICE/tools/nimbix_desktop
     ln -sf /usr/local/lib/nimbix_desktop/ /usr/lib/JARVICE/tools/nimbix_desktop

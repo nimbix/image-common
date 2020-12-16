@@ -27,10 +27,8 @@ fi
 
 # Start the VNC server
 RET=1 && (vnclicense -check >/dev/null 2>&1) && RET=$?
-#if [[ -x /usr/bin/Xvnc-realvnc && -f /usr/lib/JARVICE/tools/etc/realvnc.key && $RET -eq 0 ]]; then
-if [[ -x /usr/bin/Xvnc-realvnc && $RET -eq 0 ]]; then
 
-#if [[ -x /usr/bin/Xvnc-realvnc ]]; then
+if [[ -x /usr/bin/Xvnc-realvnc && $RET -eq 0 ]]; then
     echo "Enabling RealVNC server for VNC service"
     sudo cp -f /etc/NAE/help-real.html /etc/NAE/help.html
     mkdir -p ~/.vnc/config.d
