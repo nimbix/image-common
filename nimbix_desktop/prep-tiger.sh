@@ -7,4 +7,4 @@ ARCH=$(arch)
 TIGERVNC="https://bintray.com/tigervnc/stable/download_file?file_path=tigervnc-$VERSION.$ARCH.tar.gz"
 
 # Grab tarballs on x86_64, install in place to an location that needs pathing
-wget --content-disposition -O - "$TIGERVNC" | tar -C /usr/local/lib/nimbix_desktop -xzf -
+wget --content-disposition -O - "$TIGERVNC"
