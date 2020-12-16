@@ -2,7 +2,7 @@
 
 ##VERSION=1.11.0
 #VERSION=1.9.0
-#ARCH=$(arch)
+ARCH=$(arch)
 #
 ## update links as needed
 #TIGERVNC="https://bintray.com/tigervnc/stable/download_file?file_path=tigervnc-$VERSION.$ARCH.tar.gz"
@@ -35,7 +35,7 @@ yum -y install perl wget xauth pygtk2 gnome-icon-theme  \
 if [ "$ARCH" != "x86_64" ]; then
     #build_and_install_tiger
 #    yum -y install tigervnc-server VirtualGL
-    yum -y install VirtualGL
+    echo "non-x86_64 has no VirtualGL"
 else
     # Grab newer binary packages on x86_64, install in place to an location that needs pathing
 #    wget --content-disposition -O - "$TIGERVNC" | tar -C / -xzf - --strip-components=1

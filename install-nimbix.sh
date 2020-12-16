@@ -150,14 +150,15 @@ function setup_nimbix_desktop() {
     if [ -f /etc/redhat-release ]; then
         /usr/local/lib/nimbix_desktop/install-centos-desktop.sh
 
-        if [[ $ARCH == x86_64 ]]; then
-            /usr/local/lib/nimbix_desktop/prep-tiger.sh
-            if [[ -n "$SETUP_REALVNC" ]]; then
-                /usr/local/lib/nimbix_desktop/install-centos-real.sh
-            fi
+        if [[ -n "$SETUP_REALVNC" ]]; then
+            /usr/local/lib/nimbix_desktop/install-centos-real.sh
         fi
     else
-        /usr/local/lib/nimbix_desktop/install-ubuntu-tiger.sh
+        /usr/local/lib/nimbix_desktop/install-ubuntu-desktop.sh
+    fi
+
+    if [[ $ARCH == x86_64 ]]; then
+        /usr/local/lib/nimbix_desktop/prep-tiger.sh
     fi
 
     # clean up older copies, make a link for all apps to find nimbix_desktop
