@@ -131,13 +131,13 @@ function setup_nimbix_desktop() {
     mkdir -p /usr/local/lib/nimbix_desktop
 
     # Copy in the VNC server installers, both for CentOS, and the XFCE files
-    if [ -f /etc/redhat-release ]; then
-        files="install-centos-desktop.sh prep-tiger.sh"
+    if [[ -f /etc/redhat-release ]]; then
+        files="install-centos-desktop.sh"
         files+=" install-centos-real.sh help-real.html"
     else
         files="install-ubuntu-desktop.sh"
     fi
-    files+=" install-tiger.sh help-tiger.html postinstall-desktop.sh"
+    files+=" prep-tiger.sh install-tiger.sh help-tiger.html postinstall-desktop.sh"
     files+=" nimbix_desktop url.txt xfce4-session-logout share skel.config"
 
     # Pull the files from the install bolus
