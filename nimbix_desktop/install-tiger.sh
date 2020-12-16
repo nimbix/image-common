@@ -6,10 +6,10 @@ ARCH=$(arch)
 if [ "$ARCH" != "x86_64" ]; then
     #build_and_install_tiger
     if [[ -f /etc/redhat-release ]]; then
-        yum -y install tigervnc-server
+        sudo yum -y install tigervnc-server
     else
-        apt-get -y update
-        apt-get -y install tigervnc-standalone-server
+        sudo apt-get -y update
+        sudo apt-get -y install tigervnc-standalone-server
     fi
 else
     # Install the cached tarball
