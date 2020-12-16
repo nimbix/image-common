@@ -27,7 +27,8 @@ fi
 
 # Start the VNC server
 RET=1 && (vnclicense -check >/dev/null 2>&1) && RET=$?
-if [[ -x /usr/bin/Xvnc-realvnc && -f /usr/lib/JARVICE/tools/etc/realvnc.key && $RET -eq 0 ]]; then
+
+if [[ -x /usr/bin/Xvnc-realvnc && $RET -eq 0 ]]; then
     echo "Enabling RealVNC server for VNC service"
     sudo cp -f /etc/NAE/help-real.html /etc/NAE/help.html
     mkdir -p ~/.vnc/config.d
@@ -39,14 +40,17 @@ if [[ -x /usr/bin/Xvnc-realvnc && -f /usr/lib/JARVICE/tools/etc/realvnc.key && $
 Password=$VNCPASSWD
 EOF
     touch ~/.vnc/config.d/.Xvnc-v5-marker
-    /usr/bin/vncserver -geometry "$VNC_GEOMETRY" -StartUI=1 -EnableAutoUpdateChecks=0 \
+    vncserver -geometry "$VNC_GEOMETRY" -StartUI=1 -EnableAutoUpdateChecks=0 \
         -ConnNotifyTimeout=0 \
         -AllowHttp=0 -Encryption PreferOn -Authentication VncAuth \
         -DisableAddNewClient -EnableRemotePrinting=0 -dpi 100 \
         -SecurityTypes RA2:256+,RA2,RA2ne,VeNCrypt,TLSVnc,VncAuth $FP :1
 else
-    # Default path to Tiger in /usr/local/bin
-    /usr/local/bin/vncserver -geometry "$VNC_GEOMETRY" \
+    # Install Tiger from local tarball or package
+    /usr/local/lib/nimbix_desktop/install-tiger.sh
+
+    # Start the Tiger server
+    vncserver -geometry "$VNC_GEOMETRY" \
         -rfbauth /etc/JARVICE/vncpasswd \
         -dpi 100 \
         -SecurityTypes=VeNCrypt,TLSVnc,VncAuth :1

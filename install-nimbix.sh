@@ -131,13 +131,13 @@ function setup_nimbix_desktop() {
     mkdir -p /usr/local/lib/nimbix_desktop
 
     # Copy in the VNC server installers, both for CentOS, and the XFCE files
-    if [ -f /etc/redhat-release ]; then
-        files="install-centos-tiger.sh"
+    if [[ -f /etc/redhat-release ]]; then
+        files="install-centos-desktop.sh"
         files+=" install-centos-real.sh help-real.html"
     else
-        files="install-ubuntu-tiger.sh"
+        files="install-ubuntu-desktop.sh"
     fi
-    files+=" help-tiger.html postinstall-tiger.sh"
+    files+=" prep-tiger.sh install-tiger.sh help-tiger.html postinstall-desktop.sh"
     files+=" nimbix_desktop url.txt xfce4-session-logout share skel.config"
 
     # Pull the files from the install bolus
@@ -146,14 +146,23 @@ function setup_nimbix_desktop() {
             /usr/local/lib/nimbix_desktop
     done
 
-    # Install both VNC server types on CentOS, RealVNC only for x86_64 arch
+    # Install RealVNC server on CentOS if requested, setup the desktop files
     if [ -f /etc/redhat-release ]; then
-        /usr/local/lib/nimbix_desktop/install-centos-tiger.sh
-        if [[ $ARCH == x86_64 && -n "$SETUP_REALVNC" ]]; then
-          /usr/local/lib/nimbix_desktop/install-centos-real.sh
+        /usr/local/lib/nimbix_desktop/install-centos-desktop.sh
+
+        if [[ -n "$SETUP_REALVNC" ]]; then
+            /usr/local/lib/nimbix_desktop/install-centos-real.sh
         fi
     else
-        /usr/local/lib/nimbix_desktop/install-ubuntu-tiger.sh
+        /usr/local/lib/nimbix_desktop/install-ubuntu-desktop.sh
+    fi
+
+    if [[ $ARCH == x86_64 ]]; then
+        /usr/local/lib/nimbix_desktop/prep-tiger.sh
+    fi
+
+    if [[ -z "$SETUP_REALVNC" ]]; then
+        cp /usr/local/lib/nimbix_desktop/help-tiger.html /etc/NAE/help.html
     fi
 
     # clean up older copies, make a link for all apps to find nimbix_desktop
