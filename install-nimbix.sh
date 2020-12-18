@@ -63,7 +63,7 @@ function setup_base_os() {
         PKGS+=" libibverbs-dev libibverbs1 librdmacm1 librdmacm-dev ibverbs-utils"
         PKGS+=" rdmacm-utils libibmad-dev libibmad5 byacc flex git cmake"
         PKGS+=" screen grep locales locales-all net-tools lsb-release"
-        PKGS+=" openssh-client sshpass ca-certificates"
+        PKGS+=" openssh-client sshpass ca-certificates openmpi-bin"
 
         # duplicated in VNC installers
 #        if [ ! -e /usr/bin/python ]; then
