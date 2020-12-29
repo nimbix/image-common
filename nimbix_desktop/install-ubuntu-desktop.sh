@@ -17,6 +17,7 @@ apt-get -y install wget gnome-icon-theme software-properties-common \
     xfonts-scalable xauth firefox ristretto mesa-utils init-system-helpers \
     libxcb1 libxcb-keysyms1 libxcb-util1 librtmp1 python-numpy
 
+# VirtualGL install
 if [[ "$ARCH" != "x86_64" ]]; then
     echo "non-x86_64 has no VirtualGL"
 else
@@ -32,14 +33,22 @@ else
     rm -f virtualgl*.deb
 fi
 
+# Find version and python2 presence for package names to install
+REL=$(lsb_release -r -s)
+MAJOR=${REL%\.*}
 PY2=$(python -V 2>&1 |grep "^Python 2" || true)
-if [[ -n "$PY2" ]]; then
 
-    # this clobbers py3 only, so do it only if we have py2
-    apt-get -y install python-pip libmagickwand-dev python-gtk2 python-gnome2
+if [[ -n "$PY2" && $MAJOR -le 18 ]]; then  # Xenial and Bionic
+    apt-get -y install python-pip libmagickwand-dev python-gtk2 python-gnome2 python-wand
+
+    # Wand is used for screenshots, replaced with python-wand
+#    pip install Wand
+elif [[ $MAJOR -gt 18 ]]; then # Focal+
+    # pygtk is gone and moves to gi API for gtk3+
+    apt-get -y install python3-pip libmagickwand-dev python3-gi libgtk-3-0 python3-wand python3-numpy
 
     # Wand is used for screenshots
-    pip install Wand
+#    pip install Wand
 fi
 
 apt-get clean
