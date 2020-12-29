@@ -86,8 +86,8 @@ function setup_base_os() {
         if [[ $MAJOR -gt 18 ]]; then
           apt-get -y install python2 python3
           # set python link, default to python2
-          # update-alternatives --install /usr/bin/python python /usr/bin/python3.8 1
-          # update-alternatives --install /usr/bin/python python /usr/bin/python2.7 2
+          update-alternatives --install /usr/bin/python python /usr/bin/python3.8 1
+          update-alternatives --install /usr/bin/python python /usr/bin/python2.7 2
         else
           apt-get -y install python python3
         fi
