@@ -13,8 +13,10 @@ done
 
 rm -f /usr/local/bin/nimbix_desktop
 ln -sf $dirname/nimbix_desktop /usr/local/bin/nimbix_desktop
-rm -f /usr/local/bin/xfce4-session-logout
-ln -sf $dirname/xfce4-session-logout /usr/local/bin/xfce4-session-logout
+
+# Disable this replacement, issues with GTK libs
+#rm -f /usr/local/bin/xfce4-session-logout
+#ln -sf $dirname/xfce4-session-logout /usr/local/bin/xfce4-session-logout
 
 mkdir -p /etc/NAE
 
