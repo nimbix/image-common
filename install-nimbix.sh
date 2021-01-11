@@ -58,12 +58,12 @@ function setup_base_os() {
         touch /etc/init.d/systemd-logind
 
         export DEBIAN_FRONTEND=noninteractive
-        PKGS+=" kmod xz-utils vim openssh-server libpam-systemd"
+        PKGS+=" kmod xz-utils vim openssh-server libpam-systemd iputils-ping"
         PKGS+=" libmlx4-1 libmlx5-1 iptables infiniband-diags build-essential"
         PKGS+=" libibverbs-dev libibverbs1 librdmacm1 librdmacm-dev ibverbs-utils"
         PKGS+=" rdmacm-utils libibmad-dev libibmad5 byacc flex git cmake"
         PKGS+=" screen grep locales locales-all net-tools lsb-release"
-        PKGS+=" openssh-client sshpass ca-certificates openmpi-bin"
+        PKGS+=" openssh-client sshpass ca-certificates openmpi-bin perftest"
 
         # duplicated in VNC installers
 #        if [ ! -e /usr/bin/python ]; then
