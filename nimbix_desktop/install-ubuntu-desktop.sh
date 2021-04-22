@@ -5,7 +5,8 @@ ARCH=$(arch)
 # Adding a safe download backup since SourceForge goes offline frequently
 VGL64VER=2.6.3
 #VGL64="https://downloads.sourceforge.net/project/virtualgl/$VGL64VER/virtualgl_${VGL64VER}_amd64.deb"
-VGL64="https://files.jarvice.io/archive/virtualgl/virtualgl_${VGL64VER}_amd64.deb"
+#VGL64="https://files.jarvice.io/archive/virtualgl/virtualgl_${VGL64VER}_amd64.deb"
+VGL64="https://storage.googleapis.com/app_archive/virtualgl/virtualgl_${VGL64VER}_amd64.deb"
 dirname=$(dirname $0)
 
 export DEBIAN_FRONTEND=noninteractive
