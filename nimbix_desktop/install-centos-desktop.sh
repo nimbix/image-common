@@ -15,6 +15,7 @@ dirname=$(dirname "$0")
 #VERSION_ID=$(awk -F: '{print $5}' /etc/system-release-cpe)
 
 # Required packages
+dnf config-manager --set-enabled PowerTools # add access for ImageMagick deps
 yum -y groupinstall Xfce
 #yum -y install gnome-icon-theme xorg-x11-apps python-pip  compat-libstdc++-33 numpy \
 yum -y install perl wget xauth pygtk2 \
