@@ -41,8 +41,32 @@ done
 
 # Base OS
 function setup_base_os() {
-  PKGS="curl zip unzip sudo"
-  if [ -f /etc/redhat-release ]; then
+  #CentOS 8 specific
+  if [[ -f /etc/redhat-release && $VERSION_ID == 8 ]]; then
+
+    # Sometimes update will pick up unexpected new packages or deps
+    [ -z "$SKIP_OS_PKG_UPDATE" ] && dnf -y update
+
+    dnf -y install epel-release
+    PKGS+="curl zip unzip sudo mailcap"
+    PKGS+="glibc-langpack-en python2 openssh-server"
+    if [[ -z $SKIP_MPI_PKG ]]; then
+      PKGS+=" openmpi perftest libibverbs-utils libcxgb4 libmlx5"
+    fi
+
+    dnf install -y $PKGS
+    dnf clean all
+
+    # Py 2 and 3 don't set a default, fix to py2 for scripts
+    alternatives --set python /usr/bin/python2
+
+    # Set locale
+    #        localedef -i en_US -f UTF-8 en_US.UTF-8
+
+    echo '# leave empty' >/etc/fstab
+  elif [ -f /etc/redhat-release ]; then # CentOS 7 and 6
+    PKGS="curl zip unzip sudo"
+    #  if [ -f /etc/redhat-release ]; then
     # install EPEL first, successive packages live there
     yum -y install epel-release
 
@@ -58,7 +82,7 @@ function setup_base_os() {
     yum -y install $PKGS
 
     # Set locale
-    localedef -i en_US -f UTF-8 en_US.UTF-8
+    #    localedef -i en_US -f UTF-8 en_US.UTF-8
 
     echo '# leave empty' >/etc/fstab
   else # Ubuntu (assumed)
