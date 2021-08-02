@@ -8,7 +8,7 @@ sudo sh -c "echo app_mode=$app_mode >>$nimbix_desktop"
 
 xinitrc=/tmp/xinitrc
 cat >$xinitrc <<EOF
-#!/bin/bash
+#!/bin/bash -l
 if [ -x /usr/bin/xscreensaver-command ]; then
   (sleep 5; /usr/bin/xscreensaver-command -exit) &
 fi
