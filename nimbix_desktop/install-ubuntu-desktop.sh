@@ -15,7 +15,7 @@ apt-get -y install wget gnome-icon-theme software-properties-common \
     humanity-icon-theme tango-icon-theme xfce4 xfce4-terminal \
     fonts-freefont-ttf xfonts-base xfonts-100dpi xfonts-75dpi x11-apps \
     xfonts-scalable xauth firefox ristretto mesa-utils init-system-helpers \
-    libxcb1 libxcb-keysyms1 libxcb-util1 librtmp1 python-numpy
+    libxcb1 libxcb-keysyms1 libxcb-util1 librtmp1 python-numpy python3-numpy
 
 if [[ "$ARCH" != "x86_64" ]]; then
     echo "non-x86_64 has no VirtualGL"
