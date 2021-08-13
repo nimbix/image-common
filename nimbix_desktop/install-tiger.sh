@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION=1.9.0
+VERSION=1.10.1
 ARCH=$(arch)
 
 if [ "$ARCH" != "x86_64" ]; then
