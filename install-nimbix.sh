@@ -48,7 +48,7 @@ function setup_base_os() {
 
     # Packages to support MPI and basic container operation
     PKGS+=" passwd xz tar file openssh-server openssh-clients"
-    PKGS+=" which sshpass mailcap"
+    PKGS+=" which sshpass mailcap initscripts"
     if [[ -z $SKIP_MPI_PKG ]]; then
       PKGS+=" openmpi openmpi3 perftest"
       PKGS+=" dapl compat-dapl dapl.i686 compat-dapl.i686 infiniband-diags"
