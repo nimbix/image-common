@@ -14,7 +14,7 @@ dirname=$(dirname "$0")
 
 # Required packages
 yum -y groupinstall Xfce
-yum -y install perl wget xauth pygtk2 gnome-icon-theme python3 \
+yum -y install perl wget xauth pygtk2 gnome-icon-theme  \
        xorg-x11-fonts-Type1 xorg-x11-fonts-misc xorg-x11-fonts-75dpi xorg-x11-fonts-100dpi \
        xorg-x11-fonts-ISO8859-1-100dpi xorg-x11-fonts-ISO8859-1-75dpi \
        xkeyboard-config xorg-x11-apps xcb-util xcb-util-keysyms xorg-x11-utils \

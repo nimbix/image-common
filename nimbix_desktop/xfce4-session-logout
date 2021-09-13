@@ -1,21 +1,26 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 
 import gtk
-import os, sys
+import os
+import sys
 import gettext
 
-#gettext.bindtextdomain('xfce4-session', '/usr/share/locale')
+# gettext.bindtextdomain('xfce4-session', '/usr/share/locale')
 gettext.textdomain('xfce4-session')
 _ = gettext.gettext
+
 
 def do_logout(self):
     os.system('/usr/bin/xfce4-session-logout --logout --fast')
 
+
 def do_shutdown(self):
     os.system('/usr/bin/sudo halt --force')
 
+
 def do_cancel(self):
     sys.exit(0)
+
 
 dialog = gtk.Dialog(None, None, gtk.DIALOG_MODAL)
 dialog.set_decorated(False)
