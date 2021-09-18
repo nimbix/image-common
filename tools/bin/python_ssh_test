@@ -32,10 +32,10 @@ def sshtest(host):
         timeout = int(sys.argv[1])
         signal.alarm(timeout)
         output = ''
-        while output != 'OK\n':
-            p = Popen(['/usr/bin/ssh', host, 'echo OK'],
-                      stdout=PIPE, stderr=open('/dev/null', 'w'))
-            output = p.communicate()[0]
+        while output != b'OK\n':
+            conn = Popen(['/usr/bin/ssh', host, 'echo OK'],
+                         stdout=PIPE, stderr=open('/dev/null', 'w'))
+            output = conn.communicate()[0]
     return 'OK'
 
 
