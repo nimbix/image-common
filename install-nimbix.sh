@@ -47,7 +47,7 @@ function setup_base_os() {
     yum -y install epel-release
 
     # Packages to support MPI and basic container operation
-    PKGS+=" passwd xz tar file openssh-server openssh-clients"
+    PKGS+=" passwd xz tar file openssh-server openssh-clients python3"
     PKGS+=" which sshpass mailcap initscripts"
     if [[ -z $SKIP_MPI_PKG ]]; then
       PKGS+=" openmpi openmpi3 perftest"
@@ -66,7 +66,7 @@ function setup_base_os() {
     touch /etc/init.d/systemd-logind
 
     export DEBIAN_FRONTEND=noninteractive
-    PKGS+=" kmod xz-utils vim openssh-server libpam-systemd iputils-ping"
+    PKGS+=" kmod xz-utils vim openssh-server libpam-systemd iputils-ping python3"
     PKGS+=" iptables build-essential byacc flex git cmake"
     PKGS+=" screen grep locales locales-all net-tools lsb-release"
     PKGS+=" openssh-client sshpass ca-certificates"
