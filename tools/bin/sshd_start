@@ -3,8 +3,6 @@
 if [ -x /usr/sbin/sshd-keygen ]; then
     sudo /usr/sbin/sshd-keygen
 else
-    [ ! -f /etc/ssh/ssh_host_key ] && \
-        sudo ssh-keygen -q -f /etc/ssh/ssh_host_key -N '' -t rsa1
     [ ! -f /etc/ssh/ssh_host_rsa_key ] && \
         sudo ssh-keygen -q -f /etc/ssh/ssh_host_rsa_key -N '' -t rsa
     [ ! -f /etc/ssh/ssh_host_dsa_key ] && \
