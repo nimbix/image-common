@@ -149,7 +149,7 @@ function setup_nimbix_desktop() {
   fi
   files+=" prep-tiger.sh install-tiger.sh help-tiger.html postinstall-desktop.sh"
 #  files+=" nimbix_desktop url.txt xfce4-session-logout share skel.config"
-  files+=" nimbix_desktop url.txt xfce4-session-logout share"
+  files+=" nimbix_desktop url.txt xfce4-session-logout share skel.config mimeapps.list helpers.rc"
 
   # Pull the files from the install bolus
   for i in $files; do
