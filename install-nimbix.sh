@@ -148,7 +148,8 @@ function setup_nimbix_desktop() {
     files="install-ubuntu-desktop.sh"
   fi
   files+=" prep-tiger.sh install-tiger.sh help-tiger.html postinstall-desktop.sh"
-  files+=" nimbix_desktop url.txt xfce4-session-logout share skel.config"
+#  files+=" nimbix_desktop url.txt xfce4-session-logout share skel.config"
+  files+=" nimbix_desktop url.txt xfce4-session-logout share"
 
   # Pull the files from the install bolus
   for i in $files; do
