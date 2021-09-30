@@ -12,6 +12,10 @@ for i in $SKEL_CONFIGS; do
     chmod u+w /etc/skel/.config/$i
 done
 
+# Copy in the config files to set Firefox as default
+cp -f $dirname/helpers.rc /etc/skel/.config
+cp -f $dirname/mimeapps.list /etc/skel/.config
+
 rm -f /usr/local/bin/nimbix_desktop
 ln -sf $dirname/nimbix_desktop /usr/local/bin/nimbix_desktop
 rm -f /usr/local/bin/xfce4-session-logout
