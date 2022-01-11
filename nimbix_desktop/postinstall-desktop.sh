@@ -13,7 +13,7 @@ for i in $SKEL_CONFIGS; do
 done
 
 # Copy in the config files to set Firefox as default
-cp -f $dirname/helpers.rc /etc/skel/.config
+cp -f $dirname/helpers.rc /etc/skel/.config/xfce4
 cp -f $dirname/mimeapps.list /etc/skel/.config
 
 rm -f /usr/local/bin/nimbix_desktop
