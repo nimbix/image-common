@@ -1,63 +1,56 @@
 #!/usr/bin/env python3
 
-# import gi
-# gi.require_version("Gtk", "3.0")
-# from gi.repository import Gtk
-#
-# window = Gtk.Window(title="Hello World")
-# window.show()
-# window.connect("destroy", Gtk.main_quit)
-# Gtk.main()
-
-import gtk
 import os
-import sys
-import gettext
-
-# gettext.bindtextdomain('xfce4-session', '/usr/share/locale')
-gettext.textdomain('xfce4-session')
-_ = gettext.gettext
-
-
-def do_logout(self):
-    os.system('/usr/bin/xfce4-session-logout --logout --fast')
+import gi  # python36-gobject
+gi.require_version("Gtk", "3.0")
+from gi.repository import Gtk
 
 
 def do_shutdown(self):
-    os.system('/usr/bin/sudo halt --force')
+    os.system('/usr/bin/sudo kill -s TERM 1')
 
 
-def do_cancel(self):
-    sys.exit(0)
+class DialogExample(Gtk.Dialog):
+    def __init__(self, parent):
+        super().__init__(title="Button Dialog", transient_for=parent, flags=0)
+        self.add_buttons(
+            Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL, Gtk.STOCK_OK, Gtk.ResponseType.OK
+        )
+
+        self.set_default_size(150, 100)
+
+        label = Gtk.Label(label="This is a dialog to display additional information")
+
+        box = self.get_content_area()
+        box.add(label)
+        self.show_all()
 
 
-dialog = gtk.Dialog(None, None, gtk.DIALOG_MODAL)
-dialog.set_decorated(False)
+class DialogWindow(Gtk.Window):
+    def __init__(self):
+        Gtk.Window.__init__(self, title="Top Dialog")
 
-logout_button = gtk.Button(_('Log Out'))
-logout_button.set_image(
-    gtk.image_new_from_icon_name('system-log-out', gtk.ICON_SIZE_DIALOG))
-logout_button.set_image_position(gtk.POS_TOP)
-logout_button.connect('clicked', do_logout)
+        self.set_border_width(6)
 
-shutdown_button = gtk.Button(_('Shut Down'))
-shutdown_button.set_image(
-    gtk.image_new_from_icon_name('system-shutdown', gtk.ICON_SIZE_DIALOG))
-shutdown_button.set_image_position(gtk.POS_TOP)
-shutdown_button.connect('clicked', do_shutdown)
+        button = Gtk.Button(label="Open buttons")
+        button.connect("clicked", self.on_button_clicked)
 
-cancel_button = gtk.Button(stock=gtk.STOCK_CANCEL)
-cancel_button.set_image_position(gtk.POS_TOP)
-cancel_button.connect('clicked', do_cancel)
+        self.add(button)
 
-dialog.action_area.pack_start(logout_button)
-dialog.action_area.pack_start(shutdown_button)
-dialog.action_area.pack_start(cancel_button)
+    def on_button_clicked(self, widget):
+        dialog = DialogExample(self)
+        response = dialog.run()
 
-dialog.set_keep_above(True)
-dialog.set_border_width(6)
-dialog.show_all()
-dialog.grab_focus()
+        if response == Gtk.ResponseType.OK:
+            do_shutdown(self)
+            print("The OK button was clicked, called do_shutdown")
+        elif response == Gtk.ResponseType.CANCEL:
+            print("The Cancel button was clicked")
 
-gtk.main()
+        dialog.destroy()
 
+
+win = DialogWindow()
+win.connect("destroy", Gtk.main_quit)
+win.show_all()
+Gtk.main()
