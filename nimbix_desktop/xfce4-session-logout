@@ -12,29 +12,34 @@ from gi.repository import Gtk
 
 
 # Using both methods to hopefully get the result on any setup
-def do_shutdown(self):
+def on_shutdown(button):
+    print("Exit requested, calling shutdown")
     os.system('/usr/bin/sudo kill -s TERM 1')
     os.system('/usr/bin/sudo halt --force')
 
 
-class DialogWindow(Gtk.Window):
+def on_cancel(button):
+    Gtk.main_quit()
+
+
+class ButtonWindow(Gtk.Window):
     def __init__(self):
-        Gtk.Window.__init__(self, title="Exit")
+        Gtk.Window.__init__(self, title="Shutdown")
+        self.set_border_width(25)
 
-        self.set_border_width(6)
+        hbox = Gtk.Box(spacing=6)
+        self.add(hbox)
 
-        button = Gtk.Button(label="Exit")
-        button.connect("clicked", self.on_button_clicked)
+        button = Gtk.Button.new_with_label("Shutdown")
+        button.connect("clicked", on_shutdown)
+        hbox.pack_start(button, True, True, 0)
 
-        self.add(button)
-
-    def on_button_clicked(self, widget):
-
-        print("Exit requested, calling shutdown")
-        do_shutdown(self)
+        button = Gtk.Button.new_with_label("Cancel")
+        button.connect("clicked", on_cancel)
+        hbox.pack_start(button, True, True, 0)
 
 
-win = DialogWindow()
+win = ButtonWindow()
 win.connect("destroy", Gtk.main_quit)
 win.show_all()
 Gtk.main()
