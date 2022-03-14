@@ -92,13 +92,13 @@ function setup_base_os() {
     update-locale LANG=en_US.UTF-8
 
     # for bionic, set the default python to py2 until py3 default works
-    REL=$(lsb_release -r -s)
-    MAJOR=${REL%\.*}
-    if [[ $MAJOR -eq 18 ]]; then
-      apt-get -y install python2 python3
-      update-alternatives --install /usr/bin/python python /usr/bin/python3.8 1
-      update-alternatives --install /usr/bin/python python /usr/bin/python2.7 2
-    fi
+#    REL=$(lsb_release -r -s)
+#    MAJOR=${REL%\.*}
+#    if [[ $MAJOR -eq 18 ]]; then
+#      apt-get -y install python2 python3
+#      update-alternatives --install /usr/bin/python python /usr/bin/python3.8 1
+#      update-alternatives --install /usr/bin/python python /usr/bin/python2.7 2
+#    fi
 
     if [[ -f /etc/init/ssh.conf ]]; then
       sed -ie 's/start on.*/start on filesystem/' /etc/init/ssh.conf
