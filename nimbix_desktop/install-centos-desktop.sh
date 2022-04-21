@@ -14,12 +14,17 @@ dirname=$(dirname "$0")
 
 # Required packages
 yum -y groupinstall Xfce
-yum -y install perl wget xauth pygtk2 gnome-icon-theme  \
+yum -y install wget
+wget http://mirror.centos.org/centos/7/os/x86_64/Packages/compat-libstdc++-33-3.2.3-72.el7.i686.rpm && \
+	    yum localinstall -y compat-libstdc++-33-3.2.3-72.el7.i686.rpm
+wget http://mirror.centos.org/centos/7/os/x86_64/Packages/gnome-icon-theme-3.12.0-1.el7.noarch.rpm && \
+	    yum localinstall -y gnome-icon-theme-3.12.0-1.el7.noarch.rpm
+yum -y install perl wget xauth pygtk2 \
        xorg-x11-fonts-Type1 xorg-x11-fonts-misc xorg-x11-fonts-75dpi xorg-x11-fonts-100dpi \
        xorg-x11-fonts-ISO8859-1-100dpi xorg-x11-fonts-ISO8859-1-75dpi \
        xkeyboard-config xorg-x11-apps xcb-util xcb-util-keysyms xorg-x11-utils \
        net-tools glx-utils ImageMagick-devel firefox \
-       compat-libstdc++-33 ristretto xterm numpy python36-numpy python36-gobject python-pip
+       ristretto xterm python3-numpy python3-gobject python3-pip
 
 if [ "$ARCH" != "x86_64" ]; then
     echo "non-x86_64 has no VirtualGL"
