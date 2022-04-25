@@ -20,6 +20,8 @@
       <property name="show-menu-icons" type="bool" value="true"/>
       <property name="show-generic-names" type="bool" value="false"/>
       <property name="show-button-title" type="bool" value="false"/>
+      <property name="custom-menu" type="bool" value="true"/>
+      <property name="custom-menu-file" type="string" value="/etc/xdg/menus/xfce-applications.menu"/>
     </property>
     <property name="plugin-4" type="string" value="tasklist">
       <property name="include-all-monitors" type="bool" value="false"/>
