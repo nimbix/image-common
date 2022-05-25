@@ -39,7 +39,7 @@ fi
 
 yum clean all
 
-pip install --no-cache-dir Wand
+pip3 install --no-cache-dir Wand
 
 [ -f /etc/init.d/NetworkManager ] && /sbin/chkconfig NetworkManager off
 [ -f /etc/xdg/autostart/xfce-polkit.desktop ] && \
