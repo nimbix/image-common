@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -x
 VERSION=1.10.1
 ARCH=$(arch)
 
@@ -13,7 +13,8 @@ if [ "$ARCH" != "x86_64" ]; then
     fi
 else
     # Install the cached tarball
-    sudo tar -C / -xzf  /usr/local/lib/nimbix_desktop/tigervnc-$VERSION.$ARCH.tar.gz --strip-components=1
+    mkdir -p /opt/JARVICE/tigervnc/
+    tar -C /opt/JARVICE/tigervnc/ -xzf  /usr/local/lib/nimbix_desktop/tigervnc-$VERSION.$ARCH.tar.gz --strip-components=1
 
     # Fix newer installs that put binary in /usr/libexec
 #    if [[ -x /usr/libexec/vncserver ]]; then
@@ -22,4 +23,4 @@ else
 
 fi
 
-sudo cp /usr/local/lib/nimbix_desktop/help-tiger.html /etc/NAE/help.html
+cp /usr/local/lib/nimbix_desktop/help-tiger.html /etc/NAE/help.html

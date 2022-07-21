@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+set -x
 . /etc/JARVICE/vglinfo.sh
 if [ ! -x /usr/bin/vglrun ]; then
     export VGL_DISPLAY=""
@@ -48,9 +48,12 @@ EOF
 else
     # Install Tiger from local tarball or package
     /usr/local/lib/nimbix_desktop/install-tiger.sh
-
+    export PATH=/opt/JARVICE/tigervnc/usr/bin/:$PATH
+    export LD_LIBRARY_PATH=/opt/JARVICE/tigervnc/usr/lib64:$LD_LIBRARY_PATH
+#    mkdir /tmp/.X11-unix
+#    chmod -R 777 /tmp/.X11-unix
     # Start the Tiger server
-    vncserver -geometry "$VNC_GEOMETRY" \
+    /opt/JARVICE/tigervnc/usr/bin/vncserver -geometry "$VNC_GEOMETRY" \
         -rfbauth /etc/JARVICE/vncpasswd \
         -dpi 100 \
         -SecurityTypes=VeNCrypt,TLSVnc,VncAuth :1
@@ -64,8 +67,8 @@ export VGL_READBACK=sync
 # Start noVNC daemon
 NOVNC_PATH=/usr/local/JARVICE/tools/noVNC
 pushd "$NOVNC_PATH"
-(sudo utils/launch.sh --cert /etc/JARVICE/cert.pem --listen 443 --vnc localhost:5901 | sudo tee /tmp/novnc.log 2>&1 &)
-echo "$NOVNC_PATH" | sudo tee /etc/.novnc-stable
+(utils/launch.sh --cert /etc/JARVICE/cert.pem --listen 5902 --vnc localhost:5901 | tee /tmp/novnc.log &) #2>&1 &)
+echo "$NOVNC_PATH" | tee /etc/.novnc-stable
 popd
 
 # Create links to the vault mounted at /data

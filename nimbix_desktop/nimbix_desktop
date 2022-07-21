@@ -1,10 +1,10 @@
 #!/bin/bash
-
+set -x
 app_mode=
 [ -n "$1" ] && app_mode=y
 
 nimbix_desktop="/etc/JARVICE/nimbix_desktop"
-sudo sh -c "echo app_mode=$app_mode >>$nimbix_desktop"
+sh -c "echo app_mode=$app_mode >>$nimbix_desktop"
 
 xinitrc=/tmp/xinitrc
 cat >$xinitrc <<EOF
@@ -58,16 +58,17 @@ EOF
 EOF
 fi
 
-# Fix a missing machine-id file for Dbus
-[[ -e /usr/bin/dbus-uuidgen ]] && sudo dbus-uuidgen | sudo tee /etc/machine-id
+## Fix a missing machine-id file for Dbus
+#[[ -e /usr/bin/dbus-uuidgen ]] && dbus-uuidgen | tee /etc/machine-id
 
 tools=/usr/lib/JARVICE/tools
-[[ -f /etc/init.d/messagebus ]] && SVC=messagebus || SVC=dbus
-sudo service $SVC start
+#[[ -f /etc/init.d/messagebus ]] && SVC=messagebus || SVC=dbus
+#service $SVC start
+#DISPLAY=:1 dbus-launch
 
 while [ 1 ]; do
 #    $tools/sbin/init $tools/bin/vncstart.sh $xinitrc
-    $tools/sbin/init /usr/local/JARVICE/tools/bin/vncstart.sh $xinitrc
+    /usr/local/JARVICE/tools/bin/vncstart.sh $xinitrc
     ret=$?
     if [ -n "$app_mode" ]; then
         rm -f $app_menu
@@ -76,7 +77,7 @@ while [ 1 ]; do
         [ $ret -ne 0 ] && exit 0
     fi
     sleep 1
-    $tools/sbin/init vncserver -kill :1
+    vncserver -kill :1
     sleep 1
 done
 
