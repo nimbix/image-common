@@ -16,7 +16,7 @@ apt-get -y install wget gnome-icon-theme software-properties-common \
     fonts-freefont-ttf xfonts-base xfonts-100dpi xfonts-75dpi x11-apps \
     xfonts-scalable xauth firefox ristretto mesa-utils init-system-helpers \
     libxcb1 libxcb-keysyms1 libxcb-util1 librtmp1 python3-numpy \
-    gir1.2-gtk-3.0
+    gir1.2-gtk-3.0 --no-install-recommends
 
 if [[ "$ARCH" != "x86_64" ]]; then
     echo "non-x86_64 has no VirtualGL"
@@ -37,7 +37,7 @@ PY2=$(python -V 2>&1 |grep "^Python 2" || true)
 if [[ -n "$PY2" ]]; then
 
     # this clobbers py3 only, so do it only if we have py2
-    apt-get -y install python-pip libmagickwand-dev python-gtk2 python-gnome2 python-numpy
+    apt-get -y install python-pip libmagickwand-dev python-gtk2 python-gnome2 python-numpy --no-install-recommends
 
     # Wand is used for screenshots
     pip install Wand

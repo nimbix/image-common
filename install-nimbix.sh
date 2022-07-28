@@ -86,7 +86,7 @@ function setup_base_os() {
     #(was [ -z "$SKIP_OS_PKG_UPDATE" ] && apt-get -y update)
     apt-get -y update
     # XXX ^^^
-    apt-get -y install $PKGS
+    apt-get -y install $PKGS --no-install-recommends
 
     locale-gen en_US.UTF-8
     update-locale LANG=en_US.UTF-8
