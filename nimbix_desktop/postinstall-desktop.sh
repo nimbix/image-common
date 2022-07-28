@@ -25,7 +25,7 @@ mkdir -p /etc/NAE
 
 if [ -z "$DISABLE_DESKTOP_AUTOSTART" ]; then
     if [ ! -e /etc/NAE/url.txt ]; then
-        echo 'https://%PUBLICADDR%/vnc.html?password=%NIMBIXPASSWD%&autoconnect=true&reconnect=true' >/etc/NAE/url.txt
+        echo 'https://%PUBLICADDR%:5902/vnc.html?password=%NIMBIXPASSWD%&autoconnect=true&reconnect=true' >/etc/NAE/url.txt
     fi
 fi
 
