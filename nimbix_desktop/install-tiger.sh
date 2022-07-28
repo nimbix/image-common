@@ -15,7 +15,7 @@ else
     # Install the cached tarball
     mkdir -p /opt/JARVICE/tigervnc/
     tar -C /opt/JARVICE/tigervnc/ -xzf  /usr/local/lib/nimbix_desktop/tigervnc-$VERSION.$ARCH.tar.gz --strip-components=1
-
+    rm -f /usr/local/lib/nimbix_desktop/tigervnc-$VERSION.$ARCH.tar.gz
     # Fix newer installs that put binary in /usr/libexec
 #    if [[ -x /usr/libexec/vncserver ]]; then
 #      ln -sf /usr/libexec/vncserver /usr/bin/vncserver
