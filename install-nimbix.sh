@@ -66,7 +66,7 @@ function setup_base_os() {
     touch /etc/init.d/systemd-logind
 
     export DEBIAN_FRONTEND=noninteractive
-    PKGS+=" kmod xz-utils vim openssh-server libpam-systemd iputils-ping python3 python-is-python3"
+    PKGS+=" kmod xz-utils vim openssh-server libpam-systemd iputils-ping python3"
     PKGS+=" iptables build-essential byacc flex git cmake"
     PKGS+=" screen grep locales locales-all net-tools lsb-release"
     PKGS+=" openssh-client sshpass ca-certificates"
@@ -74,6 +74,10 @@ function setup_base_os() {
       PKGS+=" libmlx4-1 libmlx5-1 infiniband-diags perftest"
       PKGS+=" libibverbs-dev libibverbs1 librdmacm1 librdmacm-dev ibverbs-utils"
       PKGS+=" rdmacm-utils libibmad-dev libibmad5 openmpi-bin"
+    fi
+    source /etc/os-release
+    if [ "$VERSION_ID" == "20.04" ]; then
+      PKGS+=" python-is-python3"
     fi
 
     # duplicated in VNC installers
