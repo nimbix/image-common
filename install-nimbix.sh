@@ -43,19 +43,38 @@ done
 function setup_base_os() {
   PKGS="curl zip unzip sudo"
   if [ -f /etc/redhat-release ]; then
-    # install EPEL first, successive packages live there
-    yum -y install epel-release
 
-    # Packages to support MPI and basic container operation
-    PKGS+=" passwd xz tar file openssh-server openssh-clients python3"
-    PKGS+=" which sshpass mailcap initscripts"
-    if [[ -z $SKIP_MPI_PKG ]]; then
-      PKGS+=" openmpi openmpi3 perftest"
-      PKGS+=" dapl compat-dapl dapl.i686 compat-dapl.i686 infiniband-diags"
-      PKGS+=" rdma-core rdma-core.i686 libibverbs libibverbs-utils"
+    # Can be either Centos or Rocky
+    if [[ $(cat /etc/redhat-release | awk '{print $1}') == "Rocky" ]]; then
+      dnf -y install epel-release
+      PKGS+=" passwd xz tar file openssh-server openssh-clients python3"
+      PKGS+=" which sshpass mailcap initscripts glibc-locale-source glibc-langpack-en"
+      if [[ -z $SKIP_MPI_PKG ]]; then
+        PKGS+=" libibverbs libibverbs-utils librdmacm librdmacm-utils rdma-core"
+        PKGS+=" ibacm infiniband-diags iwpmd libibmad libibumad libpsm2 libpsm2-compat"
+        PKGS+=" mstflint opa-address-resolution opa-basic-tools opa-fastfabric"
+        PKGS+=" opa-libopamgt perftest qperf srp_daemon libvma opa-fm opensm"
+        PKGS+=" openmpi"
+      fi
+      [ -z "$SKIP_OS_PKG_UPDATE" ] && dnf -y update
+      dnf -y install $PKGS
+
+    else
+
+      # install EPEL first, successive packages live there
+      yum -y install epel-release
+
+      # Packages to support MPI and basic container operation
+      PKGS+=" passwd xz tar file openssh-server openssh-clients python3"
+      PKGS+=" which sshpass mailcap initscripts"
+      if [[ -z $SKIP_MPI_PKG ]]; then
+        PKGS+=" openmpi openmpi3 perftest"
+        PKGS+=" dapl compat-dapl dapl.i686 compat-dapl.i686 infiniband-diags"
+        PKGS+=" rdma-core rdma-core.i686 libibverbs libibverbs-utils"
+      fi
+      [ -z "$SKIP_OS_PKG_UPDATE" ] && yum -y update
+      yum -y install $PKGS
     fi
-    [ -z "$SKIP_OS_PKG_UPDATE" ] && yum -y update
-    yum -y install $PKGS
 
     # Set locale
     localedef -i en_US -f UTF-8 en_US.UTF-8
@@ -180,7 +199,12 @@ function setup_nimbix_desktop() {
 
 function cleanup() {
   if [ -f /etc/redhat-release ]; then
-    yum clean all
+    # Can be either Centos or Rocky
+    if [[ $(cat /etc/redhat-release | awk '{print $1}') == "Rocky" ]]; then
+      dnf clean all
+    else
+      yum clean all
+    fi
   else # Ubuntu
     apt-get clean
   fi
