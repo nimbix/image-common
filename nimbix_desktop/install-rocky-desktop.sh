@@ -14,9 +14,9 @@ dirname=$(dirname "$0")
 
 # Required packages
 dnf install -y epel-release
+dnf config-manager --set-enabled powertools
 dnf install -y https://pkgs.dyn.su/el8/base/x86_64/raven-release-1.0-3.el8.noarch.rpm
 dnf --enablerepo=epel group
-dnf config-manager --set-enabled powertools
 dnf groupinstall -y Xfce
 dnf groupinstall -y "Development Tools"
 dnf install -y perl wget xauth pygtk2 gnome-icon-theme  \
