@@ -18,6 +18,7 @@ dnf install -y https://pkgs.dyn.su/el8/base/x86_64/raven-release-1.0-3.el8.noarc
 dnf --enablerepo=epel group
 dnf config-manager --set-enabled powertools
 dnf groupinstall -y Xfce
+dnf groupinstall -y "Development Tools"
 dnf install -y perl wget xauth pygtk2 gnome-icon-theme  \
        xorg-x11-fonts-Type1 xorg-x11-fonts-misc xorg-x11-fonts-75dpi xorg-x11-fonts-100dpi \
        xorg-x11-fonts-ISO8859-1-100dpi xorg-x11-fonts-ISO8859-1-75dpi \
