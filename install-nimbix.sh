@@ -152,8 +152,13 @@ function setup_nimbix_desktop() {
 
   # Copy in the VNC server installers, both for CentOS, and the XFCE files
   if [[ -f /etc/redhat-release ]]; then
-    files="install-centos-desktop.sh"
-    files+=" install-centos-real.sh help-real.html"
+    if [[ $(cat /etc/redhat-release | awk '{print $1}') == "Rocky" ]]; then
+      files="install-rocky-desktop.sh"
+      files+=" install-centos-real.sh help-real.html"
+    else
+      files="install-centos-desktop.sh"
+      files+=" install-centos-real.sh help-real.html"
+    fi
   else
     files="install-ubuntu-desktop.sh"
   fi
@@ -168,10 +173,19 @@ function setup_nimbix_desktop() {
 
   # Install RealVNC server on CentOS if requested, setup the desktop files
   if [ -f /etc/redhat-release ]; then
-    /usr/local/lib/nimbix_desktop/install-centos-desktop.sh
+    if [[ $(cat /etc/redhat-release | awk '{print $1}') == "Rocky" ]]; then
+      /usr/local/lib/nimbix_desktop/install-rocky-desktop.sh
 
-    if [[ -n "$SETUP_REALVNC" ]]; then
-      /usr/local/lib/nimbix_desktop/install-centos-real.sh
+      if [[ -n "$SETUP_REALVNC" ]]; then
+        /usr/local/lib/nimbix_desktop/install-rocky-real.sh
+      fi
+    else
+
+      /usr/local/lib/nimbix_desktop/install-centos-desktop.sh
+
+      if [[ -n "$SETUP_REALVNC" ]]; then
+        /usr/local/lib/nimbix_desktop/install-centos-real.sh
+      fi
     fi
   else
     /usr/local/lib/nimbix_desktop/install-ubuntu-desktop.sh
