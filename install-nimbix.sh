@@ -46,7 +46,9 @@ function setup_base_os() {
 
     # Can be either Centos or Rocky
     if [[ $(cat /etc/redhat-release | awk '{print $1}') == "Rocky" ]]; then
+      dnf config-manager --set-enabled powertools
       dnf -y install epel-release
+      dnf groupinstall -y "Development Tools"
       PKGS+=" passwd xz tar file openssh-server openssh-clients python3"
       PKGS+=" which sshpass mailcap initscripts glibc-locale-source glibc-langpack-en"
       if [[ -z $SKIP_MPI_PKG ]]; then
